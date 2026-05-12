@@ -1,0 +1,27 @@
+/* Audio embed stubs — photo album doesn't need voice prompts */
+#include <stdint.h>
+
+#define STUB_SYMBOL(name) \
+    __attribute__((used)) const uint8_t _binary_##name##_start[] = {0}; \
+    __attribute__((used)) const uint8_t _binary_##name##_end[] = {0}
+
+STUB_SYMBOL(0_ogg);
+STUB_SYMBOL(1_ogg);
+STUB_SYMBOL(2_ogg);
+STUB_SYMBOL(3_ogg);
+STUB_SYMBOL(4_ogg);
+STUB_SYMBOL(5_ogg);
+STUB_SYMBOL(6_ogg);
+STUB_SYMBOL(7_ogg);
+STUB_SYMBOL(8_ogg);
+STUB_SYMBOL(9_ogg);
+STUB_SYMBOL(activation_ogg);
+STUB_SYMBOL(err_pin_ogg);
+STUB_SYMBOL(err_reg_ogg);
+STUB_SYMBOL(exclamation_ogg);
+STUB_SYMBOL(low_battery_ogg);
+STUB_SYMBOL(popup_ogg);
+STUB_SYMBOL(success_ogg);
+STUB_SYMBOL(upgrade_ogg);
+STUB_SYMBOL(vibration_ogg);
+STUB_SYMBOL(wificonfig_ogg);

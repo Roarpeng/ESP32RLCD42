@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>电子相册</title>
+<style>
+:root{--bg:#1a1a2e;--card:#16213e;--accent:#e94560;--text:#eee;--muted:#888}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);max-width:720px;margin:0 auto;padding:16px}
+h1{font-size:1.4rem;text-align:center;margin-bottom:16px}
+h1 span{color:var(--accent)}
+.card{background:var(--card);border-radius:10px;padding:16px;margin-bottom:12px}
+.card h2{font-size:1rem;margin-bottom:8px;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:6px}
+.drop-zone{border:2px dashed rgba(255,255,255,.2);border-radius:8px;padding:24px;text-align:center;transition:border-color .2s;cursor:pointer}
+.drop-zone.drag-over{border-color:var(--accent);background:rgba(233,68,96,.05)}
+.drop-zone p{color:var(--muted);font-size:.85rem}
+.drop-zone input[type=file]{display:none}
+.file-list{margin-top:10px;font-size:.8rem}
+.file-item{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;background:rgba(255,255,255,.03);border-radius:6px;margin-bottom:4px}
+.file-item .name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.file-item .size{color:var(--muted);margin:0 8px;font-size:.75rem}
+.file-item .status{font-size:.75rem;min-width:50px;text-align:right}
+.file-item .status.ok{color:#4ecca3}
+.file-item .status.err{color:var(--accent)}
+.btn{background:var(--accent);color:#fff;border:none;padding:8px 20px;border-radius:6px;cursor:pointer;font-size:.85rem;transition:opacity .2s}
+.btn:hover{opacity:.85}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-sm{padding:4px 10px;font-size:.75rem}
+.btn-outline{background:transparent;border:1px solid var(--accent);color:var(--accent)}
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px}
+.photo-card{background:rgba(0,0,0,.3);border-radius:8px;overflow:hidden;position:relative;cursor:pointer}
+.photo-card.selected{outline:2px solid var(--accent)}
+.photo-card .thumb{width:100%;aspect-ratio:4/3;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--muted)}
+.photo-card .info{padding:4px 6px;font-size:.65rem}
+.photo-card .info .fname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
+.photo-card .info .fsize{color:var(--muted)}
+.controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.controls label{font-size:.8rem;color:var(--muted)}
+.controls select,.controls input[type=number]{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:var(--text);padding:4px 8px;border-radius:4px;font-size:.8rem}
+.controls input[type=number]{width:60px}
+.controls.v-stack{flex-direction:column;align-items:flex-start;gap:12px}
+.progress-bar{height:4px;background:rgba(255,255,255,.1);border-radius:2px;margin-top:8px;overflow:hidden}
+.progress-bar .fill{height:100%;background:var(--accent);transition:width .3s}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:8px 24px;border-radius:20px;font-size:.8rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:10}
+.toast.show{opacity:1}
+.tabs{display:flex;gap:0;margin-bottom:12px}
+.tab{padding:8px 16px;background:rgba(255,255,255,.05);border:none;color:var(--muted);cursor:pointer;font-size:.8rem;transition:all .2s}
+.tab:first-child{border-radius:6px 0 0 6px}
+.tab:last-child{border-radius:0 6px 6px 0}
+.tab.active{background:var(--accent);color:#fff}
+.tab-content{display:none}
+.tab-content.active{display:block}
+</style>
+</head>
+<body>
+<h1>&#x1F4F7; <span>&#x7535;&#x5B50;&#x76F8;&#x518C;</span></h1>
+<div class="toast" id="toast"></div>
+
+<div class="tabs">
+<button class="tab active" onclick="switchTab('upload')">上传</button>
+<button class="tab" onclick="switchTab('gallery');loadPhotos()">图库</button>
+<button class="tab" onclick="switchTab('settings');loadConfig()">设置</button>
+</div>
+
+<div id="tab-upload" class="tab-content active">
+<div class="card">
+<h2>选择图片</h2>
+<div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+<p>&#x1F4C1; 拖拽图片到这里，或点击选择</p>
+<p style="font-size:.7rem;margin-top:4px">支持 JPG/PNG/BMP，单张最大 30MB，可多选 — 自动压缩后上传</p>
+<input type="file" id="fileInput" accept="image/jpeg,image/png,image/bmp" multiple onchange="handleFiles(this.files)">
+</div>
+<div class="file-list" id="fileList"></div>
+<div class="progress-bar" id="progressBar" style="display:none"><div class="fill" id="progressFill" style="width:0%"></div></div>
+<div class="controls">
+<button class="btn" id="uploadBtn" disabled onclick="uploadFiles()">上传到相册</button>
+<span style="font-size:.75rem;color:var(--muted)" id="uploadStats"></span>
+</div>
+</div>
+</div>
+
+<div id="tab-gallery" class="tab-content">
+<div class="card">
+<h2>&#x5DF2;&#x4E0A;&#x4F20;&#x56FE;&#x7247; (<span id="photoCount">0</span>)</h2>
+<div class="photo-grid" id="photoGrid"></div>
+<div class="controls" style="margin-top:10px">
+<button class="btn btn-outline btn-sm" onclick="deleteSelected()">删除选中</button>
+<button class="btn btn-outline btn-sm" onclick="selectAll()">全选</button>
+<button class="btn btn-outline btn-sm" onclick="loadPhotos()">刷新</button>
+</div>
+</div>
+</div>
+
+<div id="tab-settings" class="tab-content">
+<div class="card">
+<h2>轮播设置</h2>
+<div class="controls v-stack">
+<div><label>间隔 (秒)：</label><input type="number" id="cfgInterval" min="3" max="300" value="10"></div>
+<div><label>过渡效果：</label><select id="cfgTransition"><option value="fade">淡入淡出</option><option value="slide">水平滑动</option><option value="wipe">渐变擦除</option><option value="random">随机像素</option></select></div>
+<div><label>播放模式：</label><select id="cfgMode"><option value="loop">循环</option><option value="random">随机</option><option value="manual">手动</option></select></div>
+<div><label>排序：</label><select id="cfgOrder"><option value="sequential">正序</option><option value="alphabetical">字母序</option></select></div>
+<button class="btn" onclick="saveConfig()">保存设置</button>
+</div>
+</div>
+</div>
+
+<script>
+let pendingFiles=[],selectedPhotos=new Set;
+function switchTab(n){
+document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+event.target.classList.add('active');
+document.getElementById('tab-'+n).classList.add('active');
+}
+const dz=document.getElementById('dropZone');
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag-over')});
+dz.addEventListener('dragleave',()=>dz.classList.remove('drag-over'));
+dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('drag-over');handleFiles(e.dataTransfer.files)});
+
+async function handleFiles(files){
+pendingFiles=[];document.getElementById('fileList').innerHTML='';
+document.getElementById('uploadBtn').disabled=true;
+document.getElementById('uploadStats').textContent='';
+for(const file of files){
+const item={name:file.name,originalSize:file.size,blob:null,compressedSize:0};
+pendingFiles.push(item);
+const div=document.createElement('div');div.className='file-item';div.id='f-'+item.name;
+div.innerHTML='<span class="name">'+file.name+'</span><span class="size">'+formatSize(file.size)+'</span><span class="status">压缩中...</span>';
+document.getElementById('fileList').appendChild(div);
+try{
+item.blob=await compressImage(file);
+item.compressedSize=item.blob.size;
+document.querySelector('#f-'+CSS.escape(item.name)+' .status').className='status ok';
+document.querySelector('#f-'+CSS.escape(item.name)+' .status').textContent=formatSize(item.blob.size);
+}catch(e){
+document.querySelector('#f-'+CSS.escape(item.name)+' .status').className='status err';
+document.querySelector('#f-'+CSS.escape(item.name)+' .status').textContent='失败';
+}}
+if(pendingFiles.some(f=>f.blob)){
+document.getElementById('uploadBtn').disabled=false;
+let totalCompressed=pendingFiles.reduce((s,f)=>s+(f.compressedSize||0),0);
+document.getElementById('uploadStats').textContent=pendingFiles.length+' 张，压缩后 '+formatSize(totalCompressed);
+}}
+
+function compressImage(file){
+return new Promise((resolve,reject)=>{
+const img=new Image();
+const url=URL.createObjectURL(file);
+img.onload=()=>{
+URL.revokeObjectURL(url);
+let w=img.width,h=img.height;
+const maxDim=800;
+if(w>maxDim||h>maxDim){const r=maxDim/Math.max(w,h);w=Math.round(w*r);h=Math.round(h*r)}
+const c=document.createElement('canvas');c.width=w;c.height=h;
+c.getContext('2d').drawImage(img,0,0,w,h);
+c.toBlob(b=>b?resolve(b):reject(new Error('blob failed')),'image/jpeg',0.75);
+};
+img.onerror=()=>reject(new Error('load failed'));
+img.src=url;
+});
+}
+
+function uploadFiles(){
+const valid=pendingFiles.filter(f=>f.blob);
+if(!valid.length)return;
+const fd=new FormData();
+for(const f of valid){let n=f.name;if(!n.match(/\.(jpg|jpeg|png|bmp)$/i))n+='.jpg';fd.append('files',f.blob,n)}
+const bar=document.getElementById('progressBar'),fill=document.getElementById('progressFill');
+bar.style.display='block';fill.style.width='0%';
+const xhr=new XMLHttpRequest();xhr.open('POST','/api/upload');
+xhr.upload.onprogress=e=>{if(e.lengthComputable)fill.style.width=(e.loaded/e.total*100)+'%'};
+xhr.onload=()=>{bar.style.display='none';
+if(xhr.status===200){const r=JSON.parse(xhr.responseText);
+showToast('上传成功 '+(r.uploaded?r.uploaded.length:0)+' 张'+(r.errors&&r.errors.length?'，'+(r.errors?r.errors.length:0)+' 张失败':''));}
+else showToast('上传失败')};
+xhr.onerror=()=>{bar.style.display='none';showToast('网络错误')};
+xhr.send(fd);
+}
+
+async function loadPhotos(){
+const r=await fetch('/api/photos'),d=await r.json();
+document.getElementById('photoCount').textContent=d.total||0;
+const g=document.getElementById('photoGrid');g.innerHTML='';selectedPhotos.clear();
+if(!d.photos)return;
+for(const p of d.photos){
+const c=document.createElement('div');c.className='photo-card';
+c.onclick=()=>{c.classList.toggle('selected');
+c.classList.contains('selected')?selectedPhotos.add(p.name):selectedPhotos.delete(p.name)};
+c.innerHTML='<div class="thumb">&#x1F5BC;</div><div class="info"><span class="fname">'+p.name+'</span><span class="fsize">'+formatSize(p.size)+'</span></div>';
+g.appendChild(c);
+}}
+
+function selectAll(){
+const cards=document.querySelectorAll('.photo-card'),all=selectedPhotos.size===cards.length;
+cards.forEach(c=>{if(all)c.classList.remove('selected');else c.classList.add('selected')});
+selectedPhotos.clear();
+if(!all)document.querySelectorAll('.photo-card .fname').forEach(f=>selectedPhotos.add(f.textContent));
+}
+
+async function deleteSelected(){
+if(!selectedPhotos.size)return showToast('请先选择图片');
+const r=await fetch('/api/photos',{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({names:Array.from(selectedPhotos)})});
+const d=await r.json();showToast('已删除 '+d.removed+' 张');loadPhotos();
+}
+
+async function loadConfig(){
+const r=await fetch('/api/config'),d=await r.json();
+document.getElementById('cfgInterval').value=d.interval||10;
+document.getElementById('cfgTransition').value=d.transition||'fade';
+document.getElementById('cfgMode').value=d.mode||'loop';
+document.getElementById('cfgOrder').value=d.order||'sequential';
+}
+
+async function saveConfig(){
+const d={interval:parseInt(document.getElementById('cfgInterval').value)||10,
+transition:document.getElementById('cfgTransition').value,
+mode:document.getElementById('cfgMode').value,
+order:document.getElementById('cfgOrder').value};
+await fetch('/api/config',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
+showToast('设置已保存');
+}
+
+function formatSize(b){
+if(!b)return'0B';if(b<1024)return b+'B';if(b<1048576)return(b/1024).toFixed(1)+'KB';
+return(b/1048576).toFixed(1)+'MB';
+}
+
+function showToast(m){
+const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');
+setTimeout(()=>t.classList.remove('show'),2000);
+}
+</script>
+</body>
+</html>

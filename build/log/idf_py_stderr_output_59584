@@ -1,0 +1,60 @@
+Command: ninja all
+info: Default value for LV_FONT_FMT_TXT_LARGE in sdkconfig is y but it is n according to Kconfig.
+Using default value from sdkconfig (y).
+Configuration Report                                                           
++-----------------------------------------------------------------------------+
+|  Parser Version: 1                                                          |
+|  Verbosity: default                                                         |
+|  Defaults policy: sdkconfig                                                 |
+|  Status: Finished with notifications                                        |
+|                                                                             |
+| Default Value Mismatch                                                      |
+| +-------------------------------------------------------------------------+ |
+| | Using sdkconfig default values                                       |  | |
+| | Config symbols with different default value between sdkconfig and    |  | |
+| | Kconfig                                                              |  | |
+| | LV_FONT_FMT_TXT_LARGE: Kconfig default value: n, sdkconfig default   |  | |
+| | value: y                                                             |  | |
+| +-------------------------------------------------------------------------+ |
+| Multiple Assignments                                                        |
+| +--------------------------------------------+                              |
+| | Choice WAKE_WORD_TYPE:                     |                              |
+| |     WAKE_WORD_DISABLED (default selection) |                              |
+| |     USE_AFE_WAKE_WORD (default selection)  |                              |
+| |     -> using USE_AFE_WAKE_WORD             |                              |
+| +--------------------------------------------+                              |
+| Disabled Symbols/Choices With User-Set Value                                |
+| +-------------------------------------------------------------------------+ |
+| | * ESP_INTR_IN_IRAM (defined at                                          | |
+| | C:/esp/v6.0.1/esp-idf/components/esp_hw_support/Kconfig:326) with       | |
+| | user-set value y from                                                   | |
+| | C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/sdkconfig      | |
+| | * LIBC_MISC_IN_IRAM (defined at                                         | |
+| | C:/esp/v6.0.1/esp-idf/components/esp_libc/Kconfig:45) with user-set     | |
+| | value y from                                                            | |
+| | C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/sdkconfig      | |
+| | * ESP_ROM_PRINT_IN_IRAM (defined at                                     | |
+| | C:/esp/v6.0.1/esp-idf/components/esp_rom/Kconfig:3) with user-set value | |
+| | y from                                                                  | |
+| | C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/sdkconfig      | |
+| | * ESP_CONSOLE_UART_BAUDRATE (defined at                                 | |
+| | C:/esp/v6.0.1/esp-idf/components/esp_stdio/Kconfig:150) with user-set   | |
+| | value 115200 from                                                       | |
+| | C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/sdkconfig      | |
+| | * ESP_SYSTEM_IN_IRAM (defined at                                        | |
+| | C:/esp/v6.0.1/esp-idf/components/esp_system/Kconfig:12) with user-set   | |
+| | value y from                                                            | |
+| | C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/sdkconfig      | |
+| | * ESP_TIMER_IN_IRAM (defined at                                         | |
+| | C:/esp/v6.0.1/esp-idf/components/esp_timer/Kconfig:3) with user-set     | |
+| | value y from                                                            | |
+| | C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/sdkconfig      | |
+| | * LOG_IN_IRAM (defined at                                               | |
+| | C:/esp/v6.0.1/esp-idf/components/log/Kconfig:55) with user-set value y  | |
+| | from C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/sdkconfig | |
+| | * SPI_FLASH_PLACE_FUNCTIONS_IN_IRAM (defined at                         | |
+| | C:/esp/v6.0.1/esp-idf/components/spi_flash/Kconfig:178) with user-set   | |
+| | value y from                                                            | |
+| | C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/sdkconfig      | |
+| +-------------------------------------------------------------------------+ |
++-----------------------------------------------------------------------------+

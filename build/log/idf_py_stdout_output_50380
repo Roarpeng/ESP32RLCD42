@@ -1,0 +1,174 @@
+Command: cmake -G Ninja -B C:\Users\roarp\Desktop\TMP\Code\AICode\ESP32\ESP32RLCD42\build -DPYTHON_DEPS_CHECKED=1 -DPYTHON=C:\Espressif\tools\python\v6.0.1\venv\Scripts\python.exe -DESP_PLATFORM=1 -DCCACHE_ENABLE=False C:\Users\roarp\Desktop\TMP\Code\AICode\ESP32\ESP32RLCD42
+-- IDF_TARGET is not set, guessed 'esp32s3' from sdkconfig 'C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/sdkconfig'
+-- Found Git: C:/Program Files/Git/mingw64/bin/git.exe (found version "2.41.0.windows.1")
+-- Component directory C:/esp/v6.0.1/esp-idf/components/mqtt does not contain a CMakeLists.txt file. No component will be added
+-- Minimal build - OFF
+-- The C compiler identification is GNU 15.2.0
+-- The CXX compiler identification is GNU 15.2.0
+-- The ASM compiler identification is GNU
+-- Found assembler: C:/Espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc.exe
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: C:/Espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/bin/xtensa-esp32s3-elf-g++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- git rev-parse returned 'fatal: not a git repository (or any of the parent directories): .git'
+-- Could not use 'git describe' to determine PROJECT_VER.
+-- Building ESP-IDF components for target esp32s3
+NOTICE: Manifest files have changed, solving dependencies.
+NOTICE: Skipping optional dependency: waveshare/esp_lcd_jd9365_10_1
+NOTICE: Skipping optional dependency: waveshare/esp_lcd_st7703
+NOTICE: Skipping optional dependency: espressif/esp32_p4_function_ev_board
+NOTICE: Skipping optional dependency: espressif/esp_lcd_ili9881c
+NOTICE: Skipping optional dependency: espressif/esp_lcd_ek79007
+NOTICE: Skipping optional dependency: espressif/esp_hosted
+NOTICE: Skipping optional dependency: espressif/esp_wifi_remote
+NOTICE: Skipping optional dependency: espfriends/servo_dog_ctrl
+NOTICE: Skipping optional dependency: llgok/cpp_bus_driver
+....................................................................................NOTICE: Updating lock file at C:\Users\roarp\Desktop\TMP\Code\AICode\ESP32\ESP32RLCD42\dependencies.lock
+NOTICE: Processing 55 dependencies:
+NOTICE: [1/55] 78/esp-ml307 (3.6.5)
+NOTICE: [2/55] 78/esp-wifi-connect (3.0.2)
+NOTICE: [3/55] 78/uart-eth-modem (0.3.5)
+NOTICE: [4/55] 78/uart-uhci (0.2.2)
+NOTICE: [5/55] 78/xiaozhi-fonts (1.6.0)
+NOTICE: [6/55] espressif/adc_battery_estimation (0.2.1)
+NOTICE: [7/55] espressif/adc_mic (0.2.3)
+NOTICE: [8/55] espressif/bmi270_sensor (0.1.1)
+NOTICE: [9/55] espressif/button (4.1.6)
+NOTICE: [10/55] espressif/cjson (1.7.19~2)
+NOTICE: [11/55] espressif/cmake_utilities (0.5.3)
+NOTICE: [12/55] espressif/dl_fft (0.4.0)
+NOTICE: [13/55] espressif/esp-dsp (1.7.0)
+NOTICE: [14/55] espressif/esp-sr (2.3.1)
+NOTICE: [15/55] espressif/esp32-camera (2.1.6)
+NOTICE: [16/55] espressif/esp_audio_codec (2.4.1)
+NOTICE: [17/55] espressif/esp_audio_effects (1.2.1)
+NOTICE: [18/55] espressif/esp_codec_dev (1.5.4)
+NOTICE: [19/55] espressif/esp_image_effects (1.1.0)
+NOTICE: [20/55] espressif/esp_io_expander (1.2.1)
+NOTICE: [21/55] espressif/esp_io_expander_tca9554 (2.0.0)
+NOTICE: [22/55] espressif/esp_io_expander_tca95xx_16bit (2.0.2)
+NOTICE: [23/55] espressif/esp_jpeg (1.3.1)
+NOTICE: [24/55] espressif/esp_lcd_panel_io_additions (1.0.1~1)
+NOTICE: [25/55] espressif/esp_lcd_touch (1.2.1)
+NOTICE: [26/55] espressif/esp_lcd_touch_cst816s (1.1.1~1)
+NOTICE: [27/55] espressif/esp_lcd_touch_ft5x06 (1.0.7)
+NOTICE: [28/55] espressif/esp_lcd_touch_gt1151 (1.1.0~1)
+NOTICE: [29/55] espressif/esp_lcd_touch_gt911 (1.2.0~2)
+NOTICE: [30/55] espressif/esp_lcd_touch_st7123 (1.0.2)
+NOTICE: [31/55] espressif/esp_lvgl_port (2.7.2)
+NOTICE: [32/55] espressif/esp_mmap_assets (1.4.0)
+NOTICE: [33/55] espressif/esp_new_jpeg (0.6.1)
+NOTICE: [34/55] espressif/freetype (2.14.2)
+NOTICE: [35/55] espressif/i2c_bus (1.5.1)
+NOTICE: [36/55] espressif/iot_eth (0.1.0)
+NOTICE: [37/55] espressif/iot_usbh_cdc (3.0.0)
+NOTICE: [38/55] espressif/iot_usbh_rndis (0.3.1)
+NOTICE: [39/55] espressif/knob (1.0.2)
+NOTICE: [40/55] espressif/led_strip (3.0.3)
+NOTICE: [41/55] espressif/mqtt (1.0.0)
+NOTICE: [42/55] espressif/usb (1.4.0)
+NOTICE: [43/55] espressif/zlib (1.3.2)
+NOTICE: [44/55] espressif2022/esp_emote_assets (0.1.2)
+NOTICE: [45/55] espressif2022/esp_emote_expression (0.1.0~3)
+NOTICE: [46/55] espressif2022/esp_emote_gfx (2.1.0)
+NOTICE: [47/55] espressif2022/image_player (1.1.1)
+NOTICE: [48/55] laride/heatshrink (0.4.1)
+NOTICE: [49/55] lvgl/lvgl (9.4.0)
+NOTICE: [50/55] tny-robotics/sh1106-esp-idf (1.0.1)
+NOTICE: [51/55] txp666/otto-emoji-gif-component (1.1.1)
+NOTICE: [52/55] waveshare/custom_io_expander_ch32v003 (1.0.1)
+NOTICE: [53/55] waveshare/esp_lcd_sh8601 (1.0.2)
+NOTICE: [54/55] waveshare/esp_lcd_touch_cst9217 (1.0.4)
+NOTICE: [55/55] idf (6.0.1)
+-- Using esp_driver_i2c (SRC_FILE=i2c_bus_v2.c, REQ=esp_driver_i2c driver)
+-- ESP-TEE is currently supported only on the esp32c6;esp32h2;esp32c5;esp32c61 SoCs
+NOTICE: Skipping optional dependency: waveshare/esp_lcd_jd9365_10_1
+NOTICE: Skipping optional dependency: waveshare/esp_lcd_st7703
+NOTICE: Skipping optional dependency: espressif/esp32_p4_function_ev_board
+NOTICE: Skipping optional dependency: espressif/esp_lcd_ili9881c
+NOTICE: Skipping optional dependency: espressif/esp_lcd_ek79007
+NOTICE: Skipping optional dependency: espressif/esp_hosted
+NOTICE: Skipping optional dependency: espressif/esp_wifi_remote
+NOTICE: Skipping optional dependency: espfriends/servo_dog_ctrl
+NOTICE: Skipping optional dependency: llgok/cpp_bus_driver
+-- KCONFIG_REPORT_VERBOSITY not set, using default
+-- Project sdkconfig file C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/sdkconfig
+-- Compiler supported targets: xtensa-esp-elf
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- App "ESP32RLCD42" version: 1
+-- Found Python3: C:/Espressif/tools/python/v6.0.1/venv/Scripts/python.exe (found version "3.14.4") found components: Interpreter
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+-- Check if compiler accepts -pthread
+-- Check if compiler accepts -pthread - no
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - not found
+-- Could NOT find Threads (missing: Threads_FOUND) 
+-- Could NOT find Threads (missing: Threads_FOUND) 
+-- Performing Test C_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS
+-- Performing Test C_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS - Success
+-- Setting up mbedtls configuration
+-- Linkage type is PUBLIC
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_hal_wdt/esp32s3/rom.wdt.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_system/ld/esp32s3/memory.ld.in
+--   -> Preprocessing .in script: C:/esp/v6.0.1/esp-idf/components/esp_system/ld/esp32s3/memory.ld.in
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_system/ld/esp32s3/sections.ld.in
+--   -> Preprocessing .in script: C:/esp/v6.0.1/esp-idf/components/esp_system/ld/esp32s3/sections.ld.in
+--   -> Applying ldgen processing: C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/build/esp-idf/esp_system/ld/sections.ld.in
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.api.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.bt_funcs.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.libgcc.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.version.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_master.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_50.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_smp.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_dtm.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_test.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_scan.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.libc.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.newlib.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/soc/esp32s3/ld/esp32s3.peripherals.ld
+-- IOT_ETH: 0.1.0
+-- ADC_BATTERY_ESTIMATION: 0.2.1
+-- ADC_MIC: 0.2.3
+-- Using esp_driver_i2c (SRC_FILE=i2c_bus_v2.c, REQ=esp_driver_i2c driver)
+-- I2C_BUS: 1.5.1
+-- BUTTON: 4.1.6
+-- ESP_LCD_PANEL_IO_ADDITIONS: 1.0.1
+-- ESP_LCD_TOUCH_ST7123: 1.0.2
+-- LVGL version: 9.4.0
+-- ESP_MMAP_ASSETS: 1.4.0
+-- IOT_USBH_CDC: 3.0.0
+-- IOT_USBH_RNDIS: 0.3.1
+-- KNOB: 1.0.2
+-- Could NOT find PkgConfig (missing: PKG_CONFIG_EXECUTABLE) 
+-- ESP_EMOTE_EXPRESSION: 0.1.0
+-- Otto Emoji GIF Component: gifs only at C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/txp666__otto-emoji-gif-component/gifs
+-- ESP_LCD_SH8601: 1.0.2
+-- Default assets build configured: C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/build/generated_assets.bin
+-- Generated default assets flash configured: C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/build/generated_assets.bin -> assets partition
+-- Component idf::esp_trace will be linked with -Wl,--whole-archive
+-- Component idf::espressif2022__esp_emote_expression will be linked with -Wl,--whole-archive
+-- Component idf::src will be linked with -Wl,--whole-archive
+-- Components: 78__esp-ml307 78__esp-wifi-connect 78__uart-eth-modem 78__uart-uhci 78__xiaozhi-fonts app_trace app_update bootloader bootloader_support bt cmock console cxx driver efuse esp-tls esp_adc esp_app_format esp_blockdev esp_blockdev_util esp_bootloader_format esp_coex esp_common esp_driver_ana_cmpr esp_driver_bitscrambler esp_driver_cam esp_driver_dac esp_driver_dma esp_driver_gpio esp_driver_gptimer esp_driver_i2c esp_driver_i2s esp_driver_i3c esp_driver_isp esp_driver_jpeg esp_driver_ledc esp_driver_mcpwm esp_driver_parlio esp_driver_pcnt esp_driver_ppa esp_driver_rmt esp_driver_sd_intf esp_driver_sdio esp_driver_sdm esp_driver_sdmmc esp_driver_sdspi esp_driver_spi esp_driver_touch_sens esp_driver_tsens esp_driver_twai esp_driver_uart esp_driver_usb_serial_jtag esp_eth esp_event esp_gdbstub esp_hal_ana_cmpr esp_hal_ana_conv esp_hal_cam esp_hal_clock esp_hal_dma esp_hal_gpio esp_hal_gpspi esp_hal_i2c esp_hal_i2s esp_hal_ieee802154 esp_hal_jpeg esp_hal_lcd esp_hal_ledc esp_hal_mcpwm esp_hal_mspi esp_hal_parlio esp_hal_pcnt esp_hal_pmu esp_hal_ppa esp_hal_rmt esp_hal_rtc_timer esp_hal_sd esp_hal_security esp_hal_timg esp_hal_touch_sens esp_hal_twai esp_hal_uart esp_hal_usb esp_hal_wdt esp_hid esp_http_client esp_http_server esp_https_ota esp_https_server esp_hw_support esp_lcd esp_libc esp_local_ctrl esp_mm esp_netif esp_netif_stack esp_partition esp_phy esp_pm esp_psram esp_ringbuf esp_rom esp_security esp_stdio esp_system esp_timer esp_trace esp_usb_cdc_rom_console esp_wifi espcoredump espressif2022__esp_emote_assets espressif2022__esp_emote_expression espressif2022__esp_emote_gfx espressif2022__image_player espressif__adc_battery_estimation espressif__adc_mic espressif__bmi270_sensor espressif__button espressif__cjson espressif__cmake_utilities espressif__dl_fft espressif__esp-dsp espressif__esp-sr espressif__esp32-camera espressif__esp_audio_codec espressif__esp_audio_effects espressif__esp_codec_dev espressif__esp_image_effects espressif__esp_io_expander espressif__esp_io_expander_tca9554 espressif__esp_io_expander_tca95xx_16bit espressif__esp_jpeg espressif__esp_lcd_panel_io_additions espressif__esp_lcd_touch espressif__esp_lcd_touch_cst816s espressif__esp_lcd_touch_ft5x06 espressif__esp_lcd_touch_gt1151 espressif__esp_lcd_touch_gt911 espressif__esp_lcd_touch_st7123 espressif__esp_lvgl_port espressif__esp_mmap_assets espressif__esp_new_jpeg espressif__freetype espressif__i2c_bus espressif__iot_eth espressif__iot_usbh_cdc espressif__iot_usbh_rndis espressif__knob espressif__led_strip espressif__mqtt espressif__usb espressif__zlib esptool_py fatfs freertos hal heap http_parser idf_test ieee802154 json laride__heatshrink log lvgl__lvgl lwip mbedtls nvs_flash nvs_sec_provider openthread partition_table perfmon protobuf-c protocomm pthread rt sdmmc soc spi_flash spiffs src tcp_transport tny-robotics__sh1106-esp-idf txp666__otto-emoji-gif-component ulp unity vfs waveshare__custom_io_expander_ch32v003 waveshare__esp_lcd_sh8601 waveshare__esp_lcd_touch_cst9217 wear_levelling wpa_supplicant xtensa
+-- Component paths: C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/78__esp-ml307 C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/78__esp-wifi-connect C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/78__uart-eth-modem C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/78__uart-uhci C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/78__xiaozhi-fonts C:/esp/v6.0.1/esp-idf/components/app_trace C:/esp/v6.0.1/esp-idf/components/app_update C:/esp/v6.0.1/esp-idf/components/bootloader C:/esp/v6.0.1/esp-idf/components/bootloader_support C:/esp/v6.0.1/esp-idf/components/bt C:/esp/v6.0.1/esp-idf/components/cmock C:/esp/v6.0.1/esp-idf/components/console C:/esp/v6.0.1/esp-idf/components/cxx C:/esp/v6.0.1/esp-idf/components/driver C:/esp/v6.0.1/esp-idf/components/efuse C:/esp/v6.0.1/esp-idf/components/esp-tls C:/esp/v6.0.1/esp-idf/components/esp_adc C:/esp/v6.0.1/esp-idf/components/esp_app_format C:/esp/v6.0.1/esp-idf/components/esp_blockdev C:/esp/v6.0.1/esp-idf/components/esp_blockdev_util C:/esp/v6.0.1/esp-idf/components/esp_bootloader_format C:/esp/v6.0.1/esp-idf/components/esp_coex C:/esp/v6.0.1/esp-idf/components/esp_common C:/esp/v6.0.1/esp-idf/components/esp_driver_ana_cmpr C:/esp/v6.0.1/esp-idf/components/esp_driver_bitscrambler C:/esp/v6.0.1/esp-idf/components/esp_driver_cam C:/esp/v6.0.1/esp-idf/components/esp_driver_dac C:/esp/v6.0.1/esp-idf/components/esp_driver_dma C:/esp/v6.0.1/esp-idf/components/esp_driver_gpio C:/esp/v6.0.1/esp-idf/components/esp_driver_gptimer C:/esp/v6.0.1/esp-idf/components/esp_driver_i2c C:/esp/v6.0.1/esp-idf/components/esp_driver_i2s C:/esp/v6.0.1/esp-idf/components/esp_driver_i3c C:/esp/v6.0.1/esp-idf/components/esp_driver_isp C:/esp/v6.0.1/esp-idf/components/esp_driver_jpeg C:/esp/v6.0.1/esp-idf/components/esp_driver_ledc C:/esp/v6.0.1/esp-idf/components/esp_driver_mcpwm C:/esp/v6.0.1/esp-idf/components/esp_driver_parlio C:/esp/v6.0.1/esp-idf/components/esp_driver_pcnt C:/esp/v6.0.1/esp-idf/components/esp_driver_ppa C:/esp/v6.0.1/esp-idf/components/esp_driver_rmt C:/esp/v6.0.1/esp-idf/components/esp_driver_sd_intf C:/esp/v6.0.1/esp-idf/components/esp_driver_sdio C:/esp/v6.0.1/esp-idf/components/esp_driver_sdm C:/esp/v6.0.1/esp-idf/components/esp_driver_sdmmc C:/esp/v6.0.1/esp-idf/components/esp_driver_sdspi C:/esp/v6.0.1/esp-idf/components/esp_driver_spi C:/esp/v6.0.1/esp-idf/components/esp_driver_touch_sens C:/esp/v6.0.1/esp-idf/components/esp_driver_tsens C:/esp/v6.0.1/esp-idf/components/esp_driver_twai C:/esp/v6.0.1/esp-idf/components/esp_driver_uart C:/esp/v6.0.1/esp-idf/components/esp_driver_usb_serial_jtag C:/esp/v6.0.1/esp-idf/components/esp_eth C:/esp/v6.0.1/esp-idf/components/esp_event C:/esp/v6.0.1/esp-idf/components/esp_gdbstub C:/esp/v6.0.1/esp-idf/components/esp_hal_ana_cmpr C:/esp/v6.0.1/esp-idf/components/esp_hal_ana_conv C:/esp/v6.0.1/esp-idf/components/esp_hal_cam C:/esp/v6.0.1/esp-idf/components/esp_hal_clock C:/esp/v6.0.1/esp-idf/components/esp_hal_dma C:/esp/v6.0.1/esp-idf/components/esp_hal_gpio C:/esp/v6.0.1/esp-idf/components/esp_hal_gpspi C:/esp/v6.0.1/esp-idf/components/esp_hal_i2c C:/esp/v6.0.1/esp-idf/components/esp_hal_i2s C:/esp/v6.0.1/esp-idf/components/esp_hal_ieee802154 C:/esp/v6.0.1/esp-idf/components/esp_hal_jpeg C:/esp/v6.0.1/esp-idf/components/esp_hal_lcd C:/esp/v6.0.1/esp-idf/components/esp_hal_ledc C:/esp/v6.0.1/esp-idf/components/esp_hal_mcpwm C:/esp/v6.0.1/esp-idf/components/esp_hal_mspi C:/esp/v6.0.1/esp-idf/components/esp_hal_parlio C:/esp/v6.0.1/esp-idf/components/esp_hal_pcnt C:/esp/v6.0.1/esp-idf/components/esp_hal_pmu C:/esp/v6.0.1/esp-idf/components/esp_hal_ppa C:/esp/v6.0.1/esp-idf/components/esp_hal_rmt C:/esp/v6.0.1/esp-idf/components/esp_hal_rtc_timer C:/esp/v6.0.1/esp-idf/components/esp_hal_sd C:/esp/v6.0.1/esp-idf/components/esp_hal_security C:/esp/v6.0.1/esp-idf/components/esp_hal_timg C:/esp/v6.0.1/esp-idf/components/esp_hal_touch_sens C:/esp/v6.0.1/esp-idf/components/esp_hal_twai C:/esp/v6.0.1/esp-idf/components/esp_hal_uart C:/esp/v6.0.1/esp-idf/components/esp_hal_usb C:/esp/v6.0.1/esp-idf/components/esp_hal_wdt C:/esp/v6.0.1/esp-idf/components/esp_hid C:/esp/v6.0.1/esp-idf/components/esp_http_client C:/esp/v6.0.1/esp-idf/components/esp_http_server C:/esp/v6.0.1/esp-idf/components/esp_https_ota C:/esp/v6.0.1/esp-idf/components/esp_https_server C:/esp/v6.0.1/esp-idf/components/esp_hw_support C:/esp/v6.0.1/esp-idf/components/esp_lcd C:/esp/v6.0.1/esp-idf/components/esp_libc C:/esp/v6.0.1/esp-idf/components/esp_local_ctrl C:/esp/v6.0.1/esp-idf/components/esp_mm C:/esp/v6.0.1/esp-idf/components/esp_netif C:/esp/v6.0.1/esp-idf/components/esp_netif_stack C:/esp/v6.0.1/esp-idf/components/esp_partition C:/esp/v6.0.1/esp-idf/components/esp_phy C:/esp/v6.0.1/esp-idf/components/esp_pm C:/esp/v6.0.1/esp-idf/components/esp_psram C:/esp/v6.0.1/esp-idf/components/esp_ringbuf C:/esp/v6.0.1/esp-idf/components/esp_rom C:/esp/v6.0.1/esp-idf/components/esp_security C:/esp/v6.0.1/esp-idf/components/esp_stdio C:/esp/v6.0.1/esp-idf/components/esp_system C:/esp/v6.0.1/esp-idf/components/esp_timer C:/esp/v6.0.1/esp-idf/components/esp_trace C:/esp/v6.0.1/esp-idf/components/esp_usb_cdc_rom_console C:/esp/v6.0.1/esp-idf/components/esp_wifi C:/esp/v6.0.1/esp-idf/components/espcoredump C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif2022__esp_emote_assets C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif2022__esp_emote_expression C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif2022__esp_emote_gfx C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif2022__image_player C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__adc_battery_estimation C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__adc_mic C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__bmi270_sensor C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__button C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__cjson C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__cmake_utilities C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__dl_fft C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp-dsp C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp-sr C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp32-camera C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_audio_codec C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_audio_effects C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_codec_dev C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_image_effects C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_io_expander C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_io_expander_tca9554 C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_io_expander_tca95xx_16bit C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_jpeg C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_lcd_panel_io_additions C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_lcd_touch C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_lcd_touch_cst816s C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_lcd_touch_ft5x06 C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_lcd_touch_gt1151 C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_lcd_touch_gt911 C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_lcd_touch_st7123 C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_lvgl_port C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_mmap_assets C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_new_jpeg C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__freetype C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__i2c_bus C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__iot_eth C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__iot_usbh_cdc C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__iot_usbh_rndis C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__knob C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__led_strip C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__mqtt C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__usb C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__zlib C:/esp/v6.0.1/esp-idf/components/esptool_py C:/esp/v6.0.1/esp-idf/components/fatfs C:/esp/v6.0.1/esp-idf/components/freertos C:/esp/v6.0.1/esp-idf/components/hal C:/esp/v6.0.1/esp-idf/components/heap C:/esp/v6.0.1/esp-idf/components/http_parser C:/esp/v6.0.1/esp-idf/components/idf_test C:/esp/v6.0.1/esp-idf/components/ieee802154 C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/components/json C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/laride__heatshrink C:/esp/v6.0.1/esp-idf/components/log C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/lvgl__lvgl C:/esp/v6.0.1/esp-idf/components/lwip C:/esp/v6.0.1/esp-idf/components/mbedtls C:/esp/v6.0.1/esp-idf/components/nvs_flash C:/esp/v6.0.1/esp-idf/components/nvs_sec_provider C:/esp/v6.0.1/esp-idf/components/openthread C:/esp/v6.0.1/esp-idf/components/partition_table C:/esp/v6.0.1/esp-idf/components/perfmon C:/esp/v6.0.1/esp-idf/components/protobuf-c C:/esp/v6.0.1/esp-idf/components/protocomm C:/esp/v6.0.1/esp-idf/components/pthread C:/esp/v6.0.1/esp-idf/components/rt C:/esp/v6.0.1/esp-idf/components/sdmmc C:/esp/v6.0.1/esp-idf/components/soc C:/esp/v6.0.1/esp-idf/components/spi_flash C:/esp/v6.0.1/esp-idf/components/spiffs C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src C:/esp/v6.0.1/esp-idf/components/tcp_transport C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/tny-robotics__sh1106-esp-idf C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/txp666__otto-emoji-gif-component C:/esp/v6.0.1/esp-idf/components/ulp C:/esp/v6.0.1/esp-idf/components/unity C:/esp/v6.0.1/esp-idf/components/vfs C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/waveshare__custom_io_expander_ch32v003 C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/waveshare__esp_lcd_sh8601 C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/waveshare__esp_lcd_touch_cst9217 C:/esp/v6.0.1/esp-idf/components/wear_levelling C:/esp/v6.0.1/esp-idf/components/wpa_supplicant C:/esp/v6.0.1/esp-idf/components/xtensa
+-- Configuring done (102.3s)
+-- Generating done (7.6s)
+-- Build files have been written to: C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/build

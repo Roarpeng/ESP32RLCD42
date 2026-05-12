@@ -1,0 +1,84 @@
+Command: ninja all
+[0/1] Re-running CMake...
+-- Component directory C:/esp/v6.0.1/esp-idf/components/mqtt does not contain a CMakeLists.txt file. No component will be added
+-- Minimal build - OFF
+-- git rev-parse returned 'fatal: not a git repository (or any of the parent directories): .git'
+-- Could not use 'git describe' to determine PROJECT_VER.
+-- Building ESP-IDF components for target esp32s3
+NOTICE: Skipping optional dependency: waveshare/esp_lcd_jd9365_10_1
+NOTICE: Skipping optional dependency: waveshare/esp_lcd_st7703
+NOTICE: Skipping optional dependency: espressif/esp32_p4_function_ev_board
+NOTICE: Skipping optional dependency: espressif/esp_lcd_ili9881c
+NOTICE: Skipping optional dependency: espressif/esp_lcd_ek79007
+NOTICE: Skipping optional dependency: espressif/esp_hosted
+NOTICE: Skipping optional dependency: espressif/esp_wifi_remote
+NOTICE: Skipping optional dependency: espfriends/servo_dog_ctrl
+NOTICE: Skipping optional dependency: llgok/cpp_bus_driver
+NOTICE: Processing 55 dependencies:
+NOTICE: [1/55] 78/esp-ml307 (3.6.5)
+NOTICE: [2/55] 78/esp-wifi-connect (3.0.2)
+NOTICE: [3/55] 78/uart-eth-modem (0.3.5)
+NOTICE: [4/55] 78/uart-uhci (0.2.2)
+NOTICE: [5/55] 78/xiaozhi-fonts (1.6.0)
+NOTICE: [6/55] espressif/adc_battery_estimation (0.2.1)
+NOTICE: [7/55] espressif/adc_mic (0.2.3)
+NOTICE: [8/55] espressif/bmi270_sensor (0.1.1)
+NOTICE: [9/55] espressif/button (4.1.6)
+NOTICE: [10/55] espressif/cjson (1.7.19~2)
+NOTICE: [11/55] espressif/cmake_utilities (0.5.3)
+NOTICE: [12/55] espressif/dl_fft (0.4.0)
+NOTICE: [13/55] espressif/esp-dsp (1.7.0)
+NOTICE: [14/55] espressif/esp-sr (2.3.1)
+NOTICE: [15/55] espressif/esp32-camera (2.1.6)
+NOTICE: [16/55] espressif/esp_audio_codec (2.4.1)
+NOTICE: [17/55] espressif/esp_audio_effects (1.2.1)
+NOTICE: [18/55] espressif/esp_codec_dev (1.5.4)
+NOTICE: [19/55] espressif/esp_image_effects (1.1.0)
+NOTICE: [20/55] espressif/esp_io_expander (1.2.1)
+NOTICE: [21/55] espressif/esp_io_expander_tca9554 (2.0.0)
+NOTICE: [22/55] espressif/esp_io_expander_tca95xx_16bit (2.0.2)
+NOTICE: [23/55] espressif/esp_jpeg (1.3.1)
+NOTICE: [24/55] espressif/esp_lcd_panel_io_additions (1.0.1~1)
+NOTICE: [25/55] espressif/esp_lcd_touch (1.2.1)
+NOTICE: [26/55] espressif/esp_lcd_touch_cst816s (1.1.1~1)
+NOTICE: [27/55] espressif/esp_lcd_touch_ft5x06 (1.0.7)
+NOTICE: [28/55] espressif/esp_lcd_touch_gt1151 (1.1.0~1)
+NOTICE: [29/55] espressif/esp_lcd_touch_gt911 (1.2.0~2)
+NOTICE: [30/55] espressif/esp_lcd_touch_st7123 (1.0.2)
+NOTICE: [31/55] espressif/esp_lvgl_port (2.7.2)
+NOTICE: [32/55] espressif/esp_mmap_assets (1.4.0)
+NOTICE: [33/55] espressif/esp_new_jpeg (0.6.1)
+NOTICE: [34/55] espressif/freetype (2.14.2)
+NOTICE: [35/55] espressif/i2c_bus (1.5.1)
+NOTICE: [36/55] espressif/iot_eth (0.1.0)
+NOTICE: [37/55] espressif/iot_usbh_cdc (3.0.0)
+NOTICE: [38/55] espressif/iot_usbh_rndis (0.3.1)
+NOTICE: [39/55] espressif/knob (1.0.2)
+NOTICE: [40/55] espressif/led_strip (3.0.3)
+NOTICE: [41/55] espressif/mqtt (1.0.0)
+NOTICE: [42/55] espressif/usb (1.4.0)
+NOTICE: [43/55] espressif/zlib (1.3.2)
+NOTICE: [44/55] espressif2022/esp_emote_assets (0.1.2)
+NOTICE: [45/55] espressif2022/esp_emote_expression (0.1.0~3)
+NOTICE: [46/55] espressif2022/esp_emote_gfx (2.1.0)
+NOTICE: [47/55] espressif2022/image_player (1.1.1)
+NOTICE: [48/55] laride/heatshrink (0.4.1)
+NOTICE: [49/55] lvgl/lvgl (9.4.0)
+NOTICE: [50/55] tny-robotics/sh1106-esp-idf (1.0.1)
+NOTICE: [51/55] txp666/otto-emoji-gif-component (1.1.1)
+NOTICE: [52/55] waveshare/custom_io_expander_ch32v003 (1.0.1)
+NOTICE: [53/55] waveshare/esp_lcd_sh8601 (1.0.2)
+NOTICE: [54/55] waveshare/esp_lcd_touch_cst9217 (1.0.4)
+NOTICE: [55/55] idf (6.0.1)
+-- Using esp_driver_i2c (SRC_FILE=i2c_bus_v2.c, REQ=esp_driver_i2c driver)
+-- ESP-TEE is currently supported only on the esp32c6;esp32h2;esp32c5;esp32c61 SoCs
+NOTICE: Skipping optional dependency: waveshare/esp_lcd_jd9365_10_1
+NOTICE: Skipping optional dependency: waveshare/esp_lcd_st7703
+NOTICE: Skipping optional dependency: espressif/esp32_p4_function_ev_board
+NOTICE: Skipping optional dependency: espressif/esp_lcd_ili9881c
+NOTICE: Skipping optional dependency: espressif/esp_lcd_ek79007
+NOTICE: Skipping optional dependency: espressif/esp_hosted
+NOTICE: Skipping optional dependency: espressif/esp_wifi_remote
+NOTICE: Skipping optional dependency: espfriends/servo_dog_ctrl
+NOTICE: Skipping optional dependency: llgok/cpp_bus_driver
+-- KCONFIG_REPORT_VERBOSITY not set, using default

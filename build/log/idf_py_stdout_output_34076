@@ -1,0 +1,98 @@
+Command: cmake -G Ninja -B C:\Users\roarp\Desktop\TMP\Code\AICode\ESP32\ESP32RLCD42\build -DPYTHON_DEPS_CHECKED=1 -DPYTHON=C:\Espressif\tools\python\v6.0.1\venv\Scripts\python.exe -DESP_PLATFORM=1 -DCCACHE_ENABLE=False C:\Users\roarp\Desktop\TMP\Code\AICode\ESP32\ESP32RLCD42
+-- IDF_TARGET is not set, guessed 'esp32s3' from sdkconfig 'C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/sdkconfig'
+-- Found Git: C:/Program Files/Git/mingw64/bin/git.exe (found version "2.41.0.windows.1")
+-- Component directory C:/esp/v6.0.1/esp-idf/components/mqtt does not contain a CMakeLists.txt file. No component will be added
+-- Minimal build - OFF
+-- The C compiler identification is GNU 15.2.0
+-- The CXX compiler identification is GNU 15.2.0
+-- The ASM compiler identification is GNU
+-- Found assembler: C:/Espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc.exe
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: C:/Espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/bin/xtensa-esp32s3-elf-gcc.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/bin/xtensa-esp32s3-elf-g++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- git rev-parse returned 'fatal: not a git repository (or any of the parent directories): .git'
+-- Could not use 'git describe' to determine PROJECT_VER.
+-- Building ESP-IDF components for target esp32s3
+NOTICE: Skipping optional dependency: waveshare/esp_lcd_jd9365_10_1
+NOTICE: Skipping optional dependency: waveshare/esp_lcd_st7703
+NOTICE: Skipping optional dependency: espressif/esp32_p4_function_ev_board
+NOTICE: Skipping optional dependency: espressif/esp_lcd_ili9881c
+NOTICE: Skipping optional dependency: espressif/esp_lcd_ek79007
+NOTICE: Skipping optional dependency: espressif/esp_hosted
+NOTICE: Skipping optional dependency: espressif/esp_wifi_remote
+NOTICE: Skipping optional dependency: espfriends/servo_dog_ctrl
+NOTICE: Skipping optional dependency: llgok/cpp_bus_driver
+NOTICE: Processing 54 dependencies:
+NOTICE: [1/54] 78/esp-ml307 (3.6.5)
+NOTICE: [2/54] 78/esp-wifi-connect (3.0.2)
+NOTICE: [3/54] 78/uart-eth-modem (0.3.5)
+NOTICE: [4/54] 78/uart-uhci (0.2.2)
+NOTICE: [5/54] 78/xiaozhi-fonts (1.6.0)
+NOTICE: [6/54] espressif/adc_battery_estimation (0.2.1)
+NOTICE: [7/54] espressif/adc_mic (0.2.3)
+NOTICE: [8/54] espressif/bmi270_sensor (0.1.1)
+NOTICE: [9/54] espressif/button (4.1.6)
+NOTICE: [10/54] espressif/cjson (1.7.19~2)
+NOTICE: [11/54] espressif/cmake_utilities (0.5.3)
+NOTICE: [12/54] espressif/dl_fft (0.4.0)
+NOTICE: [13/54] espressif/esp-dsp (1.7.0)
+NOTICE: [14/54] espressif/esp-sr (2.3.1)
+NOTICE: [15/54] espressif/esp32-camera (2.1.6)
+NOTICE: [16/54] espressif/esp_audio_codec (2.4.1)
+NOTICE: [17/54] espressif/esp_audio_effects (1.2.1)
+NOTICE: [18/54] espressif/esp_codec_dev (1.5.4)
+NOTICE: [19/54] espressif/esp_image_effects (1.1.0)
+NOTICE: [20/54] espressif/esp_io_expander (1.2.1)
+NOTICE: [21/54] espressif/esp_io_expander_tca9554 (2.0.0)
+NOTICE: [22/54] espressif/esp_io_expander_tca95xx_16bit (2.0.2)
+NOTICE: [23/54] espressif/esp_jpeg (1.3.1)
+NOTICE: [24/54] espressif/esp_lcd_panel_io_additions (1.0.1~1)
+NOTICE: [25/54] espressif/esp_lcd_touch (1.2.1)
+NOTICE: [26/54] espressif/esp_lcd_touch_cst816s (1.1.1~1)
+NOTICE: [27/54] espressif/esp_lcd_touch_ft5x06 (1.0.7)
+NOTICE: [28/54] espressif/esp_lcd_touch_gt1151 (1.1.0~1)
+NOTICE: [29/54] espressif/esp_lcd_touch_gt911 (1.2.0~2)
+NOTICE: [30/54] espressif/esp_lcd_touch_st7123 (1.0.2)
+NOTICE: [31/54] espressif/esp_lvgl_port (2.7.2)
+NOTICE: [32/54] espressif/esp_mmap_assets (1.4.0)
+NOTICE: [33/54] espressif/esp_new_jpeg (0.6.1)
+NOTICE: [34/54] espressif/freetype (2.14.2)
+NOTICE: [35/54] espressif/i2c_bus (1.5.1)
+NOTICE: [36/54] espressif/iot_eth (0.1.0)
+NOTICE: [37/54] espressif/iot_usbh_cdc (3.0.0)
+NOTICE: [38/54] espressif/iot_usbh_rndis (0.3.1)
+NOTICE: [39/54] espressif/knob (1.0.2)
+NOTICE: [40/54] espressif/led_strip (3.0.3)
+NOTICE: [41/54] espressif/mqtt (1.0.0)
+NOTICE: [42/54] espressif/zlib (1.3.2)
+NOTICE: [43/54] espressif2022/esp_emote_assets (0.1.2)
+NOTICE: [44/54] espressif2022/esp_emote_expression (0.1.0~3)
+NOTICE: [45/54] espressif2022/esp_emote_gfx (2.1.0)
+NOTICE: [46/54] espressif2022/image_player (1.1.1)
+NOTICE: [47/54] laride/heatshrink (0.4.1)
+NOTICE: [48/54] lvgl/lvgl (9.4.0)
+NOTICE: [49/54] tny-robotics/sh1106-esp-idf (1.0.1)
+NOTICE: [50/54] txp666/otto-emoji-gif-component (1.1.1)
+NOTICE: [51/54] waveshare/custom_io_expander_ch32v003 (1.0.1)
+NOTICE: [52/54] waveshare/esp_lcd_sh8601 (1.0.2)
+NOTICE: [53/54] waveshare/esp_lcd_touch_cst9217 (1.0.4)
+NOTICE: [54/54] idf (6.0.1)
+-- Using esp_driver_i2c (SRC_FILE=i2c_bus_v2.c, REQ=esp_driver_i2c driver)
+-- ESP-TEE is currently supported only on the esp32c6;esp32h2;esp32c5;esp32c61 SoCs
+NOTICE: Skipping optional dependency: waveshare/esp_lcd_jd9365_10_1
+NOTICE: Skipping optional dependency: waveshare/esp_lcd_st7703
+NOTICE: Skipping optional dependency: espressif/esp32_p4_function_ev_board
+NOTICE: Skipping optional dependency: espressif/esp_lcd_ili9881c
+NOTICE: Skipping optional dependency: espressif/esp_lcd_ek79007
+NOTICE: Skipping optional dependency: espressif/esp_hosted
+NOTICE: Skipping optional dependency: espressif/esp_wifi_remote
+NOTICE: Skipping optional dependency: espfriends/servo_dog_ctrl
+NOTICE: Skipping optional dependency: llgok/cpp_bus_driver
+-- Configuring incomplete, errors occurred!

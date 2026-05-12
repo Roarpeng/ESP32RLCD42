@@ -1,0 +1,624 @@
+Command: ninja all
+[0/1] Re-running CMake...
+-- Component directory C:/esp/v6.0.1/esp-idf/components/mqtt does not contain a CMakeLists.txt file. No component will be added
+-- Minimal build - OFF
+-- git rev-parse returned 'fatal: not a git repository (or any of the parent directories): .git'
+-- Could not use 'git describe' to determine PROJECT_VER.
+-- Building ESP-IDF components for target esp32s3
+NOTICE: Skipping optional dependency: waveshare/esp_lcd_jd9365_10_1
+NOTICE: Skipping optional dependency: waveshare/esp_lcd_st7703
+NOTICE: Skipping optional dependency: espressif/esp32_p4_function_ev_board
+NOTICE: Skipping optional dependency: espressif/esp_lcd_ili9881c
+NOTICE: Skipping optional dependency: espressif/esp_lcd_ek79007
+NOTICE: Skipping optional dependency: espressif/esp_hosted
+NOTICE: Skipping optional dependency: espressif/esp_wifi_remote
+NOTICE: Skipping optional dependency: espfriends/servo_dog_ctrl
+NOTICE: Skipping optional dependency: llgok/cpp_bus_driver
+NOTICE: Processing 55 dependencies:
+NOTICE: [1/55] 78/esp-ml307 (3.6.5)
+NOTICE: [2/55] 78/esp-wifi-connect (3.0.2)
+NOTICE: [3/55] 78/uart-eth-modem (0.3.5)
+NOTICE: [4/55] 78/uart-uhci (0.2.2)
+NOTICE: [5/55] 78/xiaozhi-fonts (1.6.0)
+NOTICE: [6/55] espressif/adc_battery_estimation (0.2.1)
+NOTICE: [7/55] espressif/adc_mic (0.2.3)
+NOTICE: [8/55] espressif/bmi270_sensor (0.1.1)
+NOTICE: [9/55] espressif/button (4.1.6)
+NOTICE: [10/55] espressif/cjson (1.7.19~2)
+NOTICE: [11/55] espressif/cmake_utilities (0.5.3)
+NOTICE: [12/55] espressif/dl_fft (0.4.0)
+NOTICE: [13/55] espressif/esp-dsp (1.7.0)
+NOTICE: [14/55] espressif/esp-sr (2.3.1)
+NOTICE: [15/55] espressif/esp32-camera (2.1.6)
+NOTICE: [16/55] espressif/esp_audio_codec (2.4.1)
+NOTICE: [17/55] espressif/esp_audio_effects (1.2.1)
+NOTICE: [18/55] espressif/esp_codec_dev (1.5.4)
+NOTICE: [19/55] espressif/esp_image_effects (1.1.0)
+NOTICE: [20/55] espressif/esp_io_expander (1.2.1)
+NOTICE: [21/55] espressif/esp_io_expander_tca9554 (2.0.0)
+NOTICE: [22/55] espressif/esp_io_expander_tca95xx_16bit (2.0.2)
+NOTICE: [23/55] espressif/esp_jpeg (1.3.1)
+NOTICE: [24/55] espressif/esp_lcd_panel_io_additions (1.0.1~1)
+NOTICE: [25/55] espressif/esp_lcd_touch (1.2.1)
+NOTICE: [26/55] espressif/esp_lcd_touch_cst816s (1.1.1~1)
+NOTICE: [27/55] espressif/esp_lcd_touch_ft5x06 (1.0.7)
+NOTICE: [28/55] espressif/esp_lcd_touch_gt1151 (1.1.0~1)
+NOTICE: [29/55] espressif/esp_lcd_touch_gt911 (1.2.0~2)
+NOTICE: [30/55] espressif/esp_lcd_touch_st7123 (1.0.2)
+NOTICE: [31/55] espressif/esp_lvgl_port (2.7.2)
+NOTICE: [32/55] espressif/esp_mmap_assets (1.4.0)
+NOTICE: [33/55] espressif/esp_new_jpeg (0.6.1)
+NOTICE: [34/55] espressif/freetype (2.14.2)
+NOTICE: [35/55] espressif/i2c_bus (1.5.1)
+NOTICE: [36/55] espressif/iot_eth (0.1.0)
+NOTICE: [37/55] espressif/iot_usbh_cdc (3.0.0)
+NOTICE: [38/55] espressif/iot_usbh_rndis (0.3.1)
+NOTICE: [39/55] espressif/knob (1.0.2)
+NOTICE: [40/55] espressif/led_strip (3.0.3)
+NOTICE: [41/55] espressif/mqtt (1.0.0)
+NOTICE: [42/55] espressif/usb (1.4.0)
+NOTICE: [43/55] espressif/zlib (1.3.2)
+NOTICE: [44/55] espressif2022/esp_emote_assets (0.1.2)
+NOTICE: [45/55] espressif2022/esp_emote_expression (0.1.0~3)
+NOTICE: [46/55] espressif2022/esp_emote_gfx (2.1.0)
+NOTICE: [47/55] espressif2022/image_player (1.1.1)
+NOTICE: [48/55] laride/heatshrink (0.4.1)
+NOTICE: [49/55] lvgl/lvgl (9.4.0)
+NOTICE: [50/55] tny-robotics/sh1106-esp-idf (1.0.1)
+NOTICE: [51/55] txp666/otto-emoji-gif-component (1.1.1)
+NOTICE: [52/55] waveshare/custom_io_expander_ch32v003 (1.0.1)
+NOTICE: [53/55] waveshare/esp_lcd_sh8601 (1.0.2)
+NOTICE: [54/55] waveshare/esp_lcd_touch_cst9217 (1.0.4)
+NOTICE: [55/55] idf (6.0.1)
+-- Using esp_driver_i2c (SRC_FILE=i2c_bus_v2.c, REQ=esp_driver_i2c driver)
+-- ESP-TEE is currently supported only on the esp32c6;esp32h2;esp32c5;esp32c61 SoCs
+NOTICE: Skipping optional dependency: waveshare/esp_lcd_jd9365_10_1
+NOTICE: Skipping optional dependency: waveshare/esp_lcd_st7703
+NOTICE: Skipping optional dependency: espressif/esp32_p4_function_ev_board
+NOTICE: Skipping optional dependency: espressif/esp_lcd_ili9881c
+NOTICE: Skipping optional dependency: espressif/esp_lcd_ek79007
+NOTICE: Skipping optional dependency: espressif/esp_hosted
+NOTICE: Skipping optional dependency: espressif/esp_wifi_remote
+NOTICE: Skipping optional dependency: espfriends/servo_dog_ctrl
+NOTICE: Skipping optional dependency: llgok/cpp_bus_driver
+-- KCONFIG_REPORT_VERBOSITY not set, using default
+-- Project sdkconfig file C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/sdkconfig
+-- Compiler supported targets: xtensa-esp-elf
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- App "ESP32RLCD42" version: 1
+-- Could NOT find Threads (missing: Threads_FOUND) 
+-- Could NOT find Threads (missing: Threads_FOUND) 
+-- Setting up mbedtls configuration
+-- Linkage type is PUBLIC
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_hal_wdt/esp32s3/rom.wdt.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_system/ld/esp32s3/memory.ld.in
+--   -> Preprocessing .in script: C:/esp/v6.0.1/esp-idf/components/esp_system/ld/esp32s3/memory.ld.in
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_system/ld/esp32s3/sections.ld.in
+--   -> Preprocessing .in script: C:/esp/v6.0.1/esp-idf/components/esp_system/ld/esp32s3/sections.ld.in
+--   -> Applying ldgen processing: C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/build/esp-idf/esp_system/ld/sections.ld.in
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.api.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.bt_funcs.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.libgcc.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.version.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_master.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_50.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_smp.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_dtm.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_test.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.ble_scan.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.libc.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/esp_rom/esp32s3/ld/esp32s3.rom.newlib.ld
+-- Adding linker script C:/esp/v6.0.1/esp-idf/components/soc/esp32s3/ld/esp32s3.peripherals.ld
+-- Could NOT find PkgConfig (missing: PKG_CONFIG_EXECUTABLE) 
+-- IOT_ETH: 0.1.0
+-- ADC_BATTERY_ESTIMATION: 0.2.1
+-- ADC_MIC: 0.2.3
+-- Using esp_driver_i2c (SRC_FILE=i2c_bus_v2.c, REQ=esp_driver_i2c driver)
+-- I2C_BUS: 1.5.1
+-- BUTTON: 4.1.6
+-- ESP_LCD_PANEL_IO_ADDITIONS: 1.0.1
+-- ESP_LCD_TOUCH_ST7123: 1.0.2
+-- LVGL version: 9.4.0
+-- ESP_MMAP_ASSETS: 1.4.0
+-- IOT_USBH_CDC: 3.0.0
+-- IOT_USBH_RNDIS: 0.3.1
+-- KNOB: 1.0.2
+-- ESP_EMOTE_EXPRESSION: 0.1.0
+-- Otto Emoji GIF Component: gifs only at C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/txp666__otto-emoji-gif-component/gifs
+-- ESP_LCD_SH8601: 1.0.2
+-- Default assets build configured: C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/build/generated_assets.bin
+-- Generated default assets flash configured: C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/build/generated_assets.bin -> assets partition
+-- Component idf::esp_trace will be linked with -Wl,--whole-archive
+-- Component idf::espressif2022__esp_emote_expression will be linked with -Wl,--whole-archive
+-- Component idf::src will be linked with -Wl,--whole-archive
+-- Components: 78__esp-ml307 78__esp-wifi-connect 78__uart-eth-modem 78__uart-uhci 78__xiaozhi-fonts app_trace app_update bootloader bootloader_support bt cmock console cxx driver efuse esp-tls esp_adc esp_app_format esp_blockdev esp_blockdev_util esp_bootloader_format esp_coex esp_common esp_driver_ana_cmpr esp_driver_bitscrambler esp_driver_cam esp_driver_dac esp_driver_dma esp_driver_gpio esp_driver_gptimer esp_driver_i2c esp_driver_i2s esp_driver_i3c esp_driver_isp esp_driver_jpeg esp_driver_ledc esp_driver_mcpwm esp_driver_parlio esp_driver_pcnt esp_driver_ppa esp_driver_rmt esp_driver_sd_intf esp_driver_sdio esp_driver_sdm esp_driver_sdmmc esp_driver_sdspi esp_driver_spi esp_driver_touch_sens esp_driver_tsens esp_driver_twai esp_driver_uart esp_driver_usb_serial_jtag esp_eth esp_event esp_gdbstub esp_hal_ana_cmpr esp_hal_ana_conv esp_hal_cam esp_hal_clock esp_hal_dma esp_hal_gpio esp_hal_gpspi esp_hal_i2c esp_hal_i2s esp_hal_ieee802154 esp_hal_jpeg esp_hal_lcd esp_hal_ledc esp_hal_mcpwm esp_hal_mspi esp_hal_parlio esp_hal_pcnt esp_hal_pmu esp_hal_ppa esp_hal_rmt esp_hal_rtc_timer esp_hal_sd esp_hal_security esp_hal_timg esp_hal_touch_sens esp_hal_twai esp_hal_uart esp_hal_usb esp_hal_wdt esp_hid esp_http_client esp_http_server esp_https_ota esp_https_server esp_hw_support esp_lcd esp_libc esp_local_ctrl esp_mm esp_netif esp_netif_stack esp_partition esp_phy esp_pm esp_psram esp_ringbuf esp_rom esp_security esp_stdio esp_system esp_timer esp_trace esp_usb_cdc_rom_console esp_wifi espcoredump espressif2022__esp_emote_assets espressif2022__esp_emote_expression espressif2022__esp_emote_gfx espressif2022__image_player espressif__adc_battery_estimation espressif__adc_mic espressif__bmi270_sensor espressif__button espressif__cjson espressif__cmake_utilities espressif__dl_fft espressif__esp-dsp espressif__esp-sr espressif__esp32-camera espressif__esp_audio_codec espressif__esp_audio_effects espressif__esp_codec_dev espressif__esp_image_effects espressif__esp_io_expander espressif__esp_io_expander_tca9554 espressif__esp_io_expander_tca95xx_16bit espressif__esp_jpeg espressif__esp_lcd_panel_io_additions espressif__esp_lcd_touch espressif__esp_lcd_touch_cst816s espressif__esp_lcd_touch_ft5x06 espressif__esp_lcd_touch_gt1151 espressif__esp_lcd_touch_gt911 espressif__esp_lcd_touch_st7123 espressif__esp_lvgl_port espressif__esp_mmap_assets espressif__esp_new_jpeg espressif__freetype espressif__i2c_bus espressif__iot_eth espressif__iot_usbh_cdc espressif__iot_usbh_rndis espressif__knob espressif__led_strip espressif__mqtt espressif__usb espressif__zlib esptool_py fatfs freertos hal heap http_parser idf_test ieee802154 json laride__heatshrink log lvgl__lvgl lwip mbedtls nvs_flash nvs_sec_provider openthread partition_table perfmon protobuf-c protocomm pthread rt sdmmc soc spi_flash spiffs src tcp_transport tny-robotics__sh1106-esp-idf txp666__otto-emoji-gif-component ulp unity vfs waveshare__custom_io_expander_ch32v003 waveshare__esp_lcd_sh8601 waveshare__esp_lcd_touch_cst9217 wear_levelling wpa_supplicant xtensa
+-- Component paths: C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/78__esp-ml307 C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/78__esp-wifi-connect C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/78__uart-eth-modem C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/78__uart-uhci C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/78__xiaozhi-fonts C:/esp/v6.0.1/esp-idf/components/app_trace C:/esp/v6.0.1/esp-idf/components/app_update C:/esp/v6.0.1/esp-idf/components/bootloader C:/esp/v6.0.1/esp-idf/components/bootloader_support C:/esp/v6.0.1/esp-idf/components/bt C:/esp/v6.0.1/esp-idf/components/cmock C:/esp/v6.0.1/esp-idf/components/console C:/esp/v6.0.1/esp-idf/components/cxx C:/esp/v6.0.1/esp-idf/components/driver C:/esp/v6.0.1/esp-idf/components/efuse C:/esp/v6.0.1/esp-idf/components/esp-tls C:/esp/v6.0.1/esp-idf/components/esp_adc C:/esp/v6.0.1/esp-idf/components/esp_app_format C:/esp/v6.0.1/esp-idf/components/esp_blockdev C:/esp/v6.0.1/esp-idf/components/esp_blockdev_util C:/esp/v6.0.1/esp-idf/components/esp_bootloader_format C:/esp/v6.0.1/esp-idf/components/esp_coex C:/esp/v6.0.1/esp-idf/components/esp_common C:/esp/v6.0.1/esp-idf/components/esp_driver_ana_cmpr C:/esp/v6.0.1/esp-idf/components/esp_driver_bitscrambler C:/esp/v6.0.1/esp-idf/components/esp_driver_cam C:/esp/v6.0.1/esp-idf/components/esp_driver_dac C:/esp/v6.0.1/esp-idf/components/esp_driver_dma C:/esp/v6.0.1/esp-idf/components/esp_driver_gpio C:/esp/v6.0.1/esp-idf/components/esp_driver_gptimer C:/esp/v6.0.1/esp-idf/components/esp_driver_i2c C:/esp/v6.0.1/esp-idf/components/esp_driver_i2s C:/esp/v6.0.1/esp-idf/components/esp_driver_i3c C:/esp/v6.0.1/esp-idf/components/esp_driver_isp C:/esp/v6.0.1/esp-idf/components/esp_driver_jpeg C:/esp/v6.0.1/esp-idf/components/esp_driver_ledc C:/esp/v6.0.1/esp-idf/components/esp_driver_mcpwm C:/esp/v6.0.1/esp-idf/components/esp_driver_parlio C:/esp/v6.0.1/esp-idf/components/esp_driver_pcnt C:/esp/v6.0.1/esp-idf/components/esp_driver_ppa C:/esp/v6.0.1/esp-idf/components/esp_driver_rmt C:/esp/v6.0.1/esp-idf/components/esp_driver_sd_intf C:/esp/v6.0.1/esp-idf/components/esp_driver_sdio C:/esp/v6.0.1/esp-idf/components/esp_driver_sdm C:/esp/v6.0.1/esp-idf/components/esp_driver_sdmmc C:/esp/v6.0.1/esp-idf/components/esp_driver_sdspi C:/esp/v6.0.1/esp-idf/components/esp_driver_spi C:/esp/v6.0.1/esp-idf/components/esp_driver_touch_sens C:/esp/v6.0.1/esp-idf/components/esp_driver_tsens C:/esp/v6.0.1/esp-idf/components/esp_driver_twai C:/esp/v6.0.1/esp-idf/components/esp_driver_uart C:/esp/v6.0.1/esp-idf/components/esp_driver_usb_serial_jtag C:/esp/v6.0.1/esp-idf/components/esp_eth C:/esp/v6.0.1/esp-idf/components/esp_event C:/esp/v6.0.1/esp-idf/components/esp_gdbstub C:/esp/v6.0.1/esp-idf/components/esp_hal_ana_cmpr C:/esp/v6.0.1/esp-idf/components/esp_hal_ana_conv C:/esp/v6.0.1/esp-idf/components/esp_hal_cam C:/esp/v6.0.1/esp-idf/components/esp_hal_clock C:/esp/v6.0.1/esp-idf/components/esp_hal_dma C:/esp/v6.0.1/esp-idf/components/esp_hal_gpio C:/esp/v6.0.1/esp-idf/components/esp_hal_gpspi C:/esp/v6.0.1/esp-idf/components/esp_hal_i2c C:/esp/v6.0.1/esp-idf/components/esp_hal_i2s C:/esp/v6.0.1/esp-idf/components/esp_hal_ieee802154 C:/esp/v6.0.1/esp-idf/components/esp_hal_jpeg C:/esp/v6.0.1/esp-idf/components/esp_hal_lcd C:/esp/v6.0.1/esp-idf/components/esp_hal_ledc C:/esp/v6.0.1/esp-idf/components/esp_hal_mcpwm C:/esp/v6.0.1/esp-idf/components/esp_hal_mspi C:/esp/v6.0.1/esp-idf/components/esp_hal_parlio C:/esp/v6.0.1/esp-idf/components/esp_hal_pcnt C:/esp/v6.0.1/esp-idf/components/esp_hal_pmu C:/esp/v6.0.1/esp-idf/components/esp_hal_ppa C:/esp/v6.0.1/esp-idf/components/esp_hal_rmt C:/esp/v6.0.1/esp-idf/components/esp_hal_rtc_timer C:/esp/v6.0.1/esp-idf/components/esp_hal_sd C:/esp/v6.0.1/esp-idf/components/esp_hal_security C:/esp/v6.0.1/esp-idf/components/esp_hal_timg C:/esp/v6.0.1/esp-idf/components/esp_hal_touch_sens C:/esp/v6.0.1/esp-idf/components/esp_hal_twai C:/esp/v6.0.1/esp-idf/components/esp_hal_uart C:/esp/v6.0.1/esp-idf/components/esp_hal_usb C:/esp/v6.0.1/esp-idf/components/esp_hal_wdt C:/esp/v6.0.1/esp-idf/components/esp_hid C:/esp/v6.0.1/esp-idf/components/esp_http_client C:/esp/v6.0.1/esp-idf/components/esp_http_server C:/esp/v6.0.1/esp-idf/components/esp_https_ota C:/esp/v6.0.1/esp-idf/components/esp_https_server C:/esp/v6.0.1/esp-idf/components/esp_hw_support C:/esp/v6.0.1/esp-idf/components/esp_lcd C:/esp/v6.0.1/esp-idf/components/esp_libc C:/esp/v6.0.1/esp-idf/components/esp_local_ctrl C:/esp/v6.0.1/esp-idf/components/esp_mm C:/esp/v6.0.1/esp-idf/components/esp_netif C:/esp/v6.0.1/esp-idf/components/esp_netif_stack C:/esp/v6.0.1/esp-idf/components/esp_partition C:/esp/v6.0.1/esp-idf/components/esp_phy C:/esp/v6.0.1/esp-idf/components/esp_pm C:/esp/v6.0.1/esp-idf/components/esp_psram C:/esp/v6.0.1/esp-idf/components/esp_ringbuf C:/esp/v6.0.1/esp-idf/components/esp_rom C:/esp/v6.0.1/esp-idf/components/esp_security C:/esp/v6.0.1/esp-idf/components/esp_stdio C:/esp/v6.0.1/esp-idf/components/esp_system C:/esp/v6.0.1/esp-idf/components/esp_timer C:/esp/v6.0.1/esp-idf/components/esp_trace C:/esp/v6.0.1/esp-idf/components/esp_usb_cdc_rom_console C:/esp/v6.0.1/esp-idf/components/esp_wifi C:/esp/v6.0.1/esp-idf/components/espcoredump C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif2022__esp_emote_assets C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif2022__esp_emote_expression C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif2022__esp_emote_gfx C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif2022__image_player C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__adc_battery_estimation C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__adc_mic C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__bmi270_sensor C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__button C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__cjson C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__cmake_utilities C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__dl_fft C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp-dsp C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp-sr C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp32-camera C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_audio_codec C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_audio_effects C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_codec_dev C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_image_effects C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_io_expander C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_io_expander_tca9554 C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_io_expander_tca95xx_16bit C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_jpeg C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_lcd_panel_io_additions C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_lcd_touch C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_lcd_touch_cst816s C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_lcd_touch_ft5x06 C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_lcd_touch_gt1151 C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_lcd_touch_gt911 C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_lcd_touch_st7123 C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_lvgl_port C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_mmap_assets C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__esp_new_jpeg C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__freetype C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__i2c_bus C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__iot_eth C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__iot_usbh_cdc C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__iot_usbh_rndis C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__knob C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__led_strip C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__mqtt C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__usb C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__zlib C:/esp/v6.0.1/esp-idf/components/esptool_py C:/esp/v6.0.1/esp-idf/components/fatfs C:/esp/v6.0.1/esp-idf/components/freertos C:/esp/v6.0.1/esp-idf/components/hal C:/esp/v6.0.1/esp-idf/components/heap C:/esp/v6.0.1/esp-idf/components/http_parser C:/esp/v6.0.1/esp-idf/components/idf_test C:/esp/v6.0.1/esp-idf/components/ieee802154 C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/components/json C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/laride__heatshrink C:/esp/v6.0.1/esp-idf/components/log C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/lvgl__lvgl C:/esp/v6.0.1/esp-idf/components/lwip C:/esp/v6.0.1/esp-idf/components/mbedtls C:/esp/v6.0.1/esp-idf/components/nvs_flash C:/esp/v6.0.1/esp-idf/components/nvs_sec_provider C:/esp/v6.0.1/esp-idf/components/openthread C:/esp/v6.0.1/esp-idf/components/partition_table C:/esp/v6.0.1/esp-idf/components/perfmon C:/esp/v6.0.1/esp-idf/components/protobuf-c C:/esp/v6.0.1/esp-idf/components/protocomm C:/esp/v6.0.1/esp-idf/components/pthread C:/esp/v6.0.1/esp-idf/components/rt C:/esp/v6.0.1/esp-idf/components/sdmmc C:/esp/v6.0.1/esp-idf/components/soc C:/esp/v6.0.1/esp-idf/components/spi_flash C:/esp/v6.0.1/esp-idf/components/spiffs C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src C:/esp/v6.0.1/esp-idf/components/tcp_transport C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/tny-robotics__sh1106-esp-idf C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/txp666__otto-emoji-gif-component C:/esp/v6.0.1/esp-idf/components/ulp C:/esp/v6.0.1/esp-idf/components/unity C:/esp/v6.0.1/esp-idf/components/vfs C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/waveshare__custom_io_expander_ch32v003 C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/waveshare__esp_lcd_sh8601 C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/waveshare__esp_lcd_touch_cst9217 C:/esp/v6.0.1/esp-idf/components/wear_levelling C:/esp/v6.0.1/esp-idf/components/wpa_supplicant C:/esp/v6.0.1/esp-idf/components/xtensa
+-- Configuring done (119.5s)
+-- Generating done (4.9s)
+-- Build files have been written to: C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/build
+[1/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/audio/processors/audio_debugger.cc.obj
+[2/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/audio/codecs/dummy_audio_codec.cc.obj
+[3/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/audio/audio_codec.cc.obj
+[4/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/audio/codecs/box_audio_codec.cc.obj
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/box_audio_codec.cc: In constructor 'BoxAudioCodec::BoxAudioCodec(void*, int, int, gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t, uint8_t, uint8_t, bool)':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/box_audio_codec.cc:26:5: warning: missing initializer for member 'audio_codec_i2s_cfg_t::clk_src' [-Wmissing-field-initializers]
+   26 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/box_audio_codec.cc: In member function 'void BoxAudioCodec::CreateDuplexChannels(gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t)':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/box_audio_codec.cc:105:5: warning: missing initializer for member 'i2s_chan_config_t::allow_pd' [-Wmissing-field-initializers]
+  105 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/box_audio_codec.cc:139:5: warning: missing initializer for member 'i2s_std_clk_config_t::bclk_div' [-Wmissing-field-initializers]
+  139 |     };
+      |     ^
+[5/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/audio/codecs/es8311_audio_codec.cc.obj
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8311_audio_codec.cc: In constructor 'Es8311AudioCodec::Es8311AudioCodec(void*, i2c_port_t, int, int, gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t, uint8_t, bool, bool)':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8311_audio_codec.cc:27:5: warning: missing initializer for member 'audio_codec_i2s_cfg_t::clk_src' [-Wmissing-field-initializers]
+   27 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8311_audio_codec.cc: In member function 'void Es8311AudioCodec::CreateDuplexChannels(gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t)':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8311_audio_codec.cc:111:5: warning: missing initializer for member 'i2s_chan_config_t::allow_pd' [-Wmissing-field-initializers]
+  111 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8311_audio_codec.cc:149:5: warning: missing initializer for member 'i2s_std_clk_config_t::ext_clk_freq_hz' [-Wmissing-field-initializers]
+  149 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8311_audio_codec.cc:149:5: warning: missing initializer for member 'i2s_std_clk_config_t::bclk_div' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8311_audio_codec.cc:149:5: warning: missing initializer for member 'i2s_std_slot_config_t::left_align' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8311_audio_codec.cc:149:5: warning: missing initializer for member 'i2s_std_slot_config_t::big_endian' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8311_audio_codec.cc:149:5: warning: missing initializer for member 'i2s_std_slot_config_t::bit_order_lsb' [-Wmissing-field-initializers]
+[6/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/audio/codecs/es8389_audio_codec.cc.obj
+In file included from C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8389_audio_codec.h:6,
+                 from C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8389_audio_codec.cc:1:
+C:/esp/v6.0.1/esp-idf/components/driver/i2c/include/driver/i2c.h:29:103: note: '#pragma message: 
+================================ CRITICAL WARNING ================================
+This legacy I2C driver (driver/i2c.h) is officially END-OF-LIFE (EOL) as of ESP-IDF v6.0.
+
+1. NO SUPPORT: ESP-IDF will not provide updates, bug fixes, or security patches timely.
+2. PLANNED REMOVAL: This driver WILL BE REMOVED in ESP-IDF v7.0 (next major release).
+3. ACTION REQUIRED: Migrate to 'driver/i2c_master.h' or 'driver/i2c_slave.h' immediately.
+   - If you are a library maintainer, please update your code.
+   - If you are using 3rd-party libraries, contact the authors for updates.
+
+4. SUPPRESS WARNING: Set Kconfig 'CONFIG_I2C_SUPPRESS_DEPRECATE_WARN=y' to silent
+   this warning. However, by doing so, YOU ASSUME ALL RISKS including potential
+   security vulnerabilities, system instability, and future incompatibility.
+
+For API reference of the new I2C driver, see: https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/i2c.html
+For other items about migration, see: https://docs.espressif.com/projects/esp-idf/en/latest/esp32/migration-guides/index.html
+==================================================================================
+   '
+   29 |                 "==================================================================================\n")
+      |                                                                                                       ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8389_audio_codec.cc: In constructor 'Es8389AudioCodec::Es8389AudioCodec(void*, i2c_port_t, int, int, gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t, uint8_t, bool)':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8389_audio_codec.cc:24:5: warning: missing initializer for member 'audio_codec_i2s_cfg_t::clk_src' [-Wmissing-field-initializers]
+   24 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8389_audio_codec.cc: In member function 'void Es8389AudioCodec::CreateDuplexChannels(gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t)':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8389_audio_codec.cc:95:5: warning: missing initializer for member 'i2s_chan_config_t::allow_pd' [-Wmissing-field-initializers]
+   95 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8389_audio_codec.cc:131:5: warning: missing initializer for member 'i2s_std_clk_config_t::ext_clk_freq_hz' [-Wmissing-field-initializers]
+  131 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8389_audio_codec.cc:131:5: warning: missing initializer for member 'i2s_std_clk_config_t::bclk_div' [-Wmissing-field-initializers]
+[7/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/audio/codecs/es8374_audio_codec.cc.obj
+In file included from C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8374_audio_codec.h:6,
+                 from C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8374_audio_codec.cc:1:
+C:/esp/v6.0.1/esp-idf/components/driver/i2c/include/driver/i2c.h:29:103: note: '#pragma message: 
+================================ CRITICAL WARNING ================================
+This legacy I2C driver (driver/i2c.h) is officially END-OF-LIFE (EOL) as of ESP-IDF v6.0.
+
+1. NO SUPPORT: ESP-IDF will not provide updates, bug fixes, or security patches timely.
+2. PLANNED REMOVAL: This driver WILL BE REMOVED in ESP-IDF v7.0 (next major release).
+3. ACTION REQUIRED: Migrate to 'driver/i2c_master.h' or 'driver/i2c_slave.h' immediately.
+   - If you are a library maintainer, please update your code.
+   - If you are using 3rd-party libraries, contact the authors for updates.
+
+4. SUPPRESS WARNING: Set Kconfig 'CONFIG_I2C_SUPPRESS_DEPRECATE_WARN=y' to silent
+   this warning. However, by doing so, YOU ASSUME ALL RISKS including potential
+   security vulnerabilities, system instability, and future incompatibility.
+
+For API reference of the new I2C driver, see: https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/peripherals/i2c.html
+For other items about migration, see: https://docs.espressif.com/projects/esp-idf/en/latest/esp32/migration-guides/index.html
+==================================================================================
+   '
+   29 |                 "==================================================================================\n")
+      |                                                                                                       ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8374_audio_codec.cc: In constructor 'Es8374AudioCodec::Es8374AudioCodec(void*, i2c_port_t, int, int, gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t, uint8_t, bool)':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8374_audio_codec.cc:25:5: warning: missing initializer for member 'audio_codec_i2s_cfg_t::clk_src' [-Wmissing-field-initializers]
+   25 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8374_audio_codec.cc: In member function 'void Es8374AudioCodec::CreateDuplexChannels(gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t)':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8374_audio_codec.cc:87:5: warning: missing initializer for member 'i2s_chan_config_t::allow_pd' [-Wmissing-field-initializers]
+   87 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8374_audio_codec.cc:125:5: warning: missing initializer for member 'i2s_std_clk_config_t::ext_clk_freq_hz' [-Wmissing-field-initializers]
+  125 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8374_audio_codec.cc:125:5: warning: missing initializer for member 'i2s_std_clk_config_t::bclk_div' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8374_audio_codec.cc:125:5: warning: missing initializer for member 'i2s_std_slot_config_t::left_align' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8374_audio_codec.cc:125:5: warning: missing initializer for member 'i2s_std_slot_config_t::big_endian' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8374_audio_codec.cc:125:5: warning: missing initializer for member 'i2s_std_slot_config_t::bit_order_lsb' [-Wmissing-field-initializers]
+[8/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/audio/codecs/no_audio_codec.cc.obj
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/no_audio_codec.cc: In constructor 'NoAudioCodecDuplex::NoAudioCodecDuplex(int, int, gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t)':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/no_audio_codec.cc:31:5: warning: missing initializer for member 'i2s_chan_config_t::allow_pd' [-Wmissing-field-initializers]
+   31 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/no_audio_codec.cc:71:5: warning: missing initializer for member 'i2s_std_clk_config_t::ext_clk_freq_hz' [-Wmissing-field-initializers]
+   71 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/no_audio_codec.cc:71:5: warning: missing initializer for member 'i2s_std_clk_config_t::bclk_div' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/no_audio_codec.cc:71:5: warning: missing initializer for member 'i2s_std_slot_config_t::left_align' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/no_audio_codec.cc:71:5: warning: missing initializer for member 'i2s_std_slot_config_t::big_endian' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/no_audio_codec.cc:71:5: warning: missing initializer for member 'i2s_std_slot_config_t::bit_order_lsb' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/no_audio_codec.cc: In constructor 'NoAudioCodecSimplex::NoAudioCodecSimplex(int, int, gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t)':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/no_audio_codec.cc:92:5: warning: missing initializer for member 'i2s_chan_config_t::allow_pd' [-Wmissing-field-initializers]
+   92 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/no_audio_codec.cc:132:5: warning: missing initializer for member 'i2s_std_clk_config_t::ext_clk_freq_hz' [-Wmissing-field-initializers]
+  132 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/no_audio_codec.cc:132:5: warning: missing initializer for member 'i2s_std_clk_config_t::bclk_div' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/no_audio_codec.cc:132:5: warning: missing initializer for member 'i2s_std_slot_config_t::left_align' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/no_audio_codec.cc:132:5: warning: missing initializer for member 'i2s_std_slot_config_t::big_endian' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/no_audio_codec.cc:132:5: warning: missing initializer for member 'i2s_std_slot_config_t::bit_order_lsb' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/no_audio_codec.cc: In constructor 'NoAudioCodecSimplex::NoAudioCodecSimplex(int, int, gpio_num_t, gpio_num_t, gpio_num_t, i2s_std_slot_mask_t, gpio_num_t, gpio_num_t, gpio_num_t, i2s_std_slot_mask_t)':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/no_audio_codec.cc:161:5: warning: missing initializer for member 'i2s_chan_config_t::allow_pd' [-Wmissing-field-initializers]
+  161 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/no_audio_codec.cc:201:5: warning: missing initializer for member 'i2s_std_clk_config_t::ext_clk_freq_hz' [-Wmissing-field-initializers]
+  201 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/no_audio_codec.cc:201:5: warning: missing initializer for member 'i2s_std_clk_config_t::bclk_div' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/no_audio_codec.cc:201:5: warning: missing initializer for member 'i2s_std_slot_config_t::left_align' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/no_audio_codec.cc:201:5: warning: missing initializer for member 'i2s_std_slot_config_t::big_endian' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/no_audio_codec.cc:201:5: warning: missing initializer for member 'i2s_std_slot_config_t::bit_order_lsb' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/no_audio_codec.cc: In constructor 'NoAudioCodecSimplexPdm::NoAudioCodecSimplexPdm(int, int, gpio_num_t, gpio_num_t, gpio_num_t, i2s_std_slot_mask_t, gpio_num_t, gpio_num_t)':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/no_audio_codec.cc:315:5: warning: missing initializer for member 'i2s_std_clk_config_t::ext_clk_freq_hz' [-Wmissing-field-initializers]
+  315 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/no_audio_codec.cc:315:5: warning: missing initializer for member 'i2s_std_clk_config_t::bclk_div' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/no_audio_codec.cc:315:5: warning: missing initializer for member 'i2s_std_slot_config_t::left_align' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/no_audio_codec.cc:315:5: warning: missing initializer for member 'i2s_std_slot_config_t::big_endian' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/no_audio_codec.cc:315:5: warning: missing initializer for member 'i2s_std_slot_config_t::bit_order_lsb' [-Wmissing-field-initializers]
+[9/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/audio/codecs/es8388_audio_codec.cc.obj
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8388_audio_codec.cc: In constructor 'Es8388AudioCodec::Es8388AudioCodec(void*, i2c_port_t, int, int, gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t, uint8_t, bool)':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8388_audio_codec.cc:25:5: warning: missing initializer for member 'audio_codec_i2s_cfg_t::clk_src' [-Wmissing-field-initializers]
+   25 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8388_audio_codec.cc: In member function 'void Es8388AudioCodec::CreateDuplexChannels(gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t, gpio_num_t)':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8388_audio_codec.cc:96:5: warning: missing initializer for member 'i2s_chan_config_t::allow_pd' [-Wmissing-field-initializers]
+   96 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/codecs/es8388_audio_codec.cc:130:5: warning: missing initializer for member 'i2s_std_clk_config_t::bclk_div' [-Wmissing-field-initializers]
+  130 |     };
+      |     ^
+[10/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/display/lvgl_display/lvgl_font.cc.obj
+[11/96] Building C object esp-idf/src/CMakeFiles/__idf_src.dir/display/lvgl_display/jpg/jpeg_to_image.c.obj
+[12/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/display/emote_display.cc.obj
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/display/emote_display.cc: In function 'emote_s* emote::InitializeEmote(esp_lcd_panel_handle_t, int, int)':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/display/emote_display.cc:103:5: warning: missing initializer for member 'emote_config_t::<unnamed struct>::buff_spiram' [-Wmissing-field-initializers]
+  103 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/display/emote_display.cc:103:5: warning: missing initializer for member 'emote_config_t::update_cb' [-Wmissing-field-initializers]
+[13/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/led/single_led.cc.obj
+[14/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/display/lvgl_display/jpg/image_to_jpeg.cpp.obj
+[15/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/display/oled_display.cc.obj
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/display/oled_display.cc: In constructor 'OledDisplay::OledDisplay(esp_lcd_panel_io_handle_t, esp_lcd_panel_handle_t, int, int, bool, bool)':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/display/oled_display.cc:71:5: warning: missing initializer for member 'lvgl_port_display_cfg_t::rounder_cb' [-Wmissing-field-initializers]
+   71 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/display/oled_display.cc:71:5: warning: missing initializer for member 'lvgl_port_display_cfg_t::color_format' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/display/oled_display.cc:71:5: warning: missing initializer for member 'lvgl_port_display_cfg_t::<unnamed struct>::swap_bytes' [-Wmissing-field-initializers]
+[16/96] Building C object esp-idf/src/CMakeFiles/__idf_src.dir/display/lvgl_display/gif/gifdec.c.obj
+[17/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/led/gpio_led.cc.obj
+In file included from C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/led/gpio_led.cc:1:
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/led/gpio_led.h:28:45: warning: missing initializer for member 'ledc_channel_config_t::speed_mode' [-Wmissing-field-initializers]
+   28 |     ledc_channel_config_t ledc_channel_ = {0};
+      |                                             ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/led/gpio_led.h:28:45: warning: missing initializer for member 'ledc_channel_config_t::channel' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/led/gpio_led.h:28:45: warning: missing initializer for member 'ledc_channel_config_t::intr_type' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/led/gpio_led.h:28:45: warning: missing initializer for member 'ledc_channel_config_t::timer_sel' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/led/gpio_led.h:28:45: warning: missing initializer for member 'ledc_channel_config_t::duty' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/led/gpio_led.h:28:45: warning: missing initializer for member 'ledc_channel_config_t::hpoint' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/led/gpio_led.h:28:45: warning: missing initializer for member 'ledc_channel_config_t::sleep_mode' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/led/gpio_led.h:28:45: warning: missing initializer for member 'ledc_channel_config_t::flags' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/led/gpio_led.h:28:45: warning: missing initializer for member 'ledc_channel_config_t::deconfigure' [-Wmissing-field-initializers]
+[18/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/led/circular_strip.cc.obj
+[19/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/display/lvgl_display/lvgl_display.cc.obj
+[20/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/audio/audio_service.cc.obj
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/audio_service.cc: In member function 'void AudioService::OpusCodecTask()':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/audio_service.cc:371:17: warning: missing initializer for member 'esp_audio_dec_out_frame_t::needed_size' [-Wmissing-field-initializers]
+  371 |                 };
+      |                 ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/audio/audio_service.cc:424:17: warning: missing initializer for member 'esp_audio_enc_out_frame_t::pts' [-Wmissing-field-initializers]
+  424 |                 };
+      |                 ^
+[21/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/display/lvgl_display/emoji_collection.cc.obj
+[22/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/display/display.cc.obj
+[23/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/display/lcd_display.cc.obj
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/display/lcd_display.cc: In constructor 'SpiLcdDisplay::SpiLcdDisplay(esp_lcd_panel_io_handle_t, esp_lcd_panel_handle_t, int, int, int, int, bool, bool, bool)':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/display/lcd_display.cc:161:5: warning: missing initializer for member 'lvgl_port_display_cfg_t::rounder_cb' [-Wmissing-field-initializers]
+  161 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/display/lcd_display.cc: In constructor 'RgbLcdDisplay::RgbLcdDisplay(esp_lcd_panel_io_handle_t, esp_lcd_panel_handle_t, int, int, int, int, bool, bool, bool)':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/display/lcd_display.cc:217:5: warning: missing initializer for member 'lvgl_port_display_cfg_t::control_handle' [-Wmissing-field-initializers]
+  217 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/display/lcd_display.cc:217:5: warning: missing initializer for member 'lvgl_port_display_cfg_t::trans_size' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/display/lcd_display.cc:217:5: warning: missing initializer for member 'lvgl_port_display_cfg_t::monochrome' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/display/lcd_display.cc:217:5: warning: missing initializer for member 'lvgl_port_display_cfg_t::rounder_cb' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/display/lcd_display.cc:217:5: warning: missing initializer for member 'lvgl_port_display_cfg_t::color_format' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/display/lcd_display.cc:217:5: warning: missing initializer for member 'lvgl_port_display_cfg_t::<unnamed struct>::buff_spiram' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/display/lcd_display.cc:217:5: warning: missing initializer for member 'lvgl_port_display_cfg_t::<unnamed struct>::sw_rotate' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/display/lcd_display.cc: In constructor 'MipiLcdDisplay::MipiLcdDisplay(esp_lcd_panel_io_handle_t, esp_lcd_panel_handle_t, int, int, int, int, bool, bool, bool)':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/display/lcd_display.cc:272:5: warning: missing initializer for member 'lvgl_port_display_cfg_t::trans_size' [-Wmissing-field-initializers]
+  272 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/display/lcd_display.cc:272:5: warning: missing initializer for member 'lvgl_port_display_cfg_t::rounder_cb' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/display/lcd_display.cc:272:5: warning: missing initializer for member 'lvgl_port_display_cfg_t::color_format' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/display/lcd_display.cc:272:5: warning: missing initializer for member 'lvgl_port_display_cfg_t::<unnamed struct>::swap_bytes' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/display/lcd_display.cc:272:5: warning: missing initializer for member 'lvgl_port_display_cfg_t::<unnamed struct>::full_refresh' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/display/lcd_display.cc:272:5: warning: missing initializer for member 'lvgl_port_display_cfg_t::<unnamed struct>::direct_mode' [-Wmissing-field-initializers]
+[24/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/display/lvgl_display/lvgl_image.cc.obj
+[25/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/system_info.cc.obj
+[26/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/settings.cc.obj
+[27/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/display/lvgl_display/gif/lvgl_gif.cc.obj
+[28/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/device_state_machine.cc.obj
+[29/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/protocols/protocol.cc.obj
+[30/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/display/lvgl_display/lvgl_theme.cc.obj
+[31/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/common/adc_battery_monitor.cc.obj
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/common/adc_battery_monitor.cc: In constructor 'AdcBatteryMonitor::AdcBatteryMonitor(adc_unit_t, adc_channel_t, float, float, gpio_num_t)':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/common/adc_battery_monitor.cc:28:5: warning: missing initializer for member 'adc_battery_estimation_t::battery_points' [-Wmissing-field-initializers]
+   28 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/common/adc_battery_monitor.cc:28:5: warning: missing initializer for member 'adc_battery_estimation_t::battery_points_count' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/common/adc_battery_monitor.cc:28:5: warning: missing initializer for member 'adc_battery_estimation_t::charging_detect_cb' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/common/adc_battery_monitor.cc:28:5: warning: missing initializer for member 'adc_battery_estimation_t::charging_detect_user_data' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/common/adc_battery_monitor.cc:52:5: warning: missing initializer for member 'esp_timer_create_args_t::dispatch_method' [-Wmissing-field-initializers]
+   52 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/common/adc_battery_monitor.cc:52:5: warning: missing initializer for member 'esp_timer_create_args_t::skip_unhandled_events' [-Wmissing-field-initializers]
+[32/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/common/i2c_device.cc.obj
+[33/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/common/button.cc.obj
+[34/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/ota.cc.obj
+[35/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/protocols/websocket_protocol.cc.obj
+[36/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/main.cc.obj
+[37/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/common/backlight.cc.obj
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/common/backlight.cc: In constructor 'PwmBacklight::PwmBacklight(gpio_num_t, bool, uint32_t)':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/common/backlight.cc:107:5: warning: missing initializer for member 'ledc_channel_config_t::sleep_mode' [-Wmissing-field-initializers]
+  107 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/common/backlight.cc:107:5: warning: missing initializer for member 'ledc_channel_config_t::deconfigure' [-Wmissing-field-initializers]
+[38/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/protocols/mqtt_protocol.cc.obj
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/protocols/mqtt_protocol.cc: In constructor 'MqttProtocol::MqttProtocol()':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/protocols/mqtt_protocol.cc:32:5: warning: missing initializer for member 'esp_timer_create_args_t::dispatch_method' [-Wmissing-field-initializers]
+   32 |     };
+      |     ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/protocols/mqtt_protocol.cc:32:5: warning: missing initializer for member 'esp_timer_create_args_t::name' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/protocols/mqtt_protocol.cc:32:5: warning: missing initializer for member 'esp_timer_create_args_t::skip_unhandled_events' [-Wmissing-field-initializers]
+[39/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/common/knob.cc.obj
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/common/knob.cc: In constructor 'Knob::Knob(gpio_num_t, gpio_num_t)':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/common/knob.cc:10:5: warning: missing initializer for member 'knob_config_t::enable_power_save' [-Wmissing-field-initializers]
+   10 |     };
+      |     ^
+[40/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/assets.cc.obj
+[41/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/common/board.cc.obj
+[42/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/common/system_reset.cc.obj
+[43/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/common/ml307_board.cc.obj
+[44/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/common/dual_network_board.cc.obj
+[45/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/photo/image_processor.cc.obj
+[46/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/common/nt26_board.cc.obj
+[47/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/mcp_server.cc.obj
+[48/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/common/wifi_board.cc.obj
+[49/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/photo/photo_config.cc.obj
+[50/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/photo/photo_ui.cc.obj
+[51/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/common/axp2101.cc.obj
+[52/96] Building C object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/assets/fonts/alibaba_black_64.c.obj
+[53/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/application.cc.obj
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc: In member function 'void Application::ShowActivationCode(const std::string&, const std::string&)':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:650:14: warning: unused variable 'it' [-Wunused-variable]
+  650 |         auto it = std::find_if(digit_sounds.begin(), digit_sounds.end(),
+      |              ^~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc: At global scope:
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1710:1: note: in expansion of macro 'AUDIO_STUB'
+ 1710 | AUDIO_STUB(0_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1711:1: note: in expansion of macro 'AUDIO_STUB'
+ 1711 | AUDIO_STUB(1_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1712:1: note: in expansion of macro 'AUDIO_STUB'
+ 1712 | AUDIO_STUB(2_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1713:1: note: in expansion of macro 'AUDIO_STUB'
+ 1713 | AUDIO_STUB(3_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1714:1: note: in expansion of macro 'AUDIO_STUB'
+ 1714 | AUDIO_STUB(4_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1715:1: note: in expansion of macro 'AUDIO_STUB'
+ 1715 | AUDIO_STUB(5_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1716:1: note: in expansion of macro 'AUDIO_STUB'
+ 1716 | AUDIO_STUB(6_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1717:1: note: in expansion of macro 'AUDIO_STUB'
+ 1717 | AUDIO_STUB(7_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1718:1: note: in expansion of macro 'AUDIO_STUB'
+ 1718 | AUDIO_STUB(8_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1719:1: note: in expansion of macro 'AUDIO_STUB'
+ 1719 | AUDIO_STUB(9_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1720:1: note: in expansion of macro 'AUDIO_STUB'
+ 1720 | AUDIO_STUB(activation_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1721:1: note: in expansion of macro 'AUDIO_STUB'
+ 1721 | AUDIO_STUB(err_pin_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1722:1: note: in expansion of macro 'AUDIO_STUB'
+ 1722 | AUDIO_STUB(err_reg_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1723:1: note: in expansion of macro 'AUDIO_STUB'
+ 1723 | AUDIO_STUB(exclamation_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1724:1: note: in expansion of macro 'AUDIO_STUB'
+ 1724 | AUDIO_STUB(low_battery_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1725:1: note: in expansion of macro 'AUDIO_STUB'
+ 1725 | AUDIO_STUB(popup_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1726:1: note: in expansion of macro 'AUDIO_STUB'
+ 1726 | AUDIO_STUB(success_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1727:1: note: in expansion of macro 'AUDIO_STUB'
+ 1727 | AUDIO_STUB(upgrade_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1728:1: note: in expansion of macro 'AUDIO_STUB'
+ 1728 | AUDIO_STUB(vibration_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1729:1: note: in expansion of macro 'AUDIO_STUB'
+ 1729 | AUDIO_STUB(wificonfig_ogg);
+      | ^~~~~~~~~~
+[54/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/rlcd_driver.cc.obj
+[55/96] Building C object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/assets/fonts/alibaba_puhui_16.c.obj
+[56/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/common/afsk_demod.cc.obj
+[57/96] Building C object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/assets/fonts/alibaba_puhui_24.c.obj
+[58/96] Building C object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/assets/icons/ui_img_battery_full.c.obj
+[59/96] Building C object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/assets/fonts/alibaba_puhui_48.c.obj
+[60/96] Building C object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/assets/icons/ui_img_battery_charging.c.obj
+[61/96] Building C object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/assets/icons/ui_img_battery_low.c.obj
+[62/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/common/press_to_talk_mcp_tool.cc.obj
+[63/96] Building C object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/assets/icons/ui_img_battery_medium.c.obj
+[64/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/common/power_save_timer.cc.obj
+[65/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/photo/photo_manager.cc.obj
+[66/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/photo/http_server.cc.obj
+[67/96] Building C object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/assets/icons/ui_img_wifi.c.obj
+[68/96] Building C object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/assets/icons/ui_img_wifi_low.c.obj
+[69/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/common/sy6970.cc.obj
+[70/96] Building C object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/assets/icons/ui_img_wifi_off.c.obj
+[71/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/common/sleep_timer.cc.obj
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/common/sleep_timer.cc: In lambda function:
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/common/sleep_timer.cc:102:68: warning: 'esp_sleep_wakeup_cause_t esp_sleep_get_wakeup_cause()' is deprecated: use esp_sleep_get_wakeup_causes instead [-Wdeprecated-declarations]
+  102 |                     auto wakeup_reason = esp_sleep_get_wakeup_cause();
+      |                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+In file included from C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/common/sleep_timer.cc:8:
+C:/esp/v6.0.1/esp-idf/components/esp_hw_support/include/esp_sleep.h:725:26: note: declared here
+  725 | esp_sleep_wakeup_cause_t esp_sleep_get_wakeup_cause(void)
+      |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+[72/96] Performing build step for 'bootloader'
+[1/1] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\roarp\Desktop\TMP\Code\AICode\ESP32\ESP32RLCD42\build\bootloader && C:\Espressif\tools\python\v6.0.1\venv\Scripts\python.exe C:/esp/v6.0.1/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/build/bootloader/bootloader.bin"
+Bootloader binary size 0x4100 bytes. 0x3f00 bytes (49%) free.
+[73/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/managers/sensor_manager.cc.obj
+[74/96] No install step for 'bootloader'
+[75/96] Completed 'bootloader'
+[76/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/pomodoro_ui.cc.obj
+[77/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/music_ui.cc.obj
+[78/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/weather_ui.cc.obj
+[79/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/managers/sdcard_manager.cc.obj
+[80/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/custom_lcd_display.cc.obj
+[81/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/data_update_task.cc.obj
+[82/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/managers/weather_manager.cc.obj
+[83/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/audio/processors/afe_audio_processor.cc.obj
+[84/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/waveshare-s3-rlcd-4.2.cc.obj
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/waveshare-s3-rlcd-4.2/waveshare-s3-rlcd-4.2.cc: In member function 'uint16_t CustomBoard::BatterygetVoltage()':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/waveshare-s3-rlcd-4.2/waveshare-s3-rlcd-4.2.cc:726:13: warning: missing initializer for member 'adc_oneshot_unit_init_cfg_t::clk_src' [-Wmissing-field-initializers]
+  726 |             };
+      |             ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/waveshare-s3-rlcd-4.2/waveshare-s3-rlcd-4.2.cc:726:13: warning: missing initializer for member 'adc_oneshot_unit_init_cfg_t::ulp_mode' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/waveshare-s3-rlcd-4.2/waveshare-s3-rlcd-4.2.cc:739:13: warning: missing initializer for member 'adc_cali_curve_fitting_config_t::chan' [-Wmissing-field-initializers]
+  739 |             };
+      |             ^
+[85/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/managers/pomodoro_manager.cc.obj
+[86/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/common/rndis_board.cc.obj
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/common/rndis_board.cc: In member function 'void RndisBoard::install_rndis(uint16_t, uint16_t, const char*)':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/common/rndis_board.cc:142:5: warning: missing initializer for member 'iot_eth_config_t::user_data' [-Wmissing-field-initializers]
+  142 |     };
+      |     ^
+[87/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/common/esp32_camera.cc.obj
+[88/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/audio/wake_words/afe_wake_word.cc.obj
+[89/96] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/audio/wake_words/custom_wake_word.cc.obj
+[90/96] Linking C static library esp-idf\src\libsrc.a
+[91/96] Generating esp-idf/esp_system/ld/sections.ld
+info: Default value for LV_FONT_FMT_TXT_LARGE in sdkconfig is y but it is n according to Kconfig.
+Using default value from sdkconfig (y).
+[92/96] Building C object CMakeFiles/ESP32RLCD42.elf.dir/project_elf_src_esp32s3.c.obj
+[93/96] Linking CXX executable ESP32RLCD42.elf
+[94/96] Generating binary image from built executable
+esptool v5.3.dev3
+Creating ESP32-S3 image...
+Merged 3 ELF sections.
+Successfully created ESP32-S3 image.
+Generated C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/build/ESP32RLCD42.bin
+[95/96] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\roarp\Desktop\TMP\Code\AICode\ESP32\ESP32RLCD42\build && C:\Espressif\tools\python\v6.0.1\venv\Scripts\python.exe C:/esp/v6.0.1/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/build/partition_table/partition-table.bin C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/build/ESP32RLCD42.bin"
+ESP32RLCD42.bin binary size 0x45d6b0 bytes. Smallest app partition is 0x4f0000 bytes. 0x92950 bytes (12%) free.

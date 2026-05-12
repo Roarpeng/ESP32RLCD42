@@ -1,0 +1,2 @@
+Command: ninja all
+ninja: error: 'C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif__bmi270_sensor/6.0/esp32s3/libbmi270_sensor.a', needed by 'esp-idf/esp_system/ld/sections.ld', missing and no known rule to make it

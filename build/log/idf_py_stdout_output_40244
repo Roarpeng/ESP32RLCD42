@@ -1,0 +1,188 @@
+Command: ninja all
+[1/16] Performing build step for 'bootloader'
+[1/1] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\roarp\Desktop\TMP\Code\AICode\ESP32\ESP32RLCD42\build\bootloader && C:\Espressif\tools\python\v6.0.1\venv\Scripts\python.exe C:/esp/v6.0.1/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/build/bootloader/bootloader.bin"
+Bootloader binary size 0x4100 bytes. 0x3f00 bytes (49%) free.
+[2/16] No install step for 'bootloader'
+[3/16] Completed 'bootloader'
+[4/16] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/common/rndis_board.cc.obj
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/common/rndis_board.cc: In member function 'void RndisBoard::install_rndis(uint16_t, uint16_t, const char*)':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/common/rndis_board.cc:142:5: warning: missing initializer for member 'iot_eth_config_t::user_data' [-Wmissing-field-initializers]
+  142 |     };
+      |     ^
+[5/16] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/common/esp32_camera.cc.obj
+[6/16] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/audio/wake_words/afe_wake_word.cc.obj
+[7/16] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/managers/pomodoro_manager.cc.obj
+[8/16] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/audio/wake_words/custom_wake_word.cc.obj
+[9/16] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/mcp_server.cc.obj
+[10/16] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/waveshare-s3-rlcd-4.2.cc.obj
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/waveshare-s3-rlcd-4.2/waveshare-s3-rlcd-4.2.cc: In member function 'uint16_t CustomBoard::BatterygetVoltage()':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/waveshare-s3-rlcd-4.2/waveshare-s3-rlcd-4.2.cc:726:13: warning: missing initializer for member 'adc_oneshot_unit_init_cfg_t::clk_src' [-Wmissing-field-initializers]
+  726 |             };
+      |             ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/waveshare-s3-rlcd-4.2/waveshare-s3-rlcd-4.2.cc:726:13: warning: missing initializer for member 'adc_oneshot_unit_init_cfg_t::ulp_mode' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/waveshare-s3-rlcd-4.2/waveshare-s3-rlcd-4.2.cc:739:13: warning: missing initializer for member 'adc_cali_curve_fitting_config_t::chan' [-Wmissing-field-initializers]
+  739 |             };
+      |             ^
+[11/16] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/application.cc.obj
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc: In member function 'void Application::ShowActivationCode(const std::string&, const std::string&)':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:650:14: warning: unused variable 'it' [-Wunused-variable]
+  650 |         auto it = std::find_if(digit_sounds.begin(), digit_sounds.end(),
+      |              ^~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc: At global scope:
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1710:1: note: in expansion of macro 'AUDIO_STUB'
+ 1710 | AUDIO_STUB(0_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1711:1: note: in expansion of macro 'AUDIO_STUB'
+ 1711 | AUDIO_STUB(1_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1712:1: note: in expansion of macro 'AUDIO_STUB'
+ 1712 | AUDIO_STUB(2_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1713:1: note: in expansion of macro 'AUDIO_STUB'
+ 1713 | AUDIO_STUB(3_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1714:1: note: in expansion of macro 'AUDIO_STUB'
+ 1714 | AUDIO_STUB(4_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1715:1: note: in expansion of macro 'AUDIO_STUB'
+ 1715 | AUDIO_STUB(5_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1716:1: note: in expansion of macro 'AUDIO_STUB'
+ 1716 | AUDIO_STUB(6_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1717:1: note: in expansion of macro 'AUDIO_STUB'
+ 1717 | AUDIO_STUB(7_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1718:1: note: in expansion of macro 'AUDIO_STUB'
+ 1718 | AUDIO_STUB(8_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1719:1: note: in expansion of macro 'AUDIO_STUB'
+ 1719 | AUDIO_STUB(9_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1720:1: note: in expansion of macro 'AUDIO_STUB'
+ 1720 | AUDIO_STUB(activation_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1721:1: note: in expansion of macro 'AUDIO_STUB'
+ 1721 | AUDIO_STUB(err_pin_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1722:1: note: in expansion of macro 'AUDIO_STUB'
+ 1722 | AUDIO_STUB(err_reg_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1723:1: note: in expansion of macro 'AUDIO_STUB'
+ 1723 | AUDIO_STUB(exclamation_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1724:1: note: in expansion of macro 'AUDIO_STUB'
+ 1724 | AUDIO_STUB(low_battery_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1725:1: note: in expansion of macro 'AUDIO_STUB'
+ 1725 | AUDIO_STUB(popup_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1726:1: note: in expansion of macro 'AUDIO_STUB'
+ 1726 | AUDIO_STUB(success_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1727:1: note: in expansion of macro 'AUDIO_STUB'
+ 1727 | AUDIO_STUB(upgrade_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1728:1: note: in expansion of macro 'AUDIO_STUB'
+ 1728 | AUDIO_STUB(vibration_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1702:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1702 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1729:1: note: in expansion of macro 'AUDIO_STUB'
+ 1729 | AUDIO_STUB(wificonfig_ogg);
+      | ^~~~~~~~~~
+[12/16] Linking C static library esp-idf\src\libsrc.a
+[13/16] Generating esp-idf/esp_system/ld/sections.ld
+info: Default value for LV_FONT_FMT_TXT_LARGE in sdkconfig is y but it is n according to Kconfig.
+Using default value from sdkconfig (y).
+info: Default value for LV_USE_QRCODE in sdkconfig is y but it is n according to Kconfig.
+Using default value from sdkconfig (y).
+[14/16] Linking CXX executable ESP32RLCD42.elf
+FAILED: ESP32RLCD42.elf 
+C:\WINDOWS\system32\cmd.exe /C "cd . && C:\Espressif\tools\xtensa-esp-elf\esp-15.2.0_20251204\xtensa-esp-elf\bin\xtensa-esp32s3-elf-g++.exe @"C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/build/toolchain/cxxflags" @"C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/build/toolchain/ldflags" -Wl,--cref -Wl,--defsym=IDF_TARGET_ESP32S3=0 -Wl,--Map=C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/build/ESP32RLCD42.map -Wl,--no-warn-rwx-segments -Wl,--orphan-handling=warn -fno-lto -Wl,--gc-sections -Wl,--warn-common -T esp32s3.peripherals.ld -T esp32s3.rom.ld -T esp32s3.rom.api.ld -T esp32s3.rom.bt_funcs.ld -T esp32s3.rom.libgcc.ld -T esp32s3.rom.version.ld -T esp32s3.rom.ble_master.ld -T esp32s3.rom.ble_50.ld -T esp32s3.rom.ble_smp.ld -T esp32s3.rom.ble_dtm.ld -T esp32s3.rom.ble_test.ld -T esp32s3.rom.ble_scan.ld -T esp32s3.rom.libc.ld -T esp32s3.rom.newlib.ld -T memory.ld -T sections.ld -T rom.wdt.ld -u include_esp_phy_override @CMakeFiles\ESP32RLCD42.elf.rsp -o ESP32RLCD42.elf && cd ."
+C:/Espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/bin/../lib/gcc/xtensa-esp-elf/15.2.0/../../../../xtensa-esp-elf/bin/ld.exe: esp-idf/lvgl__lvgl/liblvgl__lvgl.a(qrcodegen.c.obj): in function `qrcodegen_getSize':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/lvgl__lvgl/src/libs/qrcode/qrcodegen.c:785: multiple definition of `qrcodegen_getSize'; esp-idf/espressif2022__esp_emote_gfx/libespressif2022__esp_emote_gfx.a(qrcodegen.c.obj):C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif2022__esp_emote_gfx/src/lib/qrcode/qrcodegen.c:812: first defined here
+C:/Espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/bin/../lib/gcc/xtensa-esp-elf/15.2.0/../../../../xtensa-esp-elf/bin/ld.exe: esp-idf/lvgl__lvgl/liblvgl__lvgl.a(qrcodegen.c.obj): in function `qrcodegen_encodeSegmentsAdvanced':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/lvgl__lvgl/src/libs/qrcode/qrcodegen.c:213: multiple definition of `qrcodegen_encodeSegmentsAdvanced'; esp-idf/espressif2022__esp_emote_gfx/libespressif2022__esp_emote_gfx.a(qrcodegen.c.obj):C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif2022__esp_emote_gfx/src/lib/qrcode/qrcodegen.c:217: first defined here
+C:/Espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/bin/../lib/gcc/xtensa-esp-elf/15.2.0/../../../../xtensa-esp-elf/bin/ld.exe: esp-idf/lvgl__lvgl/liblvgl__lvgl.a(qrcodegen.c.obj): in function `qrcodegen_encodeBinary':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/lvgl__lvgl/src/libs/qrcode/qrcodegen.c:173: multiple definition of `qrcodegen_encodeBinary'; esp-idf/espressif2022__esp_emote_gfx/libespressif2022__esp_emote_gfx.a(qrcodegen.c.obj):C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif2022__esp_emote_gfx/src/lib/qrcode/qrcodegen.c:176: first defined here
+C:/Espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/bin/../lib/gcc/xtensa-esp-elf/15.2.0/../../../../xtensa-esp-elf/bin/ld.exe: esp-idf/lvgl__lvgl/liblvgl__lvgl.a(qrcodegen.c.obj): in function `qrcodegen_encodeSegments':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/lvgl__lvgl/src/libs/qrcode/qrcodegen.c:204: multiple definition of `qrcodegen_encodeSegments'; esp-idf/espressif2022__esp_emote_gfx/libespressif2022__esp_emote_gfx.a(qrcodegen.c.obj):C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif2022__esp_emote_gfx/src/lib/qrcode/qrcodegen.c:208: first defined here
+C:/Espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/bin/../lib/gcc/xtensa-esp-elf/15.2.0/../../../../xtensa-esp-elf/bin/ld.exe: esp-idf/lvgl__lvgl/liblvgl__lvgl.a(qrcodegen.c.obj): in function `qrcodegen_getModule':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/lvgl__lvgl/src/libs/qrcode/qrcodegen.c:796: multiple definition of `qrcodegen_getModule'; esp-idf/espressif2022__esp_emote_gfx/libespressif2022__esp_emote_gfx.a(qrcodegen.c.obj):C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif2022__esp_emote_gfx/src/lib/qrcode/qrcodegen.c:823: first defined here
+C:/Espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/bin/../lib/gcc/xtensa-esp-elf/15.2.0/../../../../xtensa-esp-elf/bin/ld.exe: esp-idf/lvgl__lvgl/liblvgl__lvgl.a(qrcodegen.c.obj): in function `qrcodegen_isAlphanumeric':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/lvgl__lvgl/src/libs/qrcode/qrcodegen.c:849: multiple definition of `qrcodegen_isAlphanumeric'; esp-idf/espressif2022__esp_emote_gfx/libespressif2022__esp_emote_gfx.a(qrcodegen.c.obj):C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif2022__esp_emote_gfx/src/lib/qrcode/qrcodegen.c:878: first defined here
+C:/Espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/bin/../lib/gcc/xtensa-esp-elf/15.2.0/../../../../xtensa-esp-elf/bin/ld.exe: esp-idf/lvgl__lvgl/liblvgl__lvgl.a(qrcodegen.c.obj): in function `qrcodegen_isNumeric':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/lvgl__lvgl/src/libs/qrcode/qrcodegen.c:861: multiple definition of `qrcodegen_isNumeric'; esp-idf/espressif2022__esp_emote_gfx/libespressif2022__esp_emote_gfx.a(qrcodegen.c.obj):C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif2022__esp_emote_gfx/src/lib/qrcode/qrcodegen.c:891: first defined here
+C:/Espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/bin/../lib/gcc/xtensa-esp-elf/15.2.0/../../../../xtensa-esp-elf/bin/ld.exe: esp-idf/lvgl__lvgl/liblvgl__lvgl.a(qrcodegen.c.obj): in function `qrcodegen_calcSegmentBufferSize':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/lvgl__lvgl/src/libs/qrcode/qrcodegen.c:873: multiple definition of `qrcodegen_calcSegmentBufferSize'; esp-idf/espressif2022__esp_emote_gfx/libespressif2022__esp_emote_gfx.a(qrcodegen.c.obj):C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif2022__esp_emote_gfx/src/lib/qrcode/qrcodegen.c:904: first defined here
+C:/Espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/bin/../lib/gcc/xtensa-esp-elf/15.2.0/../../../../xtensa-esp-elf/bin/ld.exe: esp-idf/lvgl__lvgl/liblvgl__lvgl.a(qrcodegen.c.obj): in function `qrcodegen_makeBytes':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/lvgl__lvgl/src/libs/qrcode/qrcodegen.c:919: multiple definition of `qrcodegen_makeBytes'; esp-idf/espressif2022__esp_emote_gfx/libespressif2022__esp_emote_gfx.a(qrcodegen.c.obj):C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif2022__esp_emote_gfx/src/lib/qrcode/qrcodegen.c:953: first defined here
+C:/Espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/bin/../lib/gcc/xtensa-esp-elf/15.2.0/../../../../xtensa-esp-elf/bin/ld.exe: esp-idf/lvgl__lvgl/liblvgl__lvgl.a(qrcodegen.c.obj): in function `qrcodegen_makeNumeric':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/lvgl__lvgl/src/libs/qrcode/qrcodegen.c:935: multiple definition of `qrcodegen_makeNumeric'; esp-idf/espressif2022__esp_emote_gfx/libespressif2022__esp_emote_gfx.a(qrcodegen.c.obj):C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif2022__esp_emote_gfx/src/lib/qrcode/qrcodegen.c:970: first defined here
+C:/Espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/bin/../lib/gcc/xtensa-esp-elf/15.2.0/../../../../xtensa-esp-elf/bin/ld.exe: esp-idf/lvgl__lvgl/liblvgl__lvgl.a(qrcodegen.c.obj): in function `qrcodegen_makeAlphanumeric':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/lvgl__lvgl/src/libs/qrcode/qrcodegen.c:970: multiple definition of `qrcodegen_makeAlphanumeric'; esp-idf/espressif2022__esp_emote_gfx/libespressif2022__esp_emote_gfx.a(qrcodegen.c.obj):C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif2022__esp_emote_gfx/src/lib/qrcode/qrcodegen.c:1007: first defined here
+C:/Espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/bin/../lib/gcc/xtensa-esp-elf/15.2.0/../../../../xtensa-esp-elf/bin/ld.exe: esp-idf/lvgl__lvgl/liblvgl__lvgl.a(qrcodegen.c.obj): in function `qrcodegen_encodeText':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/lvgl__lvgl/src/libs/qrcode/qrcodegen.c:132: multiple definition of `qrcodegen_encodeText'; esp-idf/espressif2022__esp_emote_gfx/libespressif2022__esp_emote_gfx.a(qrcodegen.c.obj):C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif2022__esp_emote_gfx/src/lib/qrcode/qrcodegen.c:131: first defined here
+C:/Espressif/tools/xtensa-esp-elf/esp-15.2.0_20251204/xtensa-esp-elf/bin/../lib/gcc/xtensa-esp-elf/15.2.0/../../../../xtensa-esp-elf/bin/ld.exe: esp-idf/lvgl__lvgl/liblvgl__lvgl.a(qrcodegen.c.obj): in function `qrcodegen_makeEci':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/lvgl__lvgl/src/libs/qrcode/qrcodegen.c:1005: multiple definition of `qrcodegen_makeEci'; esp-idf/espressif2022__esp_emote_gfx/libespressif2022__esp_emote_gfx.a(qrcodegen.c.obj):C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/managed_components/espressif2022__esp_emote_gfx/src/lib/qrcode/qrcodegen.c:1044: first defined here
+collect2.exe: error: ld returned 1 exit status
+ninja: build stopped: subcommand failed.

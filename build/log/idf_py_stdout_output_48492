@@ -1,0 +1,163 @@
+Command: ninja all
+[1/15] Performing build step for 'bootloader'
+[1/1] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\roarp\Desktop\TMP\Code\AICode\ESP32\ESP32RLCD42\build\bootloader && C:\Espressif\tools\python\v6.0.1\venv\Scripts\python.exe C:/esp/v6.0.1/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/build/bootloader/bootloader.bin"
+Bootloader binary size 0x4100 bytes. 0x3f00 bytes (49%) free.
+[2/15] No install step for 'bootloader'
+[3/15] Completed 'bootloader'
+[4/15] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/pomodoro_ui.cc.obj
+[5/15] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/weather_ui.cc.obj
+[6/15] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/music_ui.cc.obj
+[7/15] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/data_update_task.cc.obj
+[8/15] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/custom_lcd_display.cc.obj
+[9/15] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/boards/waveshare-s3-rlcd-4.2/waveshare-s3-rlcd-4.2.cc.obj
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/waveshare-s3-rlcd-4.2/waveshare-s3-rlcd-4.2.cc: In member function 'uint16_t CustomBoard::BatterygetVoltage()':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/waveshare-s3-rlcd-4.2/waveshare-s3-rlcd-4.2.cc:739:13: warning: missing initializer for member 'adc_oneshot_unit_init_cfg_t::clk_src' [-Wmissing-field-initializers]
+  739 |             };
+      |             ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/waveshare-s3-rlcd-4.2/waveshare-s3-rlcd-4.2.cc:739:13: warning: missing initializer for member 'adc_oneshot_unit_init_cfg_t::ulp_mode' [-Wmissing-field-initializers]
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/waveshare-s3-rlcd-4.2/waveshare-s3-rlcd-4.2.cc:752:13: warning: missing initializer for member 'adc_cali_curve_fitting_config_t::chan' [-Wmissing-field-initializers]
+  752 |             };
+      |             ^
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/waveshare-s3-rlcd-4.2/waveshare-s3-rlcd-4.2.cc: In member function 'virtual void CustomBoard::StartNetwork()':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/boards/waveshare-s3-rlcd-4.2/waveshare-s3-rlcd-4.2.cc:821:15: warning: unused variable 'wifi_manager' [-Wunused-variable]
+  821 |         auto& wifi_manager = WifiManager::GetInstance();
+      |               ^~~~~~~~~~~~
+[10/15] Building CXX object esp-idf/src/CMakeFiles/__idf_src.dir/application.cc.obj
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc: In member function 'void Application::ShowActivationCode(const std::string&, const std::string&)':
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:658:14: warning: unused variable 'it' [-Wunused-variable]
+  658 |         auto it = std::find_if(digit_sounds.begin(), digit_sounds.end(),
+      |              ^~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc: At global scope:
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1710:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1710 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1718:1: note: in expansion of macro 'AUDIO_STUB'
+ 1718 | AUDIO_STUB(0_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1710:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1710 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1719:1: note: in expansion of macro 'AUDIO_STUB'
+ 1719 | AUDIO_STUB(1_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1710:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1710 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1720:1: note: in expansion of macro 'AUDIO_STUB'
+ 1720 | AUDIO_STUB(2_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1710:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1710 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1721:1: note: in expansion of macro 'AUDIO_STUB'
+ 1721 | AUDIO_STUB(3_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1710:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1710 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1722:1: note: in expansion of macro 'AUDIO_STUB'
+ 1722 | AUDIO_STUB(4_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1710:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1710 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1723:1: note: in expansion of macro 'AUDIO_STUB'
+ 1723 | AUDIO_STUB(5_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1710:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1710 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1724:1: note: in expansion of macro 'AUDIO_STUB'
+ 1724 | AUDIO_STUB(6_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1710:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1710 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1725:1: note: in expansion of macro 'AUDIO_STUB'
+ 1725 | AUDIO_STUB(7_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1710:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1710 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1726:1: note: in expansion of macro 'AUDIO_STUB'
+ 1726 | AUDIO_STUB(8_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1710:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1710 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1727:1: note: in expansion of macro 'AUDIO_STUB'
+ 1727 | AUDIO_STUB(9_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1710:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1710 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1728:1: note: in expansion of macro 'AUDIO_STUB'
+ 1728 | AUDIO_STUB(activation_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1710:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1710 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1729:1: note: in expansion of macro 'AUDIO_STUB'
+ 1729 | AUDIO_STUB(err_pin_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1710:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1710 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1730:1: note: in expansion of macro 'AUDIO_STUB'
+ 1730 | AUDIO_STUB(err_reg_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1710:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1710 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1731:1: note: in expansion of macro 'AUDIO_STUB'
+ 1731 | AUDIO_STUB(exclamation_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1710:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1710 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1732:1: note: in expansion of macro 'AUDIO_STUB'
+ 1732 | AUDIO_STUB(low_battery_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1710:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1710 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1733:1: note: in expansion of macro 'AUDIO_STUB'
+ 1733 | AUDIO_STUB(popup_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1710:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1710 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1734:1: note: in expansion of macro 'AUDIO_STUB'
+ 1734 | AUDIO_STUB(success_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1710:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1710 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1735:1: note: in expansion of macro 'AUDIO_STUB'
+ 1735 | AUDIO_STUB(upgrade_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1710:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1710 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1736:1: note: in expansion of macro 'AUDIO_STUB'
+ 1736 | AUDIO_STUB(vibration_ogg);
+      | ^~~~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1710:9: warning: 'asm' qualifier 'volatile' ignored outside of function body
+ 1710 |     asm volatile( \
+      |         ^~~~~~~~
+C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/src/application.cc:1737:1: note: in expansion of macro 'AUDIO_STUB'
+ 1737 | AUDIO_STUB(wificonfig_ogg);
+      | ^~~~~~~~~~
+[11/15] Linking C static library esp-idf\src\libsrc.a
+[12/15] Generating esp-idf/esp_system/ld/sections.ld
+info: Default value for LV_FONT_FMT_TXT_LARGE in sdkconfig is y but it is n according to Kconfig.
+Using default value from sdkconfig (y).
+[13/15] Linking CXX executable ESP32RLCD42.elf
+[14/15] Generating binary image from built executable
+esptool v5.3.dev3
+Creating ESP32-S3 image...
+Merged 3 ELF sections.
+Successfully created ESP32-S3 image.
+Generated C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/build/ESP32RLCD42.bin
+[15/15] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\roarp\Desktop\TMP\Code\AICode\ESP32\ESP32RLCD42\build && C:\Espressif\tools\python\v6.0.1\venv\Scripts\python.exe C:/esp/v6.0.1/esp-idf/components/partition_table/check_sizes.py --offset 0x8000 partition --type app C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/build/partition_table/partition-table.bin C:/Users/roarp/Desktop/TMP/Code/AICode/ESP32/ESP32RLCD42/build/ESP32RLCD42.bin"
+ESP32RLCD42.bin binary size 0x4696d0 bytes. Smallest app partition is 0x4f0000 bytes. 0x86930 bytes (11%) free.
