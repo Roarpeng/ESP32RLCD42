@@ -338,6 +338,15 @@ elseif(CONFIG_BOARD_TYPE_WAVESHARE_S3_RLCD_4_2)
     set(BUILTIN_TEXT_FONT font_puhui_basic_30_4)
     set(BUILTIN_ICON_FONT font_awesome_30_4)
     set(DEFAULT_EMOJI_COLLECTION twemoji_32)
+    # RLCD 是 1-bit 单色屏，将 emoji 从 RGB565A8 转为 I1 格式以节省 Flash
+    execute_process(
+        COMMAND ${PYTHON} ${CMAKE_CURRENT_SOURCE_DIR}/../scripts/convert_emoji_to_1bit.py
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/..
+        RESULT_VARIABLE EMOJI_CONV_RESULT
+    )
+    if(NOT EMOJI_CONV_RESULT EQUAL 0)
+        message(WARNING "Emoji 1-bit conversion failed (code ${EMOJI_CONV_RESULT}), using original")
+    endif()
     # === 电子相册模块（仅 RLCD 板子编译）===
     list(APPEND SOURCES
         "photo/photo_config.cc"
