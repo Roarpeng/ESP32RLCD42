@@ -92,7 +92,7 @@ void CustomLcdDisplay::SetupPomodoroUI() {
     Label(page, "58%", &alibaba_puhui_16, 363, 7, 38);
     LineRect(page, 0, 29, 400, 3);
 
-    Label(page, "FOCUS ON THE NOW, MEET A BETTER SELF", &alibaba_puhui_16, 0, 43, 400);
+    pomo_state_label_ = Label(page, "FOCUS ON THE NOW, MEET A BETTER SELF", &alibaba_puhui_16, 0, 43, 400);
     Dashes(page, 112, 67, 176, 190);
     AddLine(page, kVLine, 3, 5);
     AddLine(page, kLeftChevron, 3, 5);
@@ -101,6 +101,8 @@ void CustomLcdDisplay::SetupPomodoroUI() {
     pomo_countdown_label_ = Label(page, "25:00", &alibaba_black_64, 130, 122, 140);
     lv_obj_t* start = Obj(page, 146, 213, 108, 36, lv_color_white(), 3, 12);
     Label(start, "Start Focus", &alibaba_puhui_16, 4, 7, 100);
+
+    pomo_info_label_ = Label(page, "双击 USER 键开始专注", &alibaba_puhui_16, 0, 238, 400);
 
     LineRect(page, 0, 258, 400, 3);
     for (int x = 100; x <= 300; x += 100) {
@@ -121,9 +123,7 @@ void CustomLcdDisplay::SetupPomodoroUI() {
     LineRect(page, 374, 270, 4, 17);
     LineRect(page, 382, 274, 4, 13);
 
-    pomo_state_label_ = nullptr;
     pomo_progress_bar_ = nullptr;
-    pomo_info_label_ = nullptr;
     pomo_chat_status_label_ = nullptr;
     pomo_emotion_label_ = nullptr;
     pomo_emotion_img_ = nullptr;

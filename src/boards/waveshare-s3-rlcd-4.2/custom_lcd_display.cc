@@ -727,11 +727,33 @@ void CustomLcdDisplay::UpdatePomodoroDisplay(const char* state_text, const char*
 // ===== 相册页面 =====
 
 void CustomLcdDisplay::SwitchToPhotoPage() {
+    {
+        DisplayLockGuard lock(this);
+        if (display_mode_ != MODE_PHOTO) {
+            display_mode_ = MODE_PHOTO;
+            ApplyDisplayMode();
+            ESP_LOGI(TAG, "切换到相册页");
+        }
+    }
+    UpdatePhotoDesktopStatus();
+    UpdatePhotoImage();
+}
+
+void CustomLcdDisplay::SwitchToQuotePage() {
     DisplayLockGuard lock(this);
-    if (display_mode_ != MODE_PHOTO) {
-        display_mode_ = MODE_PHOTO;
+    if (display_mode_ != MODE_QUOTE) {
+        display_mode_ = MODE_QUOTE;
         ApplyDisplayMode();
-        ESP_LOGI(TAG, "切换到相册页");
+        ESP_LOGI(TAG, "切换到格言页");
+    }
+}
+
+void CustomLcdDisplay::SwitchToClockPage() {
+    DisplayLockGuard lock(this);
+    if (display_mode_ != MODE_CLOCK) {
+        display_mode_ = MODE_CLOCK;
+        ApplyDisplayMode();
+        ESP_LOGI(TAG, "切换到时钟页");
     }
 }
 

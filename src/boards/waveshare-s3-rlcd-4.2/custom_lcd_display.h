@@ -223,6 +223,8 @@ public:
     bool IsPomodoroMode() const { return display_mode_ == MODE_POMODORO; }
     void SwitchToPomodoroPage();
     void SwitchToPhotoPage();
+    void SwitchToQuotePage();
+    void SwitchToClockPage();
 
     // 更新相册桌面状态（有图显示正常 UI，无图显示 Web 上传地址）
     void UpdatePhotoDesktopStatus();
