@@ -229,21 +229,13 @@ void CustomLcdDisplay::DataUpdateTask(void *arg) {
                 if (self->time_label_) lv_label_set_text(self->time_label_, time_buf);
                 if (self->music_time_label_) lv_label_set_text(self->music_time_label_, time_buf);
                 if (self->pomo_time_label_) lv_label_set_text(self->pomo_time_label_, time_buf);
-                if (self->clock_hour_label_) {
-                    char hour_buf[4];
-                    int hour12 = timeinfo.tm_hour % 12;
-                    if (hour12 == 0) hour12 = 12;
-                    snprintf(hour_buf, sizeof(hour_buf), "%02d", hour12);
-                    lv_label_set_text(self->clock_hour_label_, hour_buf);
-                }
-                if (self->clock_min_label_) {
-                    char min_buf[4];
-                    snprintf(min_buf, sizeof(min_buf), "%02d", timeinfo.tm_min);
-                    lv_label_set_text(self->clock_min_label_, min_buf);
-                }
-                if (self->clock_ampm_label_) {
-                    lv_label_set_text(self->clock_ampm_label_, timeinfo.tm_hour >= 12 ? "下午" : "上午");
-                }
+                // 7 段数码管时钟更新 (24H 制, 4 位独立数码管)
+                int h = timeinfo.tm_hour;
+                int m = timeinfo.tm_min;
+                self->SetClockDigit(0, h / 10);
+                self->SetClockDigit(1, h % 10);
+                self->SetClockDigit(2, m / 10);
+                self->SetClockDigit(3, m % 10);
 
                 const char *weeks_en[] = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
                 const char *weeks_title[] = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};

@@ -119,17 +119,20 @@ private:
     lv_obj_t *photo_battery_icon_img_ = nullptr;
     lv_obj_t *photo_battery_pct_label_ = nullptr;
 
+    // ===== 时钟页面：Pencil 设计 1:1 还原 =====
     lv_obj_t *clock_wifi_icon_img_ = nullptr;
     lv_obj_t *clock_battery_icon_img_ = nullptr;
     lv_obj_t *clock_battery_pct_label_ = nullptr;
     lv_obj_t *clock_sensor_label_ = nullptr;
-    lv_obj_t *clock_hour_label_ = nullptr;
-    lv_obj_t *clock_min_label_ = nullptr;
-    lv_obj_t *clock_ampm_label_ = nullptr;
-    lv_obj_t *clock_sec_label_ = nullptr;
-    lv_obj_t *clock_date_label_ = nullptr;
-    lv_obj_t *clock_temp_label_ = nullptr;
-    lv_obj_t *clock_info_label_ = nullptr;
+    lv_obj_t *clock_ai_status_label_ = nullptr;    // 顶部左侧：AI 状态文字
+    lv_obj_t *clock_digit_[4] = {nullptr};         // 4 位数码管容器 (HH:MM)
+    lv_obj_t *clock_digit_segs_[4][7] = {{nullptr}}; // 每位数码管的 7 段 A,B,C,D,E,F,G
+    lv_obj_t *clock_colon_dot_top_ = nullptr;      // 冒号上圆点
+    lv_obj_t *clock_colon_dot_bot_ = nullptr;      // 冒号下圆点
+    lv_obj_t *clock_sec_label_ = nullptr;          // 秒数
+    lv_obj_t *clock_date_label_ = nullptr;         // 日期行
+    lv_obj_t *clock_temp_label_ = nullptr;         // 大号温度
+    lv_obj_t *clock_info_label_ = nullptr;         // 备忘录/天气信息
 
     // 图片图标（不能用基类的 label，因为我们用 lv_image 而不是 Font Awesome 文字）
     lv_obj_t *wifi_icon_img_ = nullptr;
@@ -162,7 +165,7 @@ private:
     // LVGL flush 回调（将 RGB565 转换为 1-bit 并刷新到 RLCD）
     static void Lvgl_flush_cb(lv_display_t * disp, const lv_area_t * area, uint8_t * color_p);
 
-    // UI 创建（实现在 weather_ui.cc / music_ui.cc / pomodoro_ui.cc）
+    // UI 创建
     void SetupWeatherUI();
     void SetupMusicUI();
     void SetupPomodoroUI();
@@ -170,6 +173,9 @@ private:
     void SetupPhotoDesktopUI();
     void SetupClockUI();
     void ApplyDisplayMode();
+
+    // 7 段数码管：设置一位数字 (0-9)
+    void SetClockDigit(int pos, int value);
     
     // 备忘录
     void LoadMemoFromNvs();   // 从 NVS 加载备忘录到 UI
