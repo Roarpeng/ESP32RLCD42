@@ -32,13 +32,13 @@
 class CustomLcdDisplay : public LcdDisplay {
 private:
     enum DisplayMode {
-        MODE_QUOTE = 0,
-        MODE_PHOTO = 1,
-        MODE_WEATHER = 2,
-        MODE_POMODORO = 3,
-        MODE_CLOCK = 4,
+        MODE_CLOCK = 0,
+        MODE_WEATHER = 1,
+        MODE_QUOTE = 2,
+        MODE_PHOTO = 3,
+        MODE_POMODORO = 4,
     };
-    DisplayMode display_mode_ = MODE_QUOTE;
+    DisplayMode display_mode_ = MODE_CLOCK;
 
     // RLCD 硬件驱动（独立模块，负责 SPI 通信和像素操作）
     RlcdDriver *rlcd_ = nullptr;
@@ -129,6 +129,7 @@ private:
     lv_obj_t *clock_sec_label_ = nullptr;
     lv_obj_t *clock_date_label_ = nullptr;
     lv_obj_t *clock_temp_label_ = nullptr;
+    lv_obj_t *clock_info_label_ = nullptr;
 
     // 图片图标（不能用基类的 label，因为我们用 lv_image 而不是 Font Awesome 文字）
     lv_obj_t *wifi_icon_img_ = nullptr;
@@ -148,6 +149,7 @@ private:
     std::atomic<bool> power_saving_{false};     // 是否处于省电模式
     uint32_t last_activity_ms_ = 0;             // 上次用户活动的时间（tick 毫秒）
     static const uint32_t IDLE_TIMEOUT_MS = 5 * 60 * 1000;  // 5 分钟无活动进入省电
+    static const uint32_t AUTO_HOME_TIMEOUT_MS = 60 * 1000; // 60 秒无操作回到时钟页
     static const int NORMAL_REFRESH_MS = 1000;  // 正常刷新间隔 1 秒
     static const int SAVING_REFRESH_MS = 5000;  // 省电刷新间隔 5 秒
     
@@ -221,6 +223,9 @@ public:
     void CycleDisplayMode();
     bool IsMusicMode() const { return false; }
     bool IsPomodoroMode() const { return display_mode_ == MODE_POMODORO; }
+    bool IsPhotoMode() const { return display_mode_ == MODE_PHOTO; }
+    bool IsClockMode() const { return display_mode_ == MODE_CLOCK; }
+    bool IsWeatherMode() const { return display_mode_ == MODE_WEATHER; }
     void SwitchToPomodoroPage();
     void SwitchToPhotoPage();
     void SwitchToQuotePage();

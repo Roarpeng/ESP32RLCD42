@@ -92,36 +92,16 @@ void CustomLcdDisplay::SetupPomodoroUI() {
     Label(page, "58%", &alibaba_puhui_16, 363, 7, 38);
     LineRect(page, 0, 29, 400, 3);
 
-    pomo_state_label_ = Label(page, "FOCUS ON THE NOW, MEET A BETTER SELF", &alibaba_puhui_16, 0, 43, 400);
-    Dashes(page, 112, 67, 176, 190);
-    AddLine(page, kVLine, 3, 5);
-    AddLine(page, kLeftChevron, 3, 5);
-    AddLine(page, kRightChevron, 3, 5);
+    pomo_state_label_ = Label(page, "FOCUS ON THE NOW", &alibaba_puhui_16, 0, 50, 400);
 
-    pomo_countdown_label_ = Label(page, "25:00", &alibaba_black_64, 130, 122, 140);
-    lv_obj_t* start = Obj(page, 146, 213, 108, 36, lv_color_white(), 3, 12);
+    Dashes(page, 100, 80, 200, 150);
+
+    pomo_countdown_label_ = Label(page, "25:00", &alibaba_black_64, 130, 120, 140);
+
+    lv_obj_t* start = Obj(page, 146, 210, 108, 36, lv_color_white(), 3, 12);
     Label(start, "Start Focus", &alibaba_puhui_16, 4, 7, 100);
 
-    pomo_info_label_ = Label(page, "双击 USER 键开始专注", &alibaba_puhui_16, 0, 238, 400);
-
-    LineRect(page, 0, 258, 400, 3);
-    for (int x = 100; x <= 300; x += 100) {
-        LineRect(page, x, 258, 3, 42);
-    }
-    Label(page, "Tasks", &alibaba_puhui_16, 0, 280, 100);
-    Label(page, "Noise", &alibaba_puhui_16, 100, 280, 100);
-    Label(page, "Forest", &alibaba_puhui_16, 200, 280, 100);
-    Label(page, "Stats", &alibaba_puhui_16, 300, 280, 100);
-    Obj(page, 47, 271, 16, 12, lv_color_white(), 2, 0);
-    LineRect(page, 52, 274, 7, 2);
-    LineRect(page, 52, 278, 7, 2);
-    LineRect(page, 154, 270, 4, 14);
-    LineRect(page, 158, 270, 10, 3);
-    Obj(page, 264, 272, 18, 14, lv_color_white(), 2, 9);
-    LineRect(page, 273, 268, 2, 18);
-    LineRect(page, 366, 278, 4, 9);
-    LineRect(page, 374, 270, 4, 17);
-    LineRect(page, 382, 274, 4, 13);
+    pomo_info_label_ = Label(page, "双击 USER 键开始专注", &alibaba_puhui_16, 0, 260, 400);
 
     pomo_progress_bar_ = nullptr;
     pomo_chat_status_label_ = nullptr;

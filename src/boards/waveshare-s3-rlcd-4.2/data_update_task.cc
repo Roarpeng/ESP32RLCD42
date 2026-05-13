@@ -267,6 +267,45 @@ void CustomLcdDisplay::DataUpdateTask(void *arg) {
                 snprintf(sec_buf, sizeof(sec_buf), "%02d", timeinfo.tm_sec);
                 lv_label_set_text(self->clock_sec_label_, sec_buf);
             }
+
+            if (self->clock_info_label_ && minute_changed) {
+                std::string info;
+                Settings memo_peek("memo", false);
+                std::string mj = memo_peek.GetString("items", "");
+                if (!mj.empty()) {
+                    cJSON *arr = cJSON_Parse(mj.c_str());
+                    if (arr && cJSON_IsArray(arr)) {
+                        int n = cJSON_GetArraySize(arr);
+                        for (int i = 0; i < n && i < 3; i++) {
+                            cJSON *item = cJSON_GetArrayItem(arr, i);
+                            cJSON *mc = cJSON_GetObjectItem(item, "c");
+                            cJSON *mt = cJSON_GetObjectItem(item, "t");
+                            if (mc && mc->valuestring) {
+                                if (!info.empty()) info += "\n";
+                                if (mt && mt->valuestring && strlen(mt->valuestring) > 0) {
+                                    info += std::string(mt->valuestring) + " ";
+                                }
+                                std::string content = mc->valuestring;
+                                if (content.size() > 12) content = content.substr(0, 12) + "..";
+                                info += content;
+                            }
+                        }
+                        cJSON_Delete(arr);
+                    }
+                }
+                if (info.empty()) {
+                    auto& wm = WeatherManager::getInstance();
+                    auto wd = wm.getLatestData();
+                    if (!wd.text.empty()) {
+                        info = wd.text;
+                        if (!wd.city.empty()) info += "\n" + wd.city;
+                    }
+                }
+                if (info.empty()) {
+                    info = "USER 双击\n刷新数据";
+                }
+                lv_label_set_text(self->clock_info_label_, info.c_str());
+            }
         }  // DisplayLockGuard 自动释放
 
         // ===== 备忘闹钟检查（在锁外执行，避免长时间持锁）=====
@@ -658,17 +697,32 @@ void CustomLcdDisplay::DataUpdateTask(void *arg) {
             }
         }
 
+        // ===== 自动回到时钟桌面 =====
+        // 60 秒无操作自动回到时钟页（番茄钟运行中除外）
+        {
+            uint32_t check_ms = xTaskGetTickCount() * portTICK_PERIOD_MS;
+            uint32_t activity_ms = self->last_activity_ms_;
+            auto& pomo = PomodoroManager::getInstance();
+            bool pomo_active = (pomo.getState() != PomodoroManager::IDLE);
+            if (self->display_mode_ != CustomLcdDisplay::MODE_CLOCK &&
+                !pomo_active && activity_ms > 0 && check_ms >= activity_ms &&
+                (check_ms - activity_ms > self->AUTO_HOME_TIMEOUT_MS)) {
+                DisplayLockGuard lock(self);
+                self->display_mode_ = CustomLcdDisplay::MODE_CLOCK;
+                self->ApplyDisplayMode();
+                ESP_LOGI(TAG, "60 秒无操作，自动回到时钟页");
+            }
+        }
+
         // ===== 省电模式检测 =====
         // 5 分钟无活动（无按钮、无 AI 对话）时进入省电模式，降低刷新频率
-        // 注意：必须重新取当前时间，因为 NotifyUserActivity() 可能在本轮循环中
-        // 被 AI 状态变化触发过，如果用循环开头的 now_ms 会导致 uint32 溢出
         {
             uint32_t check_ms = xTaskGetTickCount() * portTICK_PERIOD_MS;
             uint32_t activity_ms = self->last_activity_ms_;
             if (!self->power_saving_ && activity_ms > 0 && check_ms >= activity_ms) {
                 if (check_ms - activity_ms > self->IDLE_TIMEOUT_MS) {
                     self->power_saving_ = true;
-                    ESP_LOGI(TAG, "⚡ 5 分钟无活动，进入省电模式（刷新间隔 %d 秒 → %d 秒）",
+                    ESP_LOGI(TAG, "5 分钟无活动，进入省电模式（刷新间隔 %d 秒 → %d 秒）",
                              self->NORMAL_REFRESH_MS / 1000, self->SAVING_REFRESH_MS / 1000);
                 }
             }

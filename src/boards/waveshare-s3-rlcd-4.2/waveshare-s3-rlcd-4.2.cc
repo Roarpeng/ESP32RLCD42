@@ -121,11 +121,12 @@ private:
 
         user_button_.OnDoubleClick([this]() {
             if (display_) display_->NotifyUserActivity();
-            if (display_ && display_->IsPomodoroMode()) {
+            if (!display_) return;
+
+            if (display_->IsPomodoroMode()) {
                 auto& pomo = PomodoroManager::getInstance();
                 if (pomo.getState() == PomodoroManager::IDLE) {
-                    bool ok = pomo.start(25, true);
-                    if (ok) {
+                    if (pomo.start(25, true)) {
                         ESP_LOGI(TAG, "USER 双击：番茄钟已启动（25分钟）");
                     }
                 } else {
@@ -133,9 +134,13 @@ private:
                     ESP_LOGI(TAG, "USER 双击：番茄钟 %s",
                              pomo.getState() == PomodoroManager::PAUSED ? "已暂停" : "已恢复");
                 }
-                return;
+            } else if (display_->IsPhotoMode()) {
+                PhotoManager::GetInstance().NextPhoto();
+                ESP_LOGI(TAG, "USER 双击：相册翻到下一张");
+            } else {
+                RefreshAllData();
+                ESP_LOGI(TAG, "USER 双击：刷新数据");
             }
-            RefreshAllData();
         });
 
         user_button_.OnLongPress([this]() {

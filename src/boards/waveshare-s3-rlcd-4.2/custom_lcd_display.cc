@@ -582,22 +582,22 @@ void CustomLcdDisplay::ApplyDisplayMode() {
 
 void CustomLcdDisplay::CycleDisplayMode() {
     DisplayLockGuard lock(this);
-    // 五桌面循环：格言 → 相册 → 天气 → 专注 → 时钟
+    // 五桌面循环：时钟 → 天气 → 格言 → 相册 → 番茄钟
     switch (display_mode_) {
+        case MODE_CLOCK:    display_mode_ = MODE_WEATHER; break;
+        case MODE_WEATHER:  display_mode_ = MODE_QUOTE; break;
         case MODE_QUOTE:    display_mode_ = MODE_PHOTO; break;
-        case MODE_PHOTO:    display_mode_ = MODE_WEATHER; break;
-        case MODE_WEATHER:  display_mode_ = MODE_POMODORO; break;
+        case MODE_PHOTO:    display_mode_ = MODE_POMODORO; break;
         case MODE_POMODORO: display_mode_ = MODE_CLOCK; break;
-        case MODE_CLOCK:    display_mode_ = MODE_QUOTE; break;
     }
     ApplyDisplayMode();
     const char* name = "未知";
     switch (display_mode_) {
-        case MODE_QUOTE:    name = "格言桌面"; break;
-        case MODE_PHOTO:    name = "电子相册"; break;
-        case MODE_WEATHER:  name = "天气页"; break;
-        case MODE_POMODORO: name = "专注页"; break;
-        case MODE_CLOCK:    name = "翻页时钟"; break;
+        case MODE_CLOCK:    name = "时钟"; break;
+        case MODE_WEATHER:  name = "天气"; break;
+        case MODE_QUOTE:    name = "格言"; break;
+        case MODE_PHOTO:    name = "相册"; break;
+        case MODE_POMODORO: name = "番茄钟"; break;
     }
     ESP_LOGI(TAG, "页面切换: %s", name);
 }
@@ -946,8 +946,8 @@ void CustomLcdDisplay::SetupClockUI() {
     clock_date_label_ = DesktopLabel(clock_page_, "06/12 周三", &alibaba_puhui_16, 302, 61, 95);
     clock_temp_label_ = DesktopLabel(clock_page_, "26.5°C", &alibaba_puhui_48, 284, 100, 115);
     DesktopLine(clock_page_, 284, 172, 120, 2);
-    DesktopLabel(clock_page_, "\"Life is like riding a\nbicycle. To keep\nyour balance you\nmust keep\nmoving.\"", &font_puhui_14_1, 300, 190, 95);
-    DesktopLabel(clock_page_, "-- Albert Einstein", &font_puhui_14_1, 314, 270, 82, LV_TEXT_ALIGN_RIGHT);
+    clock_info_label_ = DesktopLabel(clock_page_, "", &font_puhui_14_1, 284, 182, 115);
+    lv_label_set_long_mode(clock_info_label_, LV_LABEL_LONG_WRAP);
     lv_obj_add_flag(clock_page_, LV_OBJ_FLAG_HIDDEN);
 }
 
