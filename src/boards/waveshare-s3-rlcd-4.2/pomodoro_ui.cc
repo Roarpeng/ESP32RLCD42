@@ -58,37 +58,7 @@ void LineRect(lv_obj_t* parent, int x, int y, int w, int h) {
     Obj(parent, x, y, w, h, lv_color_black(), 0, 0);
 }
 
-void PomoAiBar(lv_obj_t* parent, lv_obj_t** ai_status) {
-    lv_obj_t* bar = lv_obj_create(parent);
-    lv_obj_set_pos(bar, 0, 0);
-    lv_obj_set_size(bar, 220, 32);
-    lv_obj_set_style_bg_color(bar, lv_color_white(), 0);
-    lv_obj_set_style_bg_opa(bar, LV_OPA_COVER, 0);
-    lv_obj_set_style_border_width(bar, 0, 0);
-    lv_obj_set_style_radius(bar, 0, 0);
-    lv_obj_set_style_pad_all(bar, 0, 0);
-    lv_obj_remove_flag(bar, LV_OBJ_FLAG_SCROLLABLE);
-
-    lv_obj_t* bot = lv_label_create(bar);
-    lv_obj_set_pos(bot, 8, 6);
-    lv_obj_set_style_text_font(bot, &font_puhui_16_4, 0);
-    lv_obj_set_style_text_color(bot, lv_color_black(), 0);
-    lv_label_set_text(bot, "●");
-
-    lv_obj_t* div = Obj(bar, 36, 6, 2, 20, lv_color_black(), 0, 0);
-    lv_obj_set_style_bg_opa(div, (lv_opa_t)(255 * 0.2), 0);
-
-    if (ai_status) {
-        *ai_status = lv_label_create(bar);
-        lv_obj_set_pos(*ai_status, 46, 6);
-        lv_obj_set_width(*ai_status, 170);
-        lv_obj_set_style_text_font(*ai_status, &font_puhui_16_4, 0);
-        lv_obj_set_style_text_color(*ai_status, lv_color_black(), 0);
-        lv_obj_set_style_text_opa(*ai_status, (lv_opa_t)(255 * 0.7), 0);
-        lv_label_set_long_mode(*ai_status, LV_LABEL_LONG_DOT);
-        lv_label_set_text(*ai_status, "AI 待命");
-    }
-}
+// （旧 PomoAiBar 迁移到 CustomLcdDisplay::BuildAiBar / P0-1）
 
 void PomoStatusRight(lv_obj_t* parent,
                      lv_obj_t** wifi, lv_obj_t** battery,
@@ -136,14 +106,18 @@ void CustomLcdDisplay::SetupPomodoroUI() {
     lv_obj_t* page = pomodoro_page_;
 
     // === Top bar: AI Bar + Status + header seps ===
-    PomoAiBar(page, &pomo_ai_status_label_);
+    BuildAiBar(page, 0, 0, 220, /*bar_index=*/4, /*dark=*/false);  // MODE_POMODORO=4
+    pomo_ai_status_label_ = ai_bars_[4].status_label;
     PomoStatusRight(page, &pomo_wifi_icon_img_, &pomo_battery_icon_img_,
                     &pomo_battery_pct_label_, &pomo_sensor_label_);
     LineRect(page, 0, 32, 400, 1);
     LineRect(page, 0, 34, 400, 1);
+    BuildPageDots(page, 4);
+    BuildPowerSaveIcon(page, 4);
 
     // === State text: y=52, center, font 18px (use 16px CJK), opacity=0.75 ===
-    pomo_state_label_ = Label(page, "FOCUS ON THE NOW", &font_puhui_16_4, 0, 52, 400);
+    // P2-3：中文统一（原 "FOCUS ON THE NOW"）
+    pomo_state_label_ = Label(page, "专注此刻", &font_puhui_16_4, 0, 52, 400);
     lv_obj_set_style_text_opa(pomo_state_label_, (lv_opa_t)(255 * 0.75), 0);
 
     // === Box: x=80, y=88, w=240, h=160, rounded 16, border 2px ===
@@ -154,8 +128,9 @@ void CustomLcdDisplay::SetupPomodoroUI() {
     pomo_countdown_label_ = Label(page, "25:00", &alibaba_black_64, 80, 120, 240);
 
     // === Start button: centered in box, w=128, h=36, rounded 18, border 3px ===
+    // P2-3：中文统一（原 "Start Focus"）
     lv_obj_t* start = Obj(page, 136, 200, 128, 36, lv_color_white(), 3, 18);
-    Label(start, "Start Focus", &alibaba_puhui_16, 0, 8, 128);
+    Label(start, "开始专注", &font_puhui_16_4, 0, 8, 128);
 
     // === Info text: y=262, center, font 14px, opacity=0.45 ===
     pomo_info_label_ = Label(page, "双击 USER 键开始专注", &font_puhui_14_1, 0, 262, 400);

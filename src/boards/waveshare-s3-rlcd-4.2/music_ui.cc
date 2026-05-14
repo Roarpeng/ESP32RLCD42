@@ -52,40 +52,9 @@ void CustomLcdDisplay::SetupMusicUI() {
     // Top bar: AI Bar (dark variant) + Status (dark variant) + seps
     // ============================================================
 
-    // --- Dark AI Bar (x=0, y=0, w=220, h=32, black bg, white text) ---
-    lv_obj_t* ai_bar = lv_obj_create(page);
-    lv_obj_set_pos(ai_bar, 0, 0);
-    lv_obj_set_size(ai_bar, 220, 32);
-    lv_obj_set_style_bg_color(ai_bar, lv_color_black(), 0);
-    lv_obj_set_style_bg_opa(ai_bar, LV_OPA_COVER, 0);
-    lv_obj_set_style_border_width(ai_bar, 0, 0);
-    lv_obj_set_style_radius(ai_bar, 0, 0);
-    lv_obj_set_style_pad_all(ai_bar, 0, 0);
-    lv_obj_remove_flag(ai_bar, LV_OBJ_FLAG_SCROLLABLE);
-
-    lv_obj_t* bot = lv_label_create(ai_bar);
-    lv_obj_set_pos(bot, 8, 6);
-    lv_obj_set_style_text_font(bot, &font_puhui_16_4, 0);
-    lv_obj_set_style_text_color(bot, lv_color_white(), 0);
-    lv_label_set_text(bot, "●");
-
-    lv_obj_t* div = lv_obj_create(ai_bar);
-    lv_obj_set_pos(div, 36, 6);
-    lv_obj_set_size(div, 2, 20);
-    lv_obj_set_style_bg_color(div, lv_color_white(), 0);
-    lv_obj_set_style_bg_opa(div, (lv_opa_t)(255 * 0.2), 0);
-    lv_obj_set_style_border_width(div, 0, 0);
-    lv_obj_set_style_pad_all(div, 0, 0);
-    lv_obj_remove_flag(div, LV_OBJ_FLAG_SCROLLABLE);
-
-    music_ai_status_label_ = lv_label_create(ai_bar);
-    lv_obj_set_pos(music_ai_status_label_, 46, 6);
-    lv_obj_set_width(music_ai_status_label_, 170);
-    lv_obj_set_style_text_font(music_ai_status_label_, &font_puhui_16_4, 0);
-    lv_obj_set_style_text_color(music_ai_status_label_, lv_color_white(), 0);
-    lv_obj_set_style_text_opa(music_ai_status_label_, (lv_opa_t)(255 * 0.7), 0);
-    lv_label_set_long_mode(music_ai_status_label_, LV_LABEL_LONG_DOT);
-    lv_label_set_text(music_ai_status_label_, "AI 待命");
+    // P0-1：统一改用 BuildAiBar（dark=true 走黑底白字变体）
+    BuildAiBar(page, 0, 0, 220, /*bar_index=*/5, /*dark=*/true);  // MODE_MUSIC=5
+    music_ai_status_label_ = ai_bars_[5].status_label;
 
     // --- Dark Status Bar (x=224, y=0, w=175, h=30, white text) ---
     lv_obj_t* st_bar = lv_obj_create(page);
@@ -127,20 +96,22 @@ void CustomLcdDisplay::SetupMusicUI() {
     lv_label_set_text(humi_lbl, "58%");
 
     // Dark header separators (white lines on black)
-    lv_obj_t* sep1 = lv_obj_create(page);
-    lv_obj_set_pos(sep1, 0, 32);
-    lv_obj_set_size(sep1, 400, 1);
-    lv_obj_set_style_bg_color(sep1, lv_color_white(), 0);
-    lv_obj_set_style_bg_opa(sep1, (lv_opa_t)(255 * 0.15), 0);
-    lv_obj_set_style_border_width(sep1, 0, 0);
-    lv_obj_remove_flag(sep1, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_t* sep2 = lv_obj_create(page);
-    lv_obj_set_pos(sep2, 0, 34);
-    lv_obj_set_size(sep2, 400, 1);
-    lv_obj_set_style_bg_color(sep2, lv_color_white(), 0);
-    lv_obj_set_style_bg_opa(sep2, (lv_opa_t)(255 * 0.12), 0);
-    lv_obj_set_style_border_width(sep2, 0, 0);
-    lv_obj_remove_flag(sep2, LV_OBJ_FLAG_SCROLLABLE);
+    auto make_dark_sep = [&](int y_pos) {
+        lv_obj_t* sep = lv_obj_create(page);
+        lv_obj_set_pos(sep, 0, y_pos);
+        lv_obj_set_size(sep, 400, 1);
+        lv_obj_set_style_bg_color(sep, lv_color_white(), 0);
+        lv_obj_set_style_bg_opa(sep, LV_OPA_COVER, 0);
+        lv_obj_set_style_border_width(sep, 0, 0);
+        lv_obj_set_style_pad_all(sep, 0, 0);
+        lv_obj_remove_flag(sep, LV_OBJ_FLAG_SCROLLABLE);
+    };
+    make_dark_sep(32);
+    make_dark_sep(34);
+
+    // P1-1：6 桌面页码指示 + P3-1：省电图标（深色变体）
+    BuildPageDots(page, 5);
+    BuildPowerSaveIcon(page, 5);
 
     // ============================================================
     // Vinyl card: x=8, y=44, w=140, h=140, white bg, rounded 14

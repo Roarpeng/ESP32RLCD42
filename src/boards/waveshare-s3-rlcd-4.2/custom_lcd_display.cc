@@ -163,67 +163,8 @@ void DesktopPageBase(lv_obj_t* page) {
     lv_obj_remove_flag(page, LV_OBJ_FLAG_SCROLLABLE);
 }
 
-void DesktopStatus(lv_obj_t* page, lv_obj_t** wifi, lv_obj_t** battery,
-                   lv_obj_t** pct, lv_obj_t** sensor) {
-    *wifi = lv_image_create(page);
-    lv_image_set_src(*wifi, &ui_img_wifi_off);
-    lv_obj_set_pos(*wifi, 15, 7);
-    *battery = lv_image_create(page);
-    lv_image_set_src(*battery, &ui_img_battery_full);
-    lv_obj_set_pos(*battery, 230, 7);
-    *pct = DesktopLabel(page, "85%", &alibaba_puhui_16, 256, 7, 44);
-    if (sensor) {
-        *sensor = DesktopLabel(page, "26.5°C", &alibaba_puhui_16, 306, 7, 58);
-    }
-    DesktopLabel(page, "58%", &alibaba_puhui_16, 365, 7, 40);
-    DesktopLine(page, 0, 36, 400, 3);
-}
-
-// ===== Pencil 设计 1:1 还原：AI Status Card ====
-// 布局: bot 图标 | 细分隔线 | AI 状态文字  (白底黑字)
-void DesktopAiBar(lv_obj_t* parent, int x, int y, int w,
-                  lv_obj_t** ai_status) {
-    lv_obj_t* bar = lv_obj_create(parent);
-    lv_obj_set_pos(bar, x, y);
-    lv_obj_set_size(bar, w, 32);
-    lv_obj_set_style_bg_color(bar, lv_color_white(), 0);
-    lv_obj_set_style_bg_opa(bar, LV_OPA_COVER, 0);
-    lv_obj_set_style_border_width(bar, 0, 0);
-    lv_obj_set_style_radius(bar, 0, 0);
-    lv_obj_set_style_pad_all(bar, 0, 0);
-    lv_obj_remove_flag(bar, LV_OBJ_FLAG_SCROLLABLE);
-
-    // Bot icon placeholder (x=8, y=6, 20x20, font_puhui_16_4 "●")
-    lv_obj_t* bot = lv_label_create(bar);
-    lv_obj_set_pos(bot, 8, 6);
-    lv_obj_set_style_text_font(bot, &font_puhui_16_4, 0);
-    lv_obj_set_style_text_color(bot, lv_color_black(), 0);
-    lv_label_set_text(bot, "●");
-
-    // 分隔线 (x=36, y=6, w=2, h=20, opacity=0.2)
-    lv_obj_t* div = lv_obj_create(bar);
-    lv_obj_set_pos(div, 36, 6);
-    lv_obj_set_size(div, 2, 20);
-    lv_obj_set_style_bg_color(div, lv_color_black(), 0);
-    lv_obj_set_style_bg_opa(div, (lv_opa_t)(255 * 0.2), 0);
-    lv_obj_set_style_border_width(div, 0, 0);
-    lv_obj_set_style_radius(div, 0, 0);
-    lv_obj_set_style_pad_all(div, 0, 0);
-    lv_obj_remove_flag(div, LV_OBJ_FLAG_SCROLLABLE);
-
-    // AI 状态文字 (x=46, y=6, 黑色, opacity=0.7)
-    if (ai_status) {
-        *ai_status = lv_label_create(bar);
-        lv_obj_set_pos(*ai_status, 46, 6);
-        lv_obj_set_width(*ai_status, w - 50);
-        lv_obj_set_style_text_font(*ai_status, &font_puhui_16_4, 0);
-        lv_obj_set_style_text_color(*ai_status, lv_color_black(), 0);
-        lv_obj_set_style_text_opa(*ai_status, (lv_opa_t)(255 * 0.7), 0);
-        lv_obj_set_style_text_align(*ai_status, LV_TEXT_ALIGN_LEFT, 0);
-        lv_label_set_long_mode(*ai_status, LV_LABEL_LONG_DOT);
-        lv_label_set_text(*ai_status, "AI 待命");
-    }
-}
+// 旧的 DesktopAiBar / DesktopStatus 已被 CustomLcdDisplay::BuildAiBar /
+// DesktopStatusRight 完全取代（P0-1 重构），删除以消除 -Wunused-function。
 
 // ===== Pencil 设计 1:1 还原：分隔线 ====
 // 1-bit 单色屏无法渲染半透明像素 (Pencil 中 0.15 / 0.12 opacity 的灰线
@@ -329,6 +270,418 @@ void SetSevenSegDigit(lv_obj_t* segs[7], int value) {
     }
 }
 }  // namespace
+
+// ===== P0-1 / P0-3：AI 状态卡构建 + 8 态指示 + 动画 =====
+//
+// 每张 AI 状态卡布局（220x32）：
+//   ┌────────────────────────────────────────┐
+//   │ [icon 20x20] | div 2x20 | status text  │
+//   │  ●  / ○ / ⊘                            │
+//   │  +外环（聆听） +音柱（说话）+角标 (! ↑..) │
+//   └────────────────────────────────────────┘
+//
+// icon 区放在 (x=8, y=6, 20x20) 内，所有 icon 元素以容器内坐标定位。
+//
+// 状态可视化矩阵：
+//   状态           | filled | outline | slash | badge | pulse | bars | 默认文案
+//   OFFLINE       |        |   ●    |   ●  |       |       |      | "未联网 · 长按 USER 重新配网"
+//   PROVISIONING  |        |   ●    |       |  ...  |       |      | "等待手机连接热点..."
+//   CONNECTING    |   ●   |        |       |  ...  |       |      | "正在连接 AI..."
+//   ONLINE_IDLE   |   ●   |        |       |       |       |      | "AI 待命"
+//   LISTENING     |   ●   |        |       |       |   ●  |      | "聆听中..."
+//   SPEAKING      |        |        |       |       |       |  ●  | "说话中..."
+//   UPGRADING     |   ●   |        |       |   ↑  |       |      | "升级中..."
+//   ERROR         |        |   ●    |       |   !  |       |      | "AI 暂不可用，长按 USER 查看"
+void CustomLcdDisplay::BuildAiBar(lv_obj_t* parent, int x, int y, int w,
+                                   int bar_index, bool dark) {
+    AiBarHandles& h = ai_bars_[bar_index];
+    h.dark = dark;
+
+    lv_color_t bg = dark ? lv_color_black() : lv_color_white();
+    lv_color_t fg = dark ? lv_color_white() : lv_color_black();
+
+    h.bar = lv_obj_create(parent);
+    lv_obj_set_pos(h.bar, x, y);
+    lv_obj_set_size(h.bar, w, 32);
+    lv_obj_set_style_bg_color(h.bar, bg, 0);
+    lv_obj_set_style_bg_opa(h.bar, LV_OPA_COVER, 0);
+    lv_obj_set_style_border_width(h.bar, 0, 0);
+    lv_obj_set_style_radius(h.bar, 0, 0);
+    lv_obj_set_style_pad_all(h.bar, 0, 0);
+    lv_obj_remove_flag(h.bar, LV_OBJ_FLAG_SCROLLABLE);
+
+    // === icon 区: 20x20 容器在 (8, 6) ===
+    // filled: 14x14 实心圆 (中心 7,7 偏移)
+    h.icon_filled = lv_obj_create(h.bar);
+    lv_obj_set_pos(h.icon_filled, 8 + 3, 6 + 3);
+    lv_obj_set_size(h.icon_filled, 14, 14);
+    lv_obj_set_style_radius(h.icon_filled, LV_RADIUS_CIRCLE, 0);
+    lv_obj_set_style_bg_color(h.icon_filled, fg, 0);
+    lv_obj_set_style_bg_opa(h.icon_filled, LV_OPA_COVER, 0);
+    lv_obj_set_style_border_width(h.icon_filled, 0, 0);
+    lv_obj_set_style_pad_all(h.icon_filled, 0, 0);
+    lv_obj_remove_flag(h.icon_filled, LV_OBJ_FLAG_SCROLLABLE);
+
+    // outline: 14x14 空心环（border-only）
+    h.icon_outline = lv_obj_create(h.bar);
+    lv_obj_set_pos(h.icon_outline, 8 + 3, 6 + 3);
+    lv_obj_set_size(h.icon_outline, 14, 14);
+    lv_obj_set_style_radius(h.icon_outline, LV_RADIUS_CIRCLE, 0);
+    lv_obj_set_style_bg_opa(h.icon_outline, LV_OPA_TRANSP, 0);
+    lv_obj_set_style_border_color(h.icon_outline, fg, 0);
+    lv_obj_set_style_border_width(h.icon_outline, 2, 0);
+    lv_obj_set_style_pad_all(h.icon_outline, 0, 0);
+    lv_obj_remove_flag(h.icon_outline, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_add_flag(h.icon_outline, LV_OBJ_FLAG_HIDDEN);
+
+    // slash: 一道 16x2 的对角线（OFFLINE 加在 outline 上）
+    h.icon_slash = lv_obj_create(h.bar);
+    lv_obj_set_pos(h.icon_slash, 8 + 2, 6 + 9);
+    lv_obj_set_size(h.icon_slash, 16, 2);
+    lv_obj_set_style_bg_color(h.icon_slash, fg, 0);
+    lv_obj_set_style_bg_opa(h.icon_slash, LV_OPA_COVER, 0);
+    lv_obj_set_style_border_width(h.icon_slash, 0, 0);
+    lv_obj_set_style_radius(h.icon_slash, 1, 0);
+    lv_obj_set_style_transform_rotation(h.icon_slash, 450, 0);  // 45°
+    lv_obj_set_style_pad_all(h.icon_slash, 0, 0);
+    lv_obj_remove_flag(h.icon_slash, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_add_flag(h.icon_slash, LV_OBJ_FLAG_HIDDEN);
+
+    // badge: 角标小文字 (!, ↑, ...) — 紧贴 icon 右下
+    h.badge = lv_label_create(h.bar);
+    lv_obj_set_pos(h.badge, 8 + 14, 6 + 8);
+    lv_obj_set_style_text_font(h.badge, &font_puhui_14_1, 0);
+    lv_obj_set_style_text_color(h.badge, fg, 0);
+    lv_label_set_text(h.badge, "");
+    lv_obj_add_flag(h.badge, LV_OBJ_FLAG_HIDDEN);
+
+    // pulse_ring: 聆听时的扩散外环 (LISTENING)
+    h.pulse_ring = lv_obj_create(h.bar);
+    lv_obj_set_pos(h.pulse_ring, 8, 6);
+    lv_obj_set_size(h.pulse_ring, 20, 20);
+    lv_obj_set_style_radius(h.pulse_ring, LV_RADIUS_CIRCLE, 0);
+    lv_obj_set_style_bg_opa(h.pulse_ring, LV_OPA_TRANSP, 0);
+    lv_obj_set_style_border_color(h.pulse_ring, fg, 0);
+    lv_obj_set_style_border_width(h.pulse_ring, 1, 0);
+    lv_obj_set_style_pad_all(h.pulse_ring, 0, 0);
+    lv_obj_remove_flag(h.pulse_ring, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_add_flag(h.pulse_ring, LV_OBJ_FLAG_HIDDEN);
+
+    // speak_bars: 说话时显示的 3 条音柱（替换 icon 区）
+    const int bar_x[3] = {8 + 3, 8 + 9, 8 + 15};
+    for (int i = 0; i < 3; i++) {
+        h.speak_bars[i] = lv_obj_create(h.bar);
+        lv_obj_set_pos(h.speak_bars[i], bar_x[i], 6 + 6);
+        lv_obj_set_size(h.speak_bars[i], 4, 12);
+        lv_obj_set_style_radius(h.speak_bars[i], 1, 0);
+        lv_obj_set_style_bg_color(h.speak_bars[i], fg, 0);
+        lv_obj_set_style_bg_opa(h.speak_bars[i], LV_OPA_COVER, 0);
+        lv_obj_set_style_border_width(h.speak_bars[i], 0, 0);
+        lv_obj_set_style_pad_all(h.speak_bars[i], 0, 0);
+        lv_obj_remove_flag(h.speak_bars[i], LV_OBJ_FLAG_SCROLLABLE);
+        lv_obj_add_flag(h.speak_bars[i], LV_OBJ_FLAG_HIDDEN);
+    }
+
+    // === 分隔线 ===
+    lv_obj_t* div = lv_obj_create(h.bar);
+    lv_obj_set_pos(div, 36, 6);
+    lv_obj_set_size(div, 2, 20);
+    lv_obj_set_style_bg_color(div, fg, 0);
+    lv_obj_set_style_bg_opa(div, (lv_opa_t)(255 * 0.4), 0);  // 单色屏 >0.5 才渲染为前景
+    lv_obj_set_style_border_width(div, 0, 0);
+    lv_obj_set_style_radius(div, 0, 0);
+    lv_obj_set_style_pad_all(div, 0, 0);
+    lv_obj_remove_flag(div, LV_OBJ_FLAG_SCROLLABLE);
+
+    // === 状态文字 ===
+    h.status_label = lv_label_create(h.bar);
+    lv_obj_set_pos(h.status_label, 46, 6);
+    lv_obj_set_width(h.status_label, w - 50);
+    lv_obj_set_style_text_font(h.status_label, &font_puhui_16_4, 0);
+    lv_obj_set_style_text_color(h.status_label, fg, 0);
+    lv_obj_set_style_text_align(h.status_label, LV_TEXT_ALIGN_LEFT, 0);
+    lv_label_set_long_mode(h.status_label, LV_LABEL_LONG_DOT);
+    lv_label_set_text(h.status_label, "AI 待命");
+}
+
+void CustomLcdDisplay::ApplyAiBarStatus(AiBarHandles& h, AiBarStatus status) {
+    if (!h.bar) return;
+
+    // 默认全部 icon 元素隐藏，再按状态打开需要的部分
+    auto hide = [](lv_obj_t* o) {
+        if (o) lv_obj_add_flag(o, LV_OBJ_FLAG_HIDDEN);
+    };
+    auto show = [](lv_obj_t* o) {
+        if (o) lv_obj_remove_flag(o, LV_OBJ_FLAG_HIDDEN);
+    };
+
+    hide(h.icon_filled);
+    hide(h.icon_outline);
+    hide(h.icon_slash);
+    hide(h.badge);
+    hide(h.pulse_ring);
+    for (int i = 0; i < 3; i++) hide(h.speak_bars[i]);
+
+    const char* badge_text = "";
+
+    switch (status) {
+        case AiBarStatus::OFFLINE:
+            show(h.icon_outline);
+            show(h.icon_slash);
+            break;
+        case AiBarStatus::PROVISIONING:
+            show(h.icon_outline);
+            badge_text = "...";
+            break;
+        case AiBarStatus::CONNECTING:
+            show(h.icon_filled);
+            badge_text = "...";
+            break;
+        case AiBarStatus::ONLINE_IDLE:
+            show(h.icon_filled);
+            break;
+        case AiBarStatus::LISTENING:
+            show(h.icon_filled);
+            show(h.pulse_ring);
+            break;
+        case AiBarStatus::SPEAKING:
+            for (int i = 0; i < 3; i++) show(h.speak_bars[i]);
+            break;
+        case AiBarStatus::UPGRADING:
+            show(h.icon_filled);
+            badge_text = "↑";
+            break;
+        case AiBarStatus::ERROR:
+            show(h.icon_outline);
+            badge_text = "!";
+            break;
+    }
+
+    if (h.badge) {
+        if (badge_text[0] != '\0') {
+            lv_label_set_text(h.badge, badge_text);
+            show(h.badge);
+        }
+    }
+}
+
+void CustomLcdDisplay::SetAiBarStatusAll(AiBarStatus status) {
+    if (status == current_ai_status_) return;
+    current_ai_status_ = status;
+
+    for (int i = 0; i < kAiBarCount; i++) {
+        ApplyAiBarStatus(ai_bars_[i], status);
+    }
+
+    // 状态对应的默认文案（可被 SetAiBarTextAll 覆盖）
+    const char* default_text = "AI 待命";
+    switch (status) {
+        case AiBarStatus::OFFLINE:      default_text = "未联网 · 长按 USER 看详情"; break;
+        case AiBarStatus::PROVISIONING: default_text = "等待手机连接热点..."; break;
+        case AiBarStatus::CONNECTING:   default_text = "正在连接 AI..."; break;
+        case AiBarStatus::ONLINE_IDLE:  default_text = "AI 待命"; break;
+        case AiBarStatus::LISTENING:    default_text = "聆听中..."; break;
+        case AiBarStatus::SPEAKING:     default_text = "说话中..."; break;
+        case AiBarStatus::UPGRADING:    default_text = "固件升级中..."; break;
+        case AiBarStatus::ERROR:        default_text = "AI 暂不可用 · 长按 USER 查看"; break;
+    }
+    SetAiBarTextAll(default_text);
+
+    // 启停动画
+    if (status == AiBarStatus::LISTENING) {
+        StartListeningAnim();
+    } else {
+        StopListeningAnim();
+    }
+    if (status == AiBarStatus::SPEAKING) {
+        StartSpeakingAnim();
+    } else {
+        StopSpeakingAnim();
+    }
+}
+
+void CustomLcdDisplay::SetAiBarTextAll(const char* text) {
+    if (!text) return;
+    current_ai_text_ = text;
+    for (int i = 0; i < kAiBarCount; i++) {
+        if (ai_bars_[i].status_label) {
+            lv_label_set_text(ai_bars_[i].status_label, text);
+        }
+    }
+}
+
+// ===== 聆听脉冲：每 80ms 推进一帧，外环从 20→32 + opacity 1→0 (再循环) =====
+void CustomLcdDisplay::PulseAnimTimerCb(lv_timer_t* timer) {
+    auto* self = static_cast<CustomLcdDisplay*>(lv_timer_get_user_data(timer));
+    static int frame = 0;
+    frame = (frame + 1) % 12;  // 12 帧 ~ 0.96s 周期
+
+    // size: 20→32, 居中位移 0→-6
+    int size = 20 + frame;
+    int offset = (size - 20) / 2;
+    // opacity: 255 → 0 线性
+    lv_opa_t opa = (lv_opa_t)(255 - frame * 21);
+
+    for (int i = 0; i < kAiBarCount; i++) {
+        AiBarHandles& h = self->ai_bars_[i];
+        if (!h.pulse_ring || lv_obj_has_flag(h.pulse_ring, LV_OBJ_FLAG_HIDDEN)) continue;
+        lv_obj_set_size(h.pulse_ring, size, size);
+        lv_obj_set_pos(h.pulse_ring, 8 - offset, 6 - offset);
+        // 1-bit 屏 opa>127 才显示为前景；这样早期可见、末期隐入
+        lv_obj_set_style_border_opa(h.pulse_ring, opa, 0);
+    }
+}
+
+void CustomLcdDisplay::StartListeningAnim() {
+    if (pulse_anim_timer_) return;
+    pulse_anim_timer_ = lv_timer_create(PulseAnimTimerCb, 80, this);
+}
+
+void CustomLcdDisplay::StopListeningAnim() {
+    if (pulse_anim_timer_) {
+        lv_timer_delete(pulse_anim_timer_);
+        pulse_anim_timer_ = nullptr;
+    }
+    // 复位外环到初始状态
+    for (int i = 0; i < kAiBarCount; i++) {
+        AiBarHandles& h = ai_bars_[i];
+        if (h.pulse_ring) {
+            lv_obj_set_size(h.pulse_ring, 20, 20);
+            lv_obj_set_pos(h.pulse_ring, 8, 6);
+        }
+    }
+}
+
+// ===== 说话音柱：每 150ms 切换 3 条柱的高度 (4/8/12 之间循环偏移) =====
+void CustomLcdDisplay::SpeakAnimTimerCb(lv_timer_t* timer) {
+    auto* self = static_cast<CustomLcdDisplay*>(lv_timer_get_user_data(timer));
+    static int phase = 0;
+    phase = (phase + 1) % 6;
+    // 6 帧节拍模拟随机起伏
+    static const int patterns[6][3] = {
+        {4, 12, 6}, {12, 4, 8}, {6, 8, 12},
+        {12, 6, 4}, {4, 12, 10}, {8, 4, 12}
+    };
+    for (int i = 0; i < kAiBarCount; i++) {
+        AiBarHandles& h = self->ai_bars_[i];
+        for (int b = 0; b < 3; b++) {
+            if (!h.speak_bars[b]) continue;
+            if (lv_obj_has_flag(h.speak_bars[b], LV_OBJ_FLAG_HIDDEN)) continue;
+            int hh = patterns[phase][b];
+            lv_obj_set_height(h.speak_bars[b], hh);
+            lv_obj_set_y(h.speak_bars[b], 6 + (16 - hh));  // 从底部对齐
+        }
+    }
+}
+
+void CustomLcdDisplay::StartSpeakingAnim() {
+    if (speak_anim_timer_) return;
+    speak_anim_timer_ = lv_timer_create(SpeakAnimTimerCb, 150, this);
+}
+
+void CustomLcdDisplay::StopSpeakingAnim() {
+    if (speak_anim_timer_) {
+        lv_timer_delete(speak_anim_timer_);
+        speak_anim_timer_ = nullptr;
+    }
+}
+
+// ===== P1-1：6 桌面页码指示器（顶栏与正文之间，y=33 一行 6 个 4x4 小点）=====
+void CustomLcdDisplay::BuildPageDots(lv_obj_t* parent, int page_index) {
+    if (page_index >= kAiBarCount) return;
+    bool dark = ai_bars_[page_index].dark;
+    lv_color_t fg = dark ? lv_color_white() : lv_color_black();
+
+    // 6 点居中：每点 4x4 + 间距 5 = 总宽 6*4+5*5 = 49
+    const int total_w = kPageDotCount * 4 + (kPageDotCount - 1) * 5;
+    const int start_x = (400 - total_w) / 2;
+    const int y = 24;  // 在 AI 状态卡内顶栏底部下方
+    // 实际放在状态栏上面会冲突；放在正文区顶部 y=38（双分隔下方 4px）
+    // 但 Pencil 设计大多正文从 y=42 开始；放 y=36 居中在双分隔之间会被覆盖
+    // 折中方案：放在正文区域的右上角小尺寸不会与 Pencil 视觉冲突
+    // 实际位置：在 status_bar 区域之下，正文区开始之上 (y=36)
+    const int dot_y = 36;
+
+    for (int i = 0; i < kPageDotCount; i++) {
+        lv_obj_t* dot = lv_obj_create(parent);
+        lv_obj_set_pos(dot, start_x + i * 9, dot_y);
+        lv_obj_set_size(dot, 4, 4);
+        lv_obj_set_style_radius(dot, LV_RADIUS_CIRCLE, 0);
+        lv_obj_set_style_bg_color(dot, fg, 0);
+        if (i == page_index) {
+            lv_obj_set_style_bg_opa(dot, LV_OPA_COVER, 0);  // 实心 = 当前
+        } else {
+            lv_obj_set_style_bg_opa(dot, LV_OPA_TRANSP, 0);
+            lv_obj_set_style_border_width(dot, 1, 0);
+            lv_obj_set_style_border_color(dot, fg, 0);
+        }
+        lv_obj_set_style_pad_all(dot, 0, 0);
+        lv_obj_remove_flag(dot, LV_OBJ_FLAG_SCROLLABLE);
+        page_dots_[page_index][i] = dot;
+    }
+    (void)y;
+}
+
+void CustomLcdDisplay::RefreshPageDots() {
+    int active = static_cast<int>(display_mode_);
+    for (int p = 0; p < kAiBarCount; p++) {
+        for (int i = 0; i < kPageDotCount; i++) {
+            lv_obj_t* dot = page_dots_[p][i];
+            if (!dot) continue;
+            if (i == active) {
+                lv_obj_set_style_bg_opa(dot, LV_OPA_COVER, 0);
+                lv_obj_set_style_border_width(dot, 0, 0);
+            } else {
+                lv_obj_set_style_bg_opa(dot, LV_OPA_TRANSP, 0);
+                lv_obj_set_style_border_width(dot, 1, 0);
+            }
+        }
+    }
+}
+
+// ===== P3-1：省电模式月牙图标 (放在状态栏湿度数字右侧) =====
+void CustomLcdDisplay::BuildPowerSaveIcon(lv_obj_t* parent, int page_index) {
+    if (page_index >= kAiBarCount) return;
+    bool dark = ai_bars_[page_index].dark;
+    lv_color_t fg = dark ? lv_color_white() : lv_color_black();
+
+    // 月牙：用一个填充实心圆 + 一个偏移的背景色圆叠加形成"咬一口"效果
+    // 放置在右上角 x=388, y=8 的 10x10 区域
+    lv_obj_t* moon = lv_obj_create(parent);
+    lv_obj_set_pos(moon, 386, 8);
+    lv_obj_set_size(moon, 10, 10);
+    lv_obj_set_style_radius(moon, LV_RADIUS_CIRCLE, 0);
+    lv_obj_set_style_bg_color(moon, fg, 0);
+    lv_obj_set_style_bg_opa(moon, LV_OPA_COVER, 0);
+    lv_obj_set_style_border_width(moon, 0, 0);
+    lv_obj_set_style_pad_all(moon, 0, 0);
+    lv_obj_remove_flag(moon, LV_OBJ_FLAG_SCROLLABLE);
+
+    // 咬口：用页面背景色的小圆覆盖右半
+    lv_obj_t* bite = lv_obj_create(moon);
+    lv_obj_set_pos(bite, 3, 0);
+    lv_obj_set_size(bite, 10, 10);
+    lv_obj_set_style_radius(bite, LV_RADIUS_CIRCLE, 0);
+    lv_obj_set_style_bg_color(bite, dark ? lv_color_black() : lv_color_white(), 0);
+    lv_obj_set_style_bg_opa(bite, LV_OPA_COVER, 0);
+    lv_obj_set_style_border_width(bite, 0, 0);
+    lv_obj_set_style_pad_all(bite, 0, 0);
+    lv_obj_remove_flag(bite, LV_OBJ_FLAG_SCROLLABLE);
+
+    lv_obj_add_flag(moon, LV_OBJ_FLAG_HIDDEN);  // 默认隐藏
+    power_save_icon_[page_index] = moon;
+}
+
+void CustomLcdDisplay::RefreshPowerSaveIcon() {
+    bool show = power_saving_;
+    if (show == last_power_save_drawn_) return;
+    last_power_save_drawn_ = show;
+    for (int i = 0; i < kAiBarCount; i++) {
+        if (!power_save_icon_[i]) continue;
+        if (show) lv_obj_remove_flag(power_save_icon_[i], LV_OBJ_FLAG_HIDDEN);
+        else      lv_obj_add_flag(power_save_icon_[i], LV_OBJ_FLAG_HIDDEN);
+    }
+}
 
 
 // ===== LVGL flush 回调 =====
@@ -493,15 +846,8 @@ void CustomLcdDisplay::SetChatMessage(const char* role, const char* content) {
     DisplayLockGuard lock(this);
     if (!content || strlen(content) == 0) return;
 
-    // Pencil 新布局：同步更新所有页面的 AI 状态栏标签
-    lv_obj_t* ai_labels[] = {
-        clock_ai_status_label_, weather_ai_status_label_,
-        quote_ai_status_label_, photo_ai_status_label_,
-        pomo_ai_status_label_, music_ai_status_label_,
-    };
-    for (auto* lbl : ai_labels) {
-        if (lbl) lv_label_set_text(lbl, content);
-    }
+    // P0-1 + P0-3：经过 SetAiBarTextAll 统一覆盖 6 桌面 + WifiQR 页的 AI 状态文字
+    SetAiBarTextAll(content);
 
     // Legacy：旧 AI 对话卡片（如果存在则带滚动动画）
     if (chat_status_label_) {
@@ -629,15 +975,10 @@ void CustomLcdDisplay::ClearChatMessages() {
     if (chat_status_label_) lv_label_set_text(chat_status_label_, "");
     if (music_chat_status_label_) lv_label_set_text(music_chat_status_label_, "");
     if (pomo_chat_status_label_) lv_label_set_text(pomo_chat_status_label_, "");
-    // Pencil 新布局：所有页面 AI 状态栏重置
-    lv_obj_t* ai_labels[] = {
-        clock_ai_status_label_, weather_ai_status_label_,
-        quote_ai_status_label_, photo_ai_status_label_,
-        pomo_ai_status_label_, music_ai_status_label_,
-    };
-    for (auto* lbl : ai_labels) {
-        if (lbl) lv_label_set_text(lbl, "AI 待命");
-    }
+    // 重置为当前状态对应的默认文案
+    AiBarStatus s = current_ai_status_;
+    current_ai_status_ = AiBarStatus::ERROR;  // 强制下一次设置触发刷新
+    SetAiBarStatusAll(s);
 }
 
 void CustomLcdDisplay::ShowWifiProvisioningQr(const char* ssid, const char* url) {
@@ -657,24 +998,48 @@ void CustomLcdDisplay::ShowWifiProvisioningQr(const char* ssid, const char* url)
     const char* safe_url = url ? url : "http://192.168.4.1";
     std::string qr_payload = safe_url;
 
-    // === Pencil WiFi QR page: AI Bar + Status + seps ===
+    // === P0-2 / P3-3：3 步引导版 WiFi 配网页 ===
+    // 顶部 AI Bar（PROVISIONING 态）
+    // 左半 3 步骤时间线，右半 QR + 底部 SSID/URL
     wifi_qr_page_ = lv_obj_create(lv_screen_active());
     DesktopPageBase(wifi_qr_page_);
 
-    DesktopAiBar(wifi_qr_page_, 0, 0, 220, nullptr);
+    BuildAiBar(wifi_qr_page_, 0, 0, 220, /*bar_index=*/6, /*dark=*/false);  // index 6 = WIFI_QR
     lv_obj_t *qr_wifi_i, *qr_bat_i, *qr_pct_l;
     DesktopStatusRight(wifi_qr_page_, 224, 0, &qr_wifi_i, &qr_bat_i, &qr_pct_l, nullptr);
     DesktopHeaderSeps(wifi_qr_page_);
 
-    // Title: y=50, center, font 18px (use 16px CJK), opacity=0.75
-    lv_obj_t* title = DesktopLabel(wifi_qr_page_, "æ«ç æå¼éç½é¡µ",
-                                   &font_puhui_16_4, 0, 50, 400, LV_TEXT_ALIGN_CENTER);
-    lv_obj_set_style_text_opa(title, (lv_opa_t)(255 * 0.75), 0);
+    // === 左半 3 步骤时间线 (x=14, y=46~150) ===
+    // 序号小圆 (黑底白字) + 步骤说明
+    auto make_step = [&](int y_pos, const char* num, const char* text) {
+        lv_obj_t* circle = lv_obj_create(wifi_qr_page_);
+        lv_obj_set_pos(circle, 14, y_pos);
+        lv_obj_set_size(circle, 22, 22);
+        lv_obj_set_style_radius(circle, LV_RADIUS_CIRCLE, 0);
+        lv_obj_set_style_bg_color(circle, lv_color_black(), 0);
+        lv_obj_set_style_bg_opa(circle, LV_OPA_COVER, 0);
+        lv_obj_set_style_border_width(circle, 0, 0);
+        lv_obj_set_style_pad_all(circle, 0, 0);
+        lv_obj_remove_flag(circle, LV_OBJ_FLAG_SCROLLABLE);
 
-    // QR code box: x=120, y=80, w=160, h=160, rounded 4, border 2px
-    DesktopObj(wifi_qr_page_, 120, 80, 160, 160, lv_color_white(), 2, 4);
+        lv_obj_t* num_lbl = lv_label_create(circle);
+        lv_obj_set_pos(num_lbl, 7, 2);
+        lv_obj_set_style_text_color(num_lbl, lv_color_white(), 0);
+        lv_obj_set_style_text_font(num_lbl, &alibaba_puhui_16, 0);
+        lv_label_set_text(num_lbl, num);
 
-    const int canvas_size = 156;
+        lv_obj_t* step_text = DesktopLabel(wifi_qr_page_, text, &font_puhui_14_1,
+                                            44, y_pos + 4, 180, LV_TEXT_ALIGN_LEFT);
+        lv_obj_set_style_text_opa(step_text, (lv_opa_t)(255 * 0.85), 0);
+    };
+    make_step(50,  "1", "用手机连接热点");
+    make_step(88,  "2", "扫描右侧二维码");
+    make_step(126, "3", "选择 WiFi 输入密码");
+
+    // === 右侧 QR 框 (x=240, y=46, 144x144) ===
+    DesktopObj(wifi_qr_page_, 240, 46, 144, 144, lv_color_white(), 2, 4);
+
+    const int canvas_size = 140;
     wifi_qr_canvas_buf_ = heap_caps_malloc(canvas_size * canvas_size * sizeof(lv_color_t),
                                            MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
     if (!wifi_qr_canvas_buf_) {
@@ -706,18 +1071,18 @@ void CustomLcdDisplay::ShowWifiProvisioningQr(const char* ssid, const char* url)
         wifi_qr_code_ = lv_label_create(wifi_qr_page_);
         lv_obj_set_style_text_font(wifi_qr_code_, &font_puhui_16_4, 0);
         lv_obj_set_style_text_color(wifi_qr_code_, lv_color_black(), 0);
-        lv_label_set_text(wifi_qr_code_, "äºç»´ç åå­ä¸è¶³");
+        lv_label_set_text(wifi_qr_code_, "二维码内存不足");
     }
-    lv_obj_set_pos(wifi_qr_code_, 122, 82);
+    lv_obj_set_pos(wifi_qr_code_, 242, 48);
 
     // Hotspot label: y=255, center, font 12px (use 14px), opacity=0.5
-    std::string ssid_text = "ç­ç¹: ";
+    std::string ssid_text = "热点: ";
     ssid_text += safe_ssid;
     lv_obj_t* ssid_label = DesktopLabel(wifi_qr_page_, ssid_text.c_str(), &font_puhui_14_1, 0, 255, 400, LV_TEXT_ALIGN_CENTER);
     lv_obj_set_style_text_opa(ssid_label, (lv_opa_t)(255 * 0.5), 0);
 
     // URL label: y=270, center, font 12px (use 14px), opacity=0.5
-    std::string url_text = "éç½é¡µ: ";
+    std::string url_text = "配网页: ";
     url_text += safe_url;
     lv_obj_t* url_label = DesktopLabel(wifi_qr_page_, url_text.c_str(), &font_puhui_14_1, 0, 270, 400, LV_TEXT_ALIGN_CENTER);
     lv_obj_set_style_text_opa(url_label, (lv_opa_t)(255 * 0.5), 0);
@@ -783,6 +1148,11 @@ void CustomLcdDisplay::ApplyDisplayMode() {
         lv_obj_remove_flag(active, LV_OBJ_FLAG_HIDDEN);
         lv_obj_move_foreground(active);
     }
+    RefreshPageDots();
+    // P3-5：页面切换瞬间播一次过渡动画（只对前后两个不同的页有效）
+    if (active) {
+        PlayPageTransition(nullptr, active);
+    }
 }
 
 void CustomLcdDisplay::CycleDisplayMode() {
@@ -807,6 +1177,21 @@ void CustomLcdDisplay::CycleDisplayMode() {
         case MODE_MUSIC:    name = "音乐"; break;
     }
     ESP_LOGI(TAG, "页面切换: %s", name);
+}
+
+// P1-1：USER 长按反向翻页
+void CustomLcdDisplay::CycleDisplayModeReverse() {
+    DisplayLockGuard lock(this);
+    switch (display_mode_) {
+        case MODE_CLOCK:    display_mode_ = MODE_MUSIC; break;
+        case MODE_WEATHER:  display_mode_ = MODE_CLOCK; break;
+        case MODE_QUOTE:    display_mode_ = MODE_WEATHER; break;
+        case MODE_PHOTO:    display_mode_ = MODE_QUOTE; break;
+        case MODE_POMODORO: display_mode_ = MODE_PHOTO; break;
+        case MODE_MUSIC:    display_mode_ = MODE_POMODORO; break;
+    }
+    ApplyDisplayMode();
+    ESP_LOGI(TAG, "页面切换（反向）");
 }
 
 void CustomLcdDisplay::SetMusicInfo(const char* title, const char* artist) {
@@ -986,25 +1371,33 @@ void CustomLcdDisplay::SetupQuoteUI() {
     DesktopPageBase(quote_page_);
 
     // === Pencil: AI Bar (0,0,220) + Status (224,0,175) + seps ===
-    DesktopAiBar(quote_page_, 0, 0, 220, &quote_ai_status_label_);
+    BuildAiBar(quote_page_, 0, 0, 220, /*bar_index=*/MODE_QUOTE, /*dark=*/false);
+    quote_ai_status_label_ = ai_bars_[MODE_QUOTE].status_label;
     DesktopStatusRight(quote_page_, 224, 0,
                        &quote_wifi_icon_img_, &quote_battery_icon_img_,
                        &quote_battery_pct_label_, &quote_sensor_label_);
     DesktopHeaderSeps(quote_page_);
+    BuildPageDots(quote_page_, MODE_QUOTE);
+    BuildPowerSaveIcon(quote_page_, MODE_QUOTE);
 
     // === Big quote mark: x=30, y=56, font 52px (use 48), opacity=0.2 ===
     lv_obj_t* qmark = DesktopLabel(quote_page_, "\"", &alibaba_puhui_48, 30, 56, 80);
     lv_obj_set_style_text_opa(qmark, (lv_opa_t)(255 * 0.2), 0);
 
     // === Quote text: x=50, y=86, w=300, font 22px (use 24), opacity=0.8 ===
-    quote_text_label_ = DesktopLabel(quote_page_, "Fall seven times,\nstand up eight.",
-                                     &alibaba_puhui_24, 50, 86, 300);
-    lv_obj_set_style_text_opa(quote_text_label_, (lv_opa_t)(255 * 0.8), 0);
+    // P1-3：未设置时显示空状态引导（与相册"请通过 Web 上传照片"一致），
+    // 而非英文样例，避免被误以为是用户内容。
+    quote_text_label_ = DesktopLabel(quote_page_, "尚未设置格言\n双击 USER 刷新",
+                                     &font_puhui_16_4, 50, 86, 300);
+    lv_obj_set_style_text_opa(quote_text_label_, (lv_opa_t)(255 * 0.55), 0);
     {
         Settings quote_settings("quote", false);
         std::string cached_quote = quote_settings.GetString("text", "");
         if (!cached_quote.empty() && quote_text_label_) {
             lv_label_set_text(quote_text_label_, cached_quote.c_str());
+            // 有内容则恢复为正常字号 / 不透明
+            lv_obj_set_style_text_font(quote_text_label_, &alibaba_puhui_24, 0);
+            lv_obj_set_style_text_opa(quote_text_label_, (lv_opa_t)(255 * 0.8), 0);
         }
     }
 
@@ -1045,11 +1438,14 @@ void CustomLcdDisplay::SetupPhotoDesktopUI() {
     DesktopPageBase(photo_page_);
 
     // === Pencil: AI Bar (0,0,220) + Status (224,0,175) + seps ===
-    DesktopAiBar(photo_page_, 0, 0, 220, &photo_ai_status_label_);
+    BuildAiBar(photo_page_, 0, 0, 220, /*bar_index=*/MODE_PHOTO, /*dark=*/false);
+    photo_ai_status_label_ = ai_bars_[MODE_PHOTO].status_label;
     DesktopStatusRight(photo_page_, 224, 0,
                        &photo_wifi_icon_img_, &photo_battery_icon_img_,
                        &photo_battery_pct_label_, &photo_sensor_label_);
     DesktopHeaderSeps(photo_page_);
+    BuildPageDots(photo_page_, MODE_PHOTO);
+    BuildPowerSaveIcon(photo_page_, MODE_PHOTO);
 
     // === Photo frame: x=15, y=42, w=370, h=190, border 2px ===
     DesktopObj(photo_page_, 15, 42, 370, 190, lv_color_white(), 2, 0);
@@ -1091,12 +1487,14 @@ void CustomLcdDisplay::SetupPhotoDesktopUI() {
     // === Navigation: Pencil 箭头 20px / 状态文字 14px ===
     // 单色屏可用 ASCII 字体: alibaba_puhui_16 (16px)、alibaba_puhui_24 (24px)，
     // 选择更接近 Pencil 尺寸的 16px 用于箭头与状态文字（避免过大）
-    lv_obj_t* arr_l = DesktopLabel(photo_page_, "<", &alibaba_puhui_16, 140, 273, 30, LV_TEXT_ALIGN_CENTER);
-    lv_obj_set_style_text_opa(arr_l, (lv_opa_t)(255 * 0.4), 0);
-    photo_status_label_ = DesktopLabel(photo_page_, "1 / 1", &font_puhui_14_1, 175, 274, 50, LV_TEXT_ALIGN_CENTER);
+    // P2-4：箭头需有"可点击感"，用 24px 字号 + 实色不透明；
+    // 状态文字保持 14px、不透明 0.55 表达"次要信息"
+    lv_obj_t* arr_l = DesktopLabel(photo_page_, "<", &alibaba_puhui_24, 130, 266, 40, LV_TEXT_ALIGN_CENTER);
+    lv_obj_set_style_text_opa(arr_l, LV_OPA_COVER, 0);
+    photo_status_label_ = DesktopLabel(photo_page_, "1 / 1", &font_puhui_14_1, 170, 275, 60, LV_TEXT_ALIGN_CENTER);
     lv_obj_set_style_text_opa(photo_status_label_, (lv_opa_t)(255 * 0.55), 0);
-    lv_obj_t* arr_r = DesktopLabel(photo_page_, ">", &alibaba_puhui_16, 225, 273, 30, LV_TEXT_ALIGN_CENTER);
-    lv_obj_set_style_text_opa(arr_r, (lv_opa_t)(255 * 0.4), 0);
+    lv_obj_t* arr_r = DesktopLabel(photo_page_, ">", &alibaba_puhui_24, 230, 266, 40, LV_TEXT_ALIGN_CENTER);
+    lv_obj_set_style_text_opa(arr_r, LV_OPA_COVER, 0);
 
     lv_obj_add_flag(photo_page_, LV_OBJ_FLAG_HIDDEN);
 }
@@ -1108,11 +1506,14 @@ void CustomLcdDisplay::SetupClockUI() {
 
     // === Pencil: AI Bar (0,0,220) + Status (224,0,175) + single sep ===
     // 时钟页 Pencil 设计仅一条分隔线 (clockHeaderSep, opacity=0.15)
-    DesktopAiBar(clock_page_, 0, 0, 220, &clock_ai_status_label_);
+    BuildAiBar(clock_page_, 0, 0, 220, /*bar_index=*/MODE_CLOCK, /*dark=*/false);
+    clock_ai_status_label_ = ai_bars_[MODE_CLOCK].status_label;
     DesktopStatusRight(clock_page_, 224, 0,
                        &clock_wifi_icon_img_, &clock_battery_icon_img_,
                        &clock_battery_pct_label_, &clock_sensor_label_);
     DesktopHeaderSepSingle(clock_page_);
+    BuildPageDots(clock_page_, MODE_CLOCK);
+    BuildPowerSaveIcon(clock_page_, MODE_CLOCK);
 
     // === 4x 7-segment digits at y=77 ===
     CreateSevenSegDigit(clock_page_, 58, 77,
@@ -1154,6 +1555,11 @@ void CustomLcdDisplay::SetupClockUI() {
                                      10, 274, 380);
     lv_obj_set_style_text_opa(clock_info_label_, (lv_opa_t)(255 * 0.55), 0);
     lv_label_set_long_mode(clock_info_label_, LV_LABEL_LONG_WRAP);
+
+    // P0-3：底部"按 BOOT 说话"提示（首次按 BOOT 后自动消失）
+    boot_hint_label_ = DesktopLabel(clock_page_, "按 BOOT 说话 · 单按 USER 切换页面",
+                                    &font_puhui_14_1, 0, 285, 400, LV_TEXT_ALIGN_CENTER);
+    lv_obj_set_style_text_opa(boot_hint_label_, (lv_opa_t)(255 * 0.55), 0);
 
     lv_obj_add_flag(clock_page_, LV_OBJ_FLAG_HIDDEN);
 }
@@ -1228,9 +1634,201 @@ void CustomLcdDisplay::UpdateQuoteText(const char* text) {
     DisplayLockGuard lock(this);
     if (quote_text_label_ && text && strlen(text) > 0) {
         lv_label_set_text(quote_text_label_, text);
+        // P1-3：从空状态切回正常显示样式
+        lv_obj_set_style_text_font(quote_text_label_, &alibaba_puhui_24, 0);
+        lv_obj_set_style_text_opa(quote_text_label_, (lv_opa_t)(255 * 0.8), 0);
         // 缓存到 NVS
         Settings quote_settings("quote", true);
         quote_settings.SetString("text", text);
         ESP_LOGI(TAG, "格言已更新: %s", text);
     }
+}
+
+// ===== P0-3：BOOT 提示控制 =====
+void CustomLcdDisplay::DismissBootHint() {
+    DisplayLockGuard lock(this);
+    boot_hint_dismissed_ = true;
+    if (boot_hint_label_) {
+        lv_obj_add_flag(boot_hint_label_, LV_OBJ_FLAG_HIDDEN);
+    }
+}
+
+// ===== P3-4：设置 / 关于 模态层 =====
+void CustomLcdDisplay::BuildSettingsOverlay() {
+    settings_overlay_ = lv_obj_create(lv_screen_active());
+    lv_obj_set_size(settings_overlay_, 400, 300);
+    lv_obj_set_pos(settings_overlay_, 0, 0);
+    lv_obj_set_style_bg_color(settings_overlay_, lv_color_white(), 0);
+    lv_obj_set_style_bg_opa(settings_overlay_, LV_OPA_COVER, 0);
+    lv_obj_set_style_border_width(settings_overlay_, 0, 0);
+    lv_obj_set_style_pad_all(settings_overlay_, 0, 0);
+    lv_obj_set_style_radius(settings_overlay_, 0, 0);
+    lv_obj_remove_flag(settings_overlay_, LV_OBJ_FLAG_SCROLLABLE);
+
+    // 标题（顶部黑底白字"设置 · 关于"反白条 36px）
+    lv_obj_t* title_bar = lv_obj_create(settings_overlay_);
+    lv_obj_set_pos(title_bar, 0, 0);
+    lv_obj_set_size(title_bar, 400, 36);
+    lv_obj_set_style_bg_color(title_bar, lv_color_black(), 0);
+    lv_obj_set_style_bg_opa(title_bar, LV_OPA_COVER, 0);
+    lv_obj_set_style_border_width(title_bar, 0, 0);
+    lv_obj_set_style_pad_all(title_bar, 0, 0);
+    lv_obj_remove_flag(title_bar, LV_OBJ_FLAG_SCROLLABLE);
+
+    lv_obj_t* title = lv_label_create(title_bar);
+    lv_obj_set_pos(title, 0, 8);
+    lv_obj_set_width(title, 400);
+    lv_obj_set_style_text_align(title, LV_TEXT_ALIGN_CENTER, 0);
+    lv_obj_set_style_text_color(title, lv_color_white(), 0);
+    lv_obj_set_style_text_font(title, &font_puhui_16_4, 0);
+    lv_label_set_text(title, "设置 · 关于");
+
+    // 信息区
+    settings_info_label_ = lv_label_create(settings_overlay_);
+    lv_obj_set_pos(settings_info_label_, 16, 48);
+    lv_obj_set_width(settings_info_label_, 368);
+    lv_obj_set_style_text_color(settings_info_label_, lv_color_black(), 0);
+    lv_obj_set_style_text_font(settings_info_label_, &font_puhui_14_1, 0);
+    lv_label_set_long_mode(settings_info_label_, LV_LABEL_LONG_WRAP);
+    lv_label_set_text(settings_info_label_, "");
+
+    // 底部操作区
+    lv_obj_t* hint = lv_label_create(settings_overlay_);
+    lv_obj_set_pos(hint, 0, 264);
+    lv_obj_set_width(hint, 400);
+    lv_obj_set_style_text_align(hint, LV_TEXT_ALIGN_CENTER, 0);
+    lv_obj_set_style_text_color(hint, lv_color_black(), 0);
+    lv_obj_set_style_text_font(hint, &font_puhui_14_1, 0);
+    lv_obj_set_style_text_opa(hint, (lv_opa_t)(255 * 0.55), 0);
+    lv_label_set_text(hint, "BOOT 长按返回 · USER 单击重新配网");
+
+    lv_obj_add_flag(settings_overlay_, LV_OBJ_FLAG_HIDDEN);
+}
+
+void CustomLcdDisplay::RefreshSettingsOverlay() {
+    if (!settings_info_label_) return;
+
+    auto& app = Application::GetInstance();
+    DeviceState ds = app.GetDeviceState();
+    auto& wifi = WifiManager::GetInstance();
+    std::string ip = wifi.GetIpAddress();
+    if (ip.empty()) ip = "未联网";
+
+    Settings websocket_settings("websocket", false);
+    std::string ws_url = websocket_settings.GetString("url", "");
+    Settings mqtt_settings("mqtt", false);
+    std::string mqtt_ep = mqtt_settings.GetString("endpoint", "");
+
+    const char* protocol_name = "—";
+    if (!mqtt_ep.empty()) protocol_name = "MQTT";
+    else if (!ws_url.empty()) protocol_name = "WebSocket";
+
+    const char* state_text = "未知";
+    switch (ds) {
+        case kDeviceStateStarting:        state_text = "启动中"; break;
+        case kDeviceStateWifiConfiguring: state_text = "配网中"; break;
+        case kDeviceStateActivating:      state_text = "激活中"; break;
+        case kDeviceStateUpgrading:       state_text = "升级中"; break;
+        case kDeviceStateIdle:            state_text = "在线 · 待命"; break;
+        case kDeviceStateConnecting:      state_text = "连接对话信道"; break;
+        case kDeviceStateListening:       state_text = "聆听中"; break;
+        case kDeviceStateSpeaking:        state_text = "说话中"; break;
+        case kDeviceStateFatalError:      state_text = "致命错误"; break;
+        default: break;
+    }
+
+    Settings ota_settings("wifi", false);
+    std::string ota_url = ota_settings.GetString("ota_url", "");
+
+    char buf[640];
+    snprintf(buf, sizeof(buf),
+        "状态: %s\n"
+        "IP: %s\n"
+        "AI 后端: %s\n"
+        "OTA: %s\n"
+        "\n"
+        "USER 单击 → 重新配网\n"
+        "BOOT 长按 → 返回主页",
+        state_text,
+        ip.c_str(),
+        protocol_name,
+        (ota_url.empty() ? "默认 (Xiaozhi)" : ota_url.c_str()));
+    lv_label_set_text(settings_info_label_, buf);
+}
+
+void CustomLcdDisplay::ToggleSettingsOverlay() {
+    DisplayLockGuard lock(this);
+    if (!settings_overlay_) BuildSettingsOverlay();
+    bool hidden = lv_obj_has_flag(settings_overlay_, LV_OBJ_FLAG_HIDDEN);
+    if (hidden) {
+        RefreshSettingsOverlay();
+        lv_obj_remove_flag(settings_overlay_, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_move_foreground(settings_overlay_);
+        ESP_LOGI(TAG, "打开设置 / 关于");
+    } else {
+        lv_obj_add_flag(settings_overlay_, LV_OBJ_FLAG_HIDDEN);
+        ESP_LOGI(TAG, "关闭设置 / 关于");
+    }
+}
+
+// ===== P3-5：页面切换过渡动画 =====
+// 单色屏不能做透明渐变。用一道 400×300 黑色面板从顶部下落覆盖整页 (~150ms)
+// 再向下滑出 (~150ms)，总耗时 ~300ms。视觉上像幕布翻页。
+namespace {
+struct TransitionCtx {
+    lv_obj_t* curtain;
+    int phase;  // 0=down 1=up
+};
+
+void TransitionAnimCb(void* obj, int32_t v) {
+    auto* curtain = static_cast<lv_obj_t*>(obj);
+    lv_obj_set_y(curtain, v);
+}
+
+void TransitionReady(lv_anim_t* a) {
+    auto* ctx = static_cast<TransitionCtx*>(lv_anim_get_user_data(a));
+    if (!ctx) return;
+    if (ctx->phase == 0) {
+        // 下落到位后，反向滑出
+        ctx->phase = 1;
+        lv_anim_t up;
+        lv_anim_init(&up);
+        lv_anim_set_var(&up, ctx->curtain);
+        lv_anim_set_values(&up, 0, 300);
+        lv_anim_set_duration(&up, 150);
+        lv_anim_set_exec_cb(&up, TransitionAnimCb);
+        lv_anim_set_user_data(&up, ctx);
+        lv_anim_set_completed_cb(&up, TransitionReady);
+        lv_anim_start(&up);
+    } else {
+        // 收尾：删除幕布
+        if (ctx->curtain) lv_obj_del(ctx->curtain);
+        delete ctx;
+    }
+}
+}  // namespace
+
+void CustomLcdDisplay::PlayPageTransition(lv_obj_t* /*prev_page*/, lv_obj_t* /*next_page*/) {
+    // 创建一道 400x300 黑色幕布，初始 y = -300 (在屏幕之上)
+    lv_obj_t* curtain = lv_obj_create(lv_screen_active());
+    lv_obj_set_size(curtain, 400, 300);
+    lv_obj_set_pos(curtain, 0, -300);
+    lv_obj_set_style_bg_color(curtain, lv_color_black(), 0);
+    lv_obj_set_style_bg_opa(curtain, LV_OPA_COVER, 0);
+    lv_obj_set_style_border_width(curtain, 0, 0);
+    lv_obj_set_style_pad_all(curtain, 0, 0);
+    lv_obj_set_style_radius(curtain, 0, 0);
+    lv_obj_remove_flag(curtain, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_move_foreground(curtain);
+
+    auto* ctx = new TransitionCtx{curtain, 0};
+    lv_anim_t down;
+    lv_anim_init(&down);
+    lv_anim_set_var(&down, curtain);
+    lv_anim_set_values(&down, -300, 0);
+    lv_anim_set_duration(&down, 150);
+    lv_anim_set_exec_cb(&down, TransitionAnimCb);
+    lv_anim_set_user_data(&down, ctx);
+    lv_anim_set_completed_cb(&down, TransitionReady);
+    lv_anim_start(&down);
 }
