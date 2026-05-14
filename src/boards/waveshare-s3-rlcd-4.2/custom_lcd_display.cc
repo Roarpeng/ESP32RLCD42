@@ -115,6 +115,205 @@ void DrawQrToCanvas(qrcode_wrapper_handle_t qrcode, void* user_data) {
 }
 }  // namespace
 
+namespace {
+lv_obj_t* DesktopObj(lv_obj_t* parent, int x, int y, int w, int h, lv_color_t bg,
+                     int border = 0, int radius = 0) {
+    lv_obj_t* obj = lv_obj_create(parent);
+    lv_obj_set_pos(obj, x, y);
+    lv_obj_set_size(obj, w, h);
+    lv_obj_set_style_bg_color(obj, bg, 0);
+    lv_obj_set_style_bg_opa(obj, LV_OPA_COVER, 0);
+    lv_obj_set_style_border_width(obj, border, 0);
+    lv_obj_set_style_border_color(obj, lv_color_black(), 0);
+    lv_obj_set_style_radius(obj, radius, 0);
+    lv_obj_set_style_pad_all(obj, 0, 0);
+    lv_obj_remove_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
+    return obj;
+}
+
+lv_obj_t* DesktopLabel(lv_obj_t* parent, const char* text, const lv_font_t* font,
+                       int x, int y, int w, lv_text_align_t align = LV_TEXT_ALIGN_LEFT) {
+    lv_obj_t* label = lv_label_create(parent);
+    lv_obj_set_pos(label, x, y);
+    lv_obj_set_width(label, w);
+    lv_obj_set_style_text_font(label, font, 0);
+    lv_obj_set_style_text_color(label, lv_color_black(), 0);
+    lv_obj_set_style_text_align(label, align, 0);
+    lv_label_set_long_mode(label, LV_LABEL_LONG_WRAP);
+    lv_label_set_text(label, text);
+    return label;
+}
+
+void DesktopLine(lv_obj_t* parent, int x, int y, int w, int h) {
+    DesktopObj(parent, x, y, w, h, lv_color_black(), 0, 0);
+}
+
+void DesktopCircle(lv_obj_t* parent, int x, int y, int size, lv_color_t bg = lv_color_black()) {
+    DesktopObj(parent, x, y, size, size, bg, 0, LV_RADIUS_CIRCLE);
+}
+
+void DesktopPageBase(lv_obj_t* page) {
+    lv_obj_set_size(page, 400, 300);
+    lv_obj_set_pos(page, 0, 0);
+    lv_obj_set_style_bg_color(page, lv_color_white(), 0);
+    lv_obj_set_style_bg_opa(page, LV_OPA_COVER, 0);
+    lv_obj_set_style_border_width(page, 0, 0);
+    lv_obj_set_style_radius(page, 0, 0);
+    lv_obj_set_style_pad_all(page, 0, 0);
+    lv_obj_remove_flag(page, LV_OBJ_FLAG_SCROLLABLE);
+}
+
+void DesktopStatus(lv_obj_t* page, lv_obj_t** wifi, lv_obj_t** battery,
+                   lv_obj_t** pct, lv_obj_t** sensor) {
+    *wifi = lv_image_create(page);
+    lv_image_set_src(*wifi, &ui_img_wifi_off);
+    lv_obj_set_pos(*wifi, 15, 7);
+    *battery = lv_image_create(page);
+    lv_image_set_src(*battery, &ui_img_battery_full);
+    lv_obj_set_pos(*battery, 230, 7);
+    *pct = DesktopLabel(page, "85%", &alibaba_puhui_16, 256, 7, 44);
+    if (sensor) {
+        *sensor = DesktopLabel(page, "26.5°C", &alibaba_puhui_16, 306, 7, 58);
+    }
+    DesktopLabel(page, "58%", &alibaba_puhui_16, 365, 7, 40);
+    DesktopLine(page, 0, 36, 400, 3);
+}
+
+// ===== Pencil 设计 1:1 还原：AI Status Card ====
+// 布局: bot 图标 | 细分隔线 | AI 状态文字  (白底黑字)
+void DesktopAiBar(lv_obj_t* parent, int x, int y, int w,
+                  lv_obj_t** ai_status) {
+    lv_obj_t* bar = lv_obj_create(parent);
+    lv_obj_set_pos(bar, x, y);
+    lv_obj_set_size(bar, w, 32);
+    lv_obj_set_style_bg_color(bar, lv_color_white(), 0);
+    lv_obj_set_style_bg_opa(bar, LV_OPA_COVER, 0);
+    lv_obj_set_style_border_width(bar, 0, 0);
+    lv_obj_set_style_radius(bar, 0, 0);
+    lv_obj_set_style_pad_all(bar, 0, 0);
+    lv_obj_remove_flag(bar, LV_OBJ_FLAG_SCROLLABLE);
+
+    // Bot icon placeholder (x=8, y=6, 20x20, font_puhui_16_4 "●")
+    lv_obj_t* bot = lv_label_create(bar);
+    lv_obj_set_pos(bot, 8, 6);
+    lv_obj_set_style_text_font(bot, &font_puhui_16_4, 0);
+    lv_obj_set_style_text_color(bot, lv_color_black(), 0);
+    lv_label_set_text(bot, "●");
+
+    // 分隔线 (x=36, y=6, w=2, h=20, opacity=0.2)
+    lv_obj_t* div = lv_obj_create(bar);
+    lv_obj_set_pos(div, 36, 6);
+    lv_obj_set_size(div, 2, 20);
+    lv_obj_set_style_bg_color(div, lv_color_black(), 0);
+    lv_obj_set_style_bg_opa(div, (lv_opa_t)(255 * 0.2), 0);
+    lv_obj_set_style_border_width(div, 0, 0);
+    lv_obj_set_style_radius(div, 0, 0);
+    lv_obj_set_style_pad_all(div, 0, 0);
+    lv_obj_remove_flag(div, LV_OBJ_FLAG_SCROLLABLE);
+
+    // AI 状态文字 (x=46, y=6, 黑色, opacity=0.7)
+    if (ai_status) {
+        *ai_status = lv_label_create(bar);
+        lv_obj_set_pos(*ai_status, 46, 6);
+        lv_obj_set_width(*ai_status, w - 50);
+        lv_obj_set_style_text_font(*ai_status, &font_puhui_16_4, 0);
+        lv_obj_set_style_text_color(*ai_status, lv_color_black(), 0);
+        lv_obj_set_style_text_opa(*ai_status, (lv_opa_t)(255 * 0.7), 0);
+        lv_obj_set_style_text_align(*ai_status, LV_TEXT_ALIGN_LEFT, 0);
+        lv_label_set_long_mode(*ai_status, LV_LABEL_LONG_DOT);
+        lv_label_set_text(*ai_status, "AI 待命");
+    }
+}
+
+// ===== Pencil 设计 1:1 还原：双分隔线 (y=32 + y=34) ====
+void DesktopHeaderSeps(lv_obj_t* parent) {
+    DesktopLine(parent, 0, 32, 400, 1);
+    DesktopLine(parent, 0, 34, 400, 1);
+}
+
+// ===== Pencil 设计 1:1 还原：Status Bar (右侧) ====
+void DesktopStatusRight(lv_obj_t* parent, int x, int y,
+                        lv_obj_t** wifi, lv_obj_t** battery,
+                        lv_obj_t** pct, lv_obj_t** sensor) {
+    lv_obj_t* bar = lv_obj_create(parent);
+    lv_obj_set_pos(bar, x, y);
+    lv_obj_set_size(bar, 175, 30);
+    lv_obj_set_style_bg_color(bar, lv_color_white(), 0);
+    lv_obj_set_style_bg_opa(bar, LV_OPA_COVER, 0);
+    lv_obj_set_style_border_width(bar, 0, 0);
+    lv_obj_set_style_radius(bar, 0, 0);
+    lv_obj_set_style_pad_all(bar, 0, 0);
+    lv_obj_remove_flag(bar, LV_OBJ_FLAG_SCROLLABLE);
+
+    *wifi = lv_image_create(bar);
+    lv_image_set_src(*wifi, &ui_img_wifi_off);
+    lv_obj_set_pos(*wifi, 0, 6);
+
+    *battery = lv_image_create(bar);
+    lv_image_set_src(*battery, &ui_img_battery_full);
+    lv_obj_set_pos(*battery, 24, 6);
+
+    *pct = DesktopLabel(bar, "85%", &alibaba_puhui_16, 44, 6, 28);
+    lv_obj_set_style_text_color(*pct, lv_color_black(), 0);
+
+    if (sensor) {
+        *sensor = DesktopLabel(bar, "26.5°C", &alibaba_puhui_16, 72, 6, 44);
+        lv_obj_set_style_text_color(*sensor, lv_color_black(), 0);
+    }
+
+    DesktopLabel(bar, "58%", &alibaba_puhui_16, 120, 6, 24);
+}
+
+// ===== Pencil 设计 1:1 还原：7 段数码管 =====
+// 在父容器内创建一个 44x80 的数码管位，含 7 段矩形
+// segs[0..6] = A, B, C, D, E, F, G
+void CreateSevenSegDigit(lv_obj_t* parent, int x, int y,
+                         lv_obj_t** container, lv_obj_t* segs[7]) {
+    *container = lv_obj_create(parent);
+    lv_obj_set_pos(*container, x, y);
+    lv_obj_set_size(*container, 44, 80);
+    lv_obj_set_style_bg_opa(*container, LV_OPA_TRANSP, 0);
+    lv_obj_set_style_border_width(*container, 0, 0);
+    lv_obj_set_style_pad_all(*container, 0, 0);
+    lv_obj_remove_flag(*container, LV_OBJ_FLAG_SCROLLABLE);
+
+    // A — 上横 (x:6, y:0, w:32, h:6)
+    segs[0] = DesktopObj(*container, 6, 0, 32, 6, lv_color_black(), 0, 1);
+    // B — 右上竖 (x:38, y:6, w:6, h:30)
+    segs[1] = DesktopObj(*container, 38, 6, 6, 30, lv_color_black(), 0, 1);
+    // C — 右下竖 (x:38, y:42, w:6, h:30)
+    segs[2] = DesktopObj(*container, 38, 42, 6, 30, lv_color_black(), 0, 1);
+    // D — 下横 (x:6, y:74, w:32, h:6)
+    segs[3] = DesktopObj(*container, 6, 74, 32, 6, lv_color_black(), 0, 1);
+    // E — 左下竖 (x:0, y:42, w:6, h:30)
+    segs[4] = DesktopObj(*container, 0, 42, 6, 30, lv_color_black(), 0, 1);
+    // F — 左上竖 (x:0, y:6, w:6, h:30)
+    segs[5] = DesktopObj(*container, 0, 6, 6, 30, lv_color_black(), 0, 1);
+    // G — 中横 (x:6, y:37, w:32, h:6)
+    segs[6] = DesktopObj(*container, 6, 37, 32, 6, lv_color_black(), 0, 1);
+}
+
+// 设置某位数码管的值 (0-9)，位模式: A B C D E F G
+void SetSevenSegDigit(lv_obj_t* segs[7], int value) {
+    if (value < 0 || value > 9) return;
+    //           0      1      2      3      4      5      6      7      8      9
+    static const uint8_t pat[10] = {
+        0b1111110, 0b0110000, 0b1101101, 0b1111001, 0b0110011,
+        0b1011011, 0b1011111, 0b1110000, 0b1111111, 0b1111011 };
+    uint8_t m = pat[value];
+    for (int i = 0; i < 7; i++) {
+        bool on = (m >> (6 - i)) & 1;
+        if (on) {
+            lv_obj_remove_flag(segs[i], LV_OBJ_FLAG_HIDDEN);
+            lv_obj_set_style_bg_opa(segs[i], LV_OPA_COVER, 0);
+        } else {
+            lv_obj_add_flag(segs[i], LV_OBJ_FLAG_HIDDEN);
+        }
+    }
+}
+}  // namespace
+
+
 // ===== LVGL flush 回调 =====
 
 void CustomLcdDisplay::Lvgl_flush_cb(lv_display_t * disp, const lv_area_t * area, uint8_t * color_p)
@@ -176,13 +375,14 @@ CustomLcdDisplay::CustomLcdDisplay(esp_lcd_panel_io_handle_t panel_io,
         return;
     }
 
-    // 4. 创建 5 个桌面 UI
-    ESP_LOGI(TAG, "创建格言/相册/天气/专注/时钟桌面 UI");
+    // 4. 创建 6 个桌面 UI
+    ESP_LOGI(TAG, "创建格言/相册/天气/专注/时钟/音乐桌面 UI");
     SetupQuoteUI();
     SetupPhotoDesktopUI();
     SetupWeatherUI();
     SetupPomodoroUI();
     SetupClockUI();
+    SetupMusicUI();
     // 告诉显示框架：当前自定义 UI 已经初始化完成
     // 否则基类的 SetStatus/ShowNotification 会一直误判为“UI 未准备好”
     setup_ui_called_ = true;
@@ -274,65 +474,57 @@ void CustomLcdDisplay::RefreshMemoDisplay() {
 
 void CustomLcdDisplay::SetChatMessage(const char* role, const char* content) {
     DisplayLockGuard lock(this);
-    if (chat_status_label_ == nullptr && music_chat_status_label_ == nullptr) return;
     if (!content || strlen(content) == 0) return;
 
-    // 停止可能正在运行的滚动动画（系统信息或之前的 AI 滚动）
-    lv_anim_delete(chat_status_label_, nullptr);
-    
-    // 停止系统信息滚动，恢复 DataUpdateTask 更新
-    SetShowingSystemInfo(false);
-    
-    // 设置文本内容
-    lv_label_set_text(chat_status_label_, content);
-    lv_label_set_long_mode(chat_status_label_, LV_LABEL_LONG_WRAP);
-    
-    // 先恢复居中对齐（正常模式），计算内容高度
-    lv_obj_align(chat_status_label_, LV_ALIGN_LEFT_MID, 64 + 20, 0);
-    
-    // 检查内容是否超出父容器（chat_inner）的可见高度
-    lv_obj_update_layout(chat_status_label_);
-    int label_h = lv_obj_get_height(chat_status_label_);
-    // 从父容器动态获取高度，不硬编码（父容器是 chat_inner）
-    lv_obj_t *parent = lv_obj_get_parent(chat_status_label_);
-    int visible_h = parent ? lv_obj_get_content_height(parent) : 108;
-    
-    if (label_h > visible_h) {
-        // 超长内容：切换到 TOP_LEFT 绝对定位后启用滚动
-        // （和鱼咬尾同理，LEFT_MID 对齐会干扰动画的 set_y）
-        const int text_x = 64 + 20;
-        lv_obj_align(chat_status_label_, LV_ALIGN_TOP_LEFT, text_x, 0);
-        
-        lv_anim_t a;
-        lv_anim_init(&a);
-        lv_anim_set_var(&a, chat_status_label_);
-        lv_anim_set_values(&a, 0, -(label_h - visible_h));  // 从顶部滚到底部
-        lv_anim_set_delay(&a, 1500);  // 开始前停顿 1.5 秒
-        lv_anim_set_duration(&a, (label_h - visible_h) * 50);  // 速度：每像素 50ms
-        lv_anim_set_repeat_count(&a, LV_ANIM_REPEAT_INFINITE);
-        lv_anim_set_repeat_delay(&a, 2000);  // 滚完后暂停 2 秒再重新开始
-        lv_anim_set_exec_cb(&a, [](void *obj, int32_t v) {
-            lv_obj_set_y((lv_obj_t *)obj, v);
-        });
-        lv_anim_start(&a);
-        
-        ESP_LOGI("CustomLcdDisplay", "AI 回答过长（%dpx > %dpx），启用慢速滚动", label_h, visible_h);
+    // Pencil 新布局：同步更新所有页面的 AI 状态栏标签
+    lv_obj_t* ai_labels[] = {
+        clock_ai_status_label_, weather_ai_status_label_,
+        quote_ai_status_label_, photo_ai_status_label_,
+        pomo_ai_status_label_, music_ai_status_label_,
+    };
+    for (auto* lbl : ai_labels) {
+        if (lbl) lv_label_set_text(lbl, content);
     }
 
-    // 音乐页同步显示 AI 文案
+    // Legacy：旧 AI 对话卡片（如果存在则带滚动动画）
+    if (chat_status_label_) {
+        lv_anim_delete(chat_status_label_, nullptr);
+        SetShowingSystemInfo(false);
+        lv_label_set_text(chat_status_label_, content);
+        lv_label_set_long_mode(chat_status_label_, LV_LABEL_LONG_WRAP);
+        lv_obj_align(chat_status_label_, LV_ALIGN_LEFT_MID, 64 + 20, 0);
+
+        lv_obj_update_layout(chat_status_label_);
+        int label_h = lv_obj_get_height(chat_status_label_);
+        lv_obj_t *parent = lv_obj_get_parent(chat_status_label_);
+        int visible_h = parent ? lv_obj_get_content_height(parent) : 108;
+
+        if (label_h > visible_h) {
+            const int text_x = 64 + 20;
+            lv_obj_align(chat_status_label_, LV_ALIGN_TOP_LEFT, text_x, 0);
+            lv_anim_t a;
+            lv_anim_init(&a);
+            lv_anim_set_var(&a, chat_status_label_);
+            lv_anim_set_values(&a, 0, -(label_h - visible_h));
+            lv_anim_set_delay(&a, 1500);
+            lv_anim_set_duration(&a, (label_h - visible_h) * 50);
+            lv_anim_set_repeat_count(&a, LV_ANIM_REPEAT_INFINITE);
+            lv_anim_set_repeat_delay(&a, 2000);
+            lv_anim_set_exec_cb(&a, [](void *obj, int32_t v) {
+                lv_obj_set_y((lv_obj_t *)obj, v);
+            });
+            lv_anim_start(&a);
+        }
+    }
+
+    // Legacy：同步到音乐页/番茄钟页旧 AI 卡片（如果存在）
     if (music_chat_status_label_) {
         lv_label_set_long_mode(music_chat_status_label_, LV_LABEL_LONG_WRAP);
         lv_label_set_text(music_chat_status_label_, content);
     }
-    // 番茄钟页同步显示 AI 文案
     if (pomo_chat_status_label_) {
         lv_label_set_long_mode(pomo_chat_status_label_, LV_LABEL_LONG_WRAP);
         lv_label_set_text(pomo_chat_status_label_, content);
-    }
-    // 时钟页同步显示 AI 文案
-    if (clock_ai_status_label_) {
-        lv_label_set_long_mode(clock_ai_status_label_, LV_LABEL_LONG_WRAP);
-        lv_label_set_text(clock_ai_status_label_, content);
     }
 }
 
@@ -420,8 +612,15 @@ void CustomLcdDisplay::ClearChatMessages() {
     if (chat_status_label_) lv_label_set_text(chat_status_label_, "");
     if (music_chat_status_label_) lv_label_set_text(music_chat_status_label_, "");
     if (pomo_chat_status_label_) lv_label_set_text(pomo_chat_status_label_, "");
-    if (clock_ai_status_label_) lv_label_set_text(clock_ai_status_label_, "");
-    // 表情不清除，保持常驻
+    // Pencil 新布局：所有页面 AI 状态栏重置
+    lv_obj_t* ai_labels[] = {
+        clock_ai_status_label_, weather_ai_status_label_,
+        quote_ai_status_label_, photo_ai_status_label_,
+        pomo_ai_status_label_, music_ai_status_label_,
+    };
+    for (auto* lbl : ai_labels) {
+        if (lbl) lv_label_set_text(lbl, "AI 待命");
+    }
 }
 
 void CustomLcdDisplay::ShowWifiProvisioningQr(const char* ssid, const char* url) {
@@ -439,41 +638,42 @@ void CustomLcdDisplay::ShowWifiProvisioningQr(const char* ssid, const char* url)
 
     const char* safe_ssid = ssid ? ssid : "";
     const char* safe_url = url ? url : "http://192.168.4.1";
-    // 二维码编码为 Web 配网页 URL（而非 WIFI 热点连接码）
     std::string qr_payload = safe_url;
 
+    // === Pencil WiFi QR page: AI Bar + Status + seps ===
     wifi_qr_page_ = lv_obj_create(lv_screen_active());
-    lv_obj_set_size(wifi_qr_page_, 400, 300);
-    lv_obj_set_pos(wifi_qr_page_, 0, 0);
-    lv_obj_set_style_bg_color(wifi_qr_page_, lv_color_white(), 0);
-    lv_obj_set_style_bg_opa(wifi_qr_page_, LV_OPA_COVER, 0);
-    lv_obj_set_style_border_width(wifi_qr_page_, 0, 0);
-    lv_obj_set_style_radius(wifi_qr_page_, 0, 0);
-    lv_obj_set_style_pad_all(wifi_qr_page_, 0, 0);
-    lv_obj_remove_flag(wifi_qr_page_, LV_OBJ_FLAG_SCROLLABLE);
+    DesktopPageBase(wifi_qr_page_);
 
-    lv_obj_t* title = lv_label_create(wifi_qr_page_);
-    lv_obj_set_style_text_font(title, &font_puhui_16_4, 0);
-    lv_obj_set_style_text_color(title, lv_color_black(), 0);
-    lv_label_set_text(title, "扫码打开配网页");
-    lv_obj_align(title, LV_ALIGN_TOP_MID, 0, 8);
+    DesktopAiBar(wifi_qr_page_, 0, 0, 220, nullptr);
+    lv_obj_t *qr_wifi_i, *qr_bat_i, *qr_pct_l;
+    DesktopStatusRight(wifi_qr_page_, 224, 0, &qr_wifi_i, &qr_bat_i, &qr_pct_l, nullptr);
+    DesktopHeaderSeps(wifi_qr_page_);
 
-    wifi_qr_canvas_buf_ = heap_caps_malloc(kWifiQrCanvasSize * kWifiQrCanvasSize * sizeof(lv_color_t),
+    // Title: y=50, center, font 18px (use 16px CJK), opacity=0.75
+    lv_obj_t* title = DesktopLabel(wifi_qr_page_, "æ«ç æå¼éç½é¡µ",
+                                   &font_puhui_16_4, 0, 50, 400, LV_TEXT_ALIGN_CENTER);
+    lv_obj_set_style_text_opa(title, (lv_opa_t)(255 * 0.75), 0);
+
+    // QR code box: x=120, y=80, w=160, h=160, rounded 4, border 2px
+    DesktopObj(wifi_qr_page_, 120, 80, 160, 160, lv_color_white(), 2, 4);
+
+    const int canvas_size = 156;
+    wifi_qr_canvas_buf_ = heap_caps_malloc(canvas_size * canvas_size * sizeof(lv_color_t),
                                            MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
     if (!wifi_qr_canvas_buf_) {
-        wifi_qr_canvas_buf_ = heap_caps_malloc(kWifiQrCanvasSize * kWifiQrCanvasSize * sizeof(lv_color_t),
+        wifi_qr_canvas_buf_ = heap_caps_malloc(canvas_size * canvas_size * sizeof(lv_color_t),
                                                MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT);
     }
 
     if (wifi_qr_canvas_buf_) {
         wifi_qr_code_ = lv_canvas_create(wifi_qr_page_);
-        lv_canvas_set_buffer(wifi_qr_code_, wifi_qr_canvas_buf_, kWifiQrCanvasSize,
-                             kWifiQrCanvasSize, LV_COLOR_FORMAT_RGB565);
+        lv_canvas_set_buffer(wifi_qr_code_, wifi_qr_canvas_buf_, canvas_size,
+                             canvas_size, LV_COLOR_FORMAT_RGB565);
         lv_canvas_fill_bg(wifi_qr_code_, lv_color_white(), LV_OPA_COVER);
 
         WifiQrDrawContext draw_ctx = {
             .canvas = wifi_qr_code_,
-            .size = kWifiQrCanvasSize,
+            .size = canvas_size,
         };
         qrcode_wrapper_config_t qr_cfg = {};
         qr_cfg.display_func = DrawQrToCanvas;
@@ -489,36 +689,21 @@ void CustomLcdDisplay::ShowWifiProvisioningQr(const char* ssid, const char* url)
         wifi_qr_code_ = lv_label_create(wifi_qr_page_);
         lv_obj_set_style_text_font(wifi_qr_code_, &font_puhui_16_4, 0);
         lv_obj_set_style_text_color(wifi_qr_code_, lv_color_black(), 0);
-        lv_label_set_text(wifi_qr_code_, "二维码内存不足");
+        lv_label_set_text(wifi_qr_code_, "äºç»´ç åå­ä¸è¶³");
     }
-    lv_obj_align(wifi_qr_code_, LV_ALIGN_TOP_MID, 0, 34);
+    lv_obj_set_pos(wifi_qr_code_, 122, 82);
 
-    lv_obj_t* ssid_label = lv_label_create(wifi_qr_page_);
-    lv_obj_set_style_text_font(ssid_label, &font_puhui_14_1, 0);
-    lv_obj_set_style_text_color(ssid_label, lv_color_black(), 0);
-    lv_label_set_long_mode(ssid_label, LV_LABEL_LONG_DOT);
-    lv_obj_set_width(ssid_label, 360);
-    std::string ssid_text = "热点: ";
+    // Hotspot label: y=255, center, font 12px (use 14px), opacity=0.5
+    std::string ssid_text = "ç­ç¹: ";
     ssid_text += safe_ssid;
-    lv_label_set_text(ssid_label, ssid_text.c_str());
-    lv_obj_align(ssid_label, LV_ALIGN_BOTTOM_MID, 0, -44);
+    lv_obj_t* ssid_label = DesktopLabel(wifi_qr_page_, ssid_text.c_str(), &font_puhui_14_1, 0, 255, 400, LV_TEXT_ALIGN_CENTER);
+    lv_obj_set_style_text_opa(ssid_label, (lv_opa_t)(255 * 0.5), 0);
 
-    lv_obj_t* url_label = lv_label_create(wifi_qr_page_);
-    lv_obj_set_style_text_font(url_label, &font_puhui_14_1, 0);
-    lv_obj_set_style_text_color(url_label, lv_color_black(), 0);
-    lv_label_set_long_mode(url_label, LV_LABEL_LONG_DOT);
-    lv_obj_set_width(url_label, 360);
-    std::string url_text = "配网页: ";
+    // URL label: y=270, center, font 12px (use 14px), opacity=0.5
+    std::string url_text = "éç½é¡µ: ";
     url_text += safe_url;
-    lv_label_set_text(url_label, url_text.c_str());
-    lv_obj_align(url_label, LV_ALIGN_BOTTOM_MID, 0, -20);
-
-    // 添加提示文字
-    lv_obj_t* hint_label = lv_label_create(wifi_qr_page_);
-    lv_obj_set_style_text_font(hint_label, &font_puhui_14_1, 0);
-    lv_obj_set_style_text_color(hint_label, lv_color_black(), 0);
-    lv_label_set_text(hint_label, "1.手机连接热点  2.扫码输入WiFi密码");
-    lv_obj_align(hint_label, LV_ALIGN_BOTTOM_MID, 0, -4);
+    lv_obj_t* url_label = DesktopLabel(wifi_qr_page_, url_text.c_str(), &font_puhui_14_1, 0, 270, 400, LV_TEXT_ALIGN_CENTER);
+    lv_obj_set_style_text_opa(url_label, (lv_opa_t)(255 * 0.5), 0);
 
     lv_obj_move_to_index(wifi_qr_page_, -1);
     lv_obj_invalidate(wifi_qr_page_);
@@ -574,6 +759,7 @@ void CustomLcdDisplay::ApplyDisplayMode() {
         case MODE_WEATHER:  active = weather_page_;  break;
         case MODE_POMODORO: active = pomodoro_page_; break;
         case MODE_CLOCK:    active = clock_page_;    break;
+        case MODE_MUSIC:    active = music_page_;    break;
     }
 
     if (active) {
@@ -584,13 +770,14 @@ void CustomLcdDisplay::ApplyDisplayMode() {
 
 void CustomLcdDisplay::CycleDisplayMode() {
     DisplayLockGuard lock(this);
-    // 五桌面循环：时钟 → 天气 → 格言 → 相册 → 番茄钟
+    // 六桌面循环：时钟 → 天气 → 格言 → 相册 → 番茄钟 → 音乐
     switch (display_mode_) {
         case MODE_CLOCK:    display_mode_ = MODE_WEATHER; break;
         case MODE_WEATHER:  display_mode_ = MODE_QUOTE; break;
         case MODE_QUOTE:    display_mode_ = MODE_PHOTO; break;
         case MODE_PHOTO:    display_mode_ = MODE_POMODORO; break;
-        case MODE_POMODORO: display_mode_ = MODE_CLOCK; break;
+        case MODE_POMODORO: display_mode_ = MODE_MUSIC; break;
+        case MODE_MUSIC:    display_mode_ = MODE_CLOCK; break;
     }
     ApplyDisplayMode();
     const char* name = "未知";
@@ -600,6 +787,7 @@ void CustomLcdDisplay::CycleDisplayMode() {
         case MODE_QUOTE:    name = "格言"; break;
         case MODE_PHOTO:    name = "相册"; break;
         case MODE_POMODORO: name = "番茄钟"; break;
+        case MODE_MUSIC:    name = "音乐"; break;
     }
     ESP_LOGI(TAG, "页面切换: %s", name);
 }
@@ -682,10 +870,10 @@ void CustomLcdDisplay::SetMusicProgress(uint32_t current_ms, uint32_t total_ms) 
 
 void CustomLcdDisplay::SwitchToMusicPage() {
     DisplayLockGuard lock(this);
-    if (display_mode_ != MODE_QUOTE) {
-        display_mode_ = MODE_QUOTE;
+    if (display_mode_ != MODE_MUSIC) {
+        display_mode_ = MODE_MUSIC;
         ApplyDisplayMode();
-        ESP_LOGI(TAG, "音乐页已由格言桌面替代");
+        ESP_LOGI(TAG, "切换到音乐页");
     }
 }
 
@@ -769,189 +957,6 @@ void CustomLcdDisplay::NotifyUserActivity() {
     }
 }
 
-namespace {
-lv_obj_t* DesktopObj(lv_obj_t* parent, int x, int y, int w, int h, lv_color_t bg,
-                     int border = 0, int radius = 0) {
-    lv_obj_t* obj = lv_obj_create(parent);
-    lv_obj_set_pos(obj, x, y);
-    lv_obj_set_size(obj, w, h);
-    lv_obj_set_style_bg_color(obj, bg, 0);
-    lv_obj_set_style_bg_opa(obj, LV_OPA_COVER, 0);
-    lv_obj_set_style_border_width(obj, border, 0);
-    lv_obj_set_style_border_color(obj, lv_color_black(), 0);
-    lv_obj_set_style_radius(obj, radius, 0);
-    lv_obj_set_style_pad_all(obj, 0, 0);
-    lv_obj_remove_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
-    return obj;
-}
-
-lv_obj_t* DesktopLabel(lv_obj_t* parent, const char* text, const lv_font_t* font,
-                       int x, int y, int w, lv_text_align_t align = LV_TEXT_ALIGN_LEFT) {
-    lv_obj_t* label = lv_label_create(parent);
-    lv_obj_set_pos(label, x, y);
-    lv_obj_set_width(label, w);
-    lv_obj_set_style_text_font(label, font, 0);
-    lv_obj_set_style_text_color(label, lv_color_black(), 0);
-    lv_obj_set_style_text_align(label, align, 0);
-    lv_label_set_long_mode(label, LV_LABEL_LONG_WRAP);
-    lv_label_set_text(label, text);
-    return label;
-}
-
-void DesktopLine(lv_obj_t* parent, int x, int y, int w, int h) {
-    DesktopObj(parent, x, y, w, h, lv_color_black(), 0, 0);
-}
-
-void DesktopCircle(lv_obj_t* parent, int x, int y, int size, lv_color_t bg = lv_color_black()) {
-    DesktopObj(parent, x, y, size, size, bg, 0, LV_RADIUS_CIRCLE);
-}
-
-void DesktopPageBase(lv_obj_t* page) {
-    lv_obj_set_size(page, 400, 300);
-    lv_obj_set_pos(page, 0, 0);
-    lv_obj_set_style_bg_color(page, lv_color_white(), 0);
-    lv_obj_set_style_bg_opa(page, LV_OPA_COVER, 0);
-    lv_obj_set_style_border_width(page, 0, 0);
-    lv_obj_set_style_radius(page, 0, 0);
-    lv_obj_set_style_pad_all(page, 0, 0);
-    lv_obj_remove_flag(page, LV_OBJ_FLAG_SCROLLABLE);
-}
-
-void DesktopStatus(lv_obj_t* page, lv_obj_t** wifi, lv_obj_t** battery,
-                   lv_obj_t** pct, lv_obj_t** sensor) {
-    *wifi = lv_image_create(page);
-    lv_image_set_src(*wifi, &ui_img_wifi_off);
-    lv_obj_set_pos(*wifi, 15, 7);
-    *battery = lv_image_create(page);
-    lv_image_set_src(*battery, &ui_img_battery_full);
-    lv_obj_set_pos(*battery, 230, 7);
-    *pct = DesktopLabel(page, "85%", &alibaba_puhui_16, 256, 7, 44);
-    if (sensor) {
-        *sensor = DesktopLabel(page, "26.5°C", &alibaba_puhui_16, 306, 7, 58);
-    }
-    DesktopLabel(page, "58%", &alibaba_puhui_16, 365, 7, 40);
-    DesktopLine(page, 0, 36, 400, 3);
-}
-
-// ===== Pencil 设计 1:1 还原：AI Status Card ====
-// 布局: bot 图标 | 细分隔线 | AI 状态文字  (白底黑字)
-void DesktopAiBar(lv_obj_t* parent, int x, int y, int w,
-                  lv_obj_t** ai_status) {
-    lv_obj_t* bar = lv_obj_create(parent);
-    lv_obj_set_pos(bar, x, y);
-    lv_obj_set_size(bar, w, 32);
-    lv_obj_set_style_bg_color(bar, lv_color_white(), 0);
-    lv_obj_set_style_bg_opa(bar, LV_OPA_COVER, 0);
-    lv_obj_set_style_border_width(bar, 0, 0);
-    lv_obj_set_style_radius(bar, 0, 0);
-    lv_obj_set_style_pad_all(bar, 0, 0);
-    lv_obj_remove_flag(bar, LV_OBJ_FLAG_SCROLLABLE);
-
-    // 分隔线 (x=36, y=6, w=2, h=20, opacity=0.2)
-    lv_obj_t* div = lv_obj_create(bar);
-    lv_obj_set_pos(div, 36, 6);
-    lv_obj_set_size(div, 2, 20);
-    lv_obj_set_style_bg_color(div, lv_color_black(), 0);
-    lv_obj_set_style_bg_opa(div, (lv_opa_t)(255 * 0.2), 0);
-    lv_obj_set_style_border_width(div, 0, 0);
-    lv_obj_set_style_radius(div, 0, 0);
-    lv_obj_set_style_pad_all(div, 0, 0);
-    lv_obj_remove_flag(div, LV_OBJ_FLAG_SCROLLABLE);
-
-    // AI 状态文字 (x=46, y=6, 黑色, opacity=0.7)
-    if (ai_status) {
-        *ai_status = lv_label_create(bar);
-        lv_obj_set_pos(*ai_status, 46, 6);
-        lv_obj_set_width(*ai_status, w - 50);
-        lv_obj_set_style_text_font(*ai_status, &font_puhui_16_4, 0);
-        lv_obj_set_style_text_color(*ai_status, lv_color_black(), 0);
-        lv_obj_set_style_text_align(*ai_status, LV_TEXT_ALIGN_LEFT, 0);
-        lv_label_set_long_mode(*ai_status, LV_LABEL_LONG_WRAP);
-        lv_label_set_text(*ai_status, "AI 待命");
-    }
-}
-
-// ===== Pencil 设计 1:1 还原：Status Bar (右侧) ====
-void DesktopStatusRight(lv_obj_t* parent, int x, int y,
-                        lv_obj_t** wifi, lv_obj_t** battery,
-                        lv_obj_t** pct, lv_obj_t** sensor) {
-    lv_obj_t* bar = lv_obj_create(parent);
-    lv_obj_set_pos(bar, x, y);
-    lv_obj_set_size(bar, 175, 30);
-    lv_obj_set_style_bg_color(bar, lv_color_white(), 0);
-    lv_obj_set_style_bg_opa(bar, LV_OPA_COVER, 0);
-    lv_obj_set_style_border_width(bar, 0, 0);
-    lv_obj_set_style_radius(bar, 0, 0);
-    lv_obj_set_style_pad_all(bar, 0, 0);
-    lv_obj_remove_flag(bar, LV_OBJ_FLAG_SCROLLABLE);
-
-    *wifi = lv_image_create(bar);
-    lv_image_set_src(*wifi, &ui_img_wifi_off);
-    lv_obj_set_pos(*wifi, 0, 6);
-
-    *battery = lv_image_create(bar);
-    lv_image_set_src(*battery, &ui_img_battery_full);
-    lv_obj_set_pos(*battery, 24, 6);
-
-    *pct = DesktopLabel(bar, "85%", &alibaba_puhui_16, 44, 6, 28);
-    lv_obj_set_style_text_color(*pct, lv_color_black(), 0);
-
-    if (sensor) {
-        *sensor = DesktopLabel(bar, "26.5°C", &alibaba_puhui_16, 72, 6, 44);
-        lv_obj_set_style_text_color(*sensor, lv_color_black(), 0);
-    }
-
-    DesktopLabel(bar, "58%", &alibaba_puhui_16, 120, 6, 24);
-}
-
-// ===== Pencil 设计 1:1 还原：7 段数码管 =====
-// 在父容器内创建一个 44x80 的数码管位，含 7 段矩形
-// segs[0..6] = A, B, C, D, E, F, G
-void CreateSevenSegDigit(lv_obj_t* parent, int x, int y,
-                         lv_obj_t** container, lv_obj_t* segs[7]) {
-    *container = lv_obj_create(parent);
-    lv_obj_set_pos(*container, x, y);
-    lv_obj_set_size(*container, 44, 80);
-    lv_obj_set_style_bg_opa(*container, LV_OPA_TRANSP, 0);
-    lv_obj_set_style_border_width(*container, 0, 0);
-    lv_obj_set_style_pad_all(*container, 0, 0);
-    lv_obj_remove_flag(*container, LV_OBJ_FLAG_SCROLLABLE);
-
-    // A — 上横 (x:6, y:0, w:32, h:6)
-    segs[0] = DesktopObj(*container, 6, 0, 32, 6, lv_color_black(), 0, 1);
-    // B — 右上竖 (x:38, y:6, w:6, h:30)
-    segs[1] = DesktopObj(*container, 38, 6, 6, 30, lv_color_black(), 0, 1);
-    // C — 右下竖 (x:38, y:42, w:6, h:30)
-    segs[2] = DesktopObj(*container, 38, 42, 6, 30, lv_color_black(), 0, 1);
-    // D — 下横 (x:6, y:74, w:32, h:6)
-    segs[3] = DesktopObj(*container, 6, 74, 32, 6, lv_color_black(), 0, 1);
-    // E — 左下竖 (x:0, y:42, w:6, h:30)
-    segs[4] = DesktopObj(*container, 0, 42, 6, 30, lv_color_black(), 0, 1);
-    // F — 左上竖 (x:0, y:6, w:6, h:30)
-    segs[5] = DesktopObj(*container, 0, 6, 6, 30, lv_color_black(), 0, 1);
-    // G — 中横 (x:6, y:37, w:32, h:6)
-    segs[6] = DesktopObj(*container, 6, 37, 32, 6, lv_color_black(), 0, 1);
-}
-
-// 设置某位数码管的值 (0-9)，位模式: A B C D E F G
-void SetSevenSegDigit(lv_obj_t* segs[7], int value) {
-    if (value < 0 || value > 9) return;
-    //           0      1      2      3      4      5      6      7      8      9
-    static const uint8_t pat[10] = {
-        0b1111110, 0b0110000, 0b1101101, 0b1111001, 0b0110011,
-        0b1011011, 0b1011111, 0b1110000, 0b1111111, 0b1111011 };
-    uint8_t m = pat[value];
-    for (int i = 0; i < 7; i++) {
-        bool on = (m >> (6 - i)) & 1;
-        if (on) {
-            lv_obj_remove_flag(segs[i], LV_OBJ_FLAG_HIDDEN);
-            lv_obj_set_style_bg_opa(segs[i], LV_OPA_COVER, 0);
-        } else {
-            lv_obj_add_flag(segs[i], LV_OBJ_FLAG_HIDDEN);
-        }
-    }
-}
-}  // namespace
 
 void CustomLcdDisplay::SetClockDigit(int pos, int value) {
     if (pos < 0 || pos > 3) return;
@@ -962,12 +967,22 @@ void CustomLcdDisplay::SetupQuoteUI() {
     DisplayLockGuard lock(this);
     quote_page_ = lv_obj_create(lv_screen_active());
     DesktopPageBase(quote_page_);
-    DesktopStatus(quote_page_, &quote_wifi_icon_img_, &quote_battery_icon_img_,
-                  &quote_battery_pct_label_, &quote_sensor_label_);
-    DesktopLabel(quote_page_, "\"", &alibaba_puhui_48, 32, 54, 80);
-    // 格言文本改为动态 label，默认显示本地格言
-    quote_text_label_ = DesktopLabel(quote_page_, "Fall seven times,\nstand up eight.", &alibaba_puhui_24, 28, 122, 260);
-    // 尝试从 NVS 加载缓存的格言
+
+    // === Pencil: AI Bar (0,0,220) + Status (224,0,175) + seps ===
+    DesktopAiBar(quote_page_, 0, 0, 220, &quote_ai_status_label_);
+    DesktopStatusRight(quote_page_, 224, 0,
+                       &quote_wifi_icon_img_, &quote_battery_icon_img_,
+                       &quote_battery_pct_label_, &quote_sensor_label_);
+    DesktopHeaderSeps(quote_page_);
+
+    // === Big quote mark: x=30, y=56, font 52px (use 48), opacity=0.2 ===
+    lv_obj_t* qmark = DesktopLabel(quote_page_, "\"", &alibaba_puhui_48, 30, 56, 80);
+    lv_obj_set_style_text_opa(qmark, (lv_opa_t)(255 * 0.2), 0);
+
+    // === Quote text: x=50, y=86, w=300, font 22px (use 24), opacity=0.8 ===
+    quote_text_label_ = DesktopLabel(quote_page_, "Fall seven times,\nstand up eight.",
+                                     &alibaba_puhui_24, 50, 86, 300);
+    lv_obj_set_style_text_opa(quote_text_label_, (lv_opa_t)(255 * 0.8), 0);
     {
         Settings quote_settings("quote", false);
         std::string cached_quote = quote_settings.GetString("text", "");
@@ -975,21 +990,18 @@ void CustomLcdDisplay::SetupQuoteUI() {
             lv_label_set_text(quote_text_label_, cached_quote.c_str());
         }
     }
-    lv_obj_t* btn = DesktopObj(quote_page_, 28, 220, 160, 84, lv_color_white(), 4, 42);
-    DesktopLabel(btn, "NEW\nQUOTE", &alibaba_puhui_16, 76, 20, 64, LV_TEXT_ALIGN_CENTER);
-    DesktopObj(btn, 30, 32, 18, 18, lv_color_white(), 3, LV_RADIUS_CIRCLE);
-    DesktopLine(btn, 44, 28, 8, 3);
-    DesktopLine(btn, 44, 28, 3, 8);
-    DesktopLine(quote_page_, 220, 246, 10, 42);
-    DesktopCircle(quote_page_, 206, 238, 28);
-    DesktopCircle(quote_page_, 236, 238, 28);
-    DesktopObj(quote_page_, 204, 270, 60, 18, lv_color_black(), 0, 0);
-    DesktopObj(quote_page_, 210, 286, 48, 16, lv_color_white(), 4, 0);
-    DesktopCircle(quote_page_, 300, 238, 28);
-    DesktopCircle(quote_page_, 328, 216, 28);
-    DesktopCircle(quote_page_, 360, 222, 28);
-    DesktopCircle(quote_page_, 266, 256, 28);
-    DesktopObj(quote_page_, 284, 258, 82, 58, lv_color_black(), 0, 30);
+
+    // === NEW QUOTE button: x=120, y=210, w=160, h=42, rounded(21), border 2px ===
+    lv_obj_t* btn = DesktopObj(quote_page_, 120, 210, 160, 42, lv_color_white(), 2, 21);
+    DesktopLabel(btn, "NEW QUOTE", &alibaba_puhui_16, 30, 11, 100, LV_TEXT_ALIGN_CENTER);
+
+    // === Decorative person figure: head x=340,y=226,12x12; body; arms; legs ===
+    DesktopCircle(quote_page_, 340, 226, 12);
+    DesktopLine(quote_page_, 345, 238, 2, 20);
+    DesktopLine(quote_page_, 335, 248, 22, 2);
+    DesktopLine(quote_page_, 340, 258, 2, 18);
+    DesktopLine(quote_page_, 348, 258, 2, 18);
+
     lv_obj_add_flag(quote_page_, LV_OBJ_FLAG_HIDDEN);
 }
 
@@ -997,58 +1009,51 @@ void CustomLcdDisplay::SetupPhotoDesktopUI() {
     DisplayLockGuard lock(this);
     photo_page_ = lv_obj_create(lv_screen_active());
     DesktopPageBase(photo_page_);
-    photo_wifi_icon_img_ = lv_image_create(photo_page_);
-    lv_image_set_src(photo_wifi_icon_img_, &ui_img_wifi_off);
-    lv_obj_set_pos(photo_wifi_icon_img_, 14, 6);
-    DesktopLabel(photo_page_, "* 电子相册 *", &font_puhui_16_4, 0, 5, 400, LV_TEXT_ALIGN_CENTER);
-    DesktopLine(photo_page_, 0, 35, 400, 2);
-    DesktopObj(photo_page_, 15, 48, 370, 198, lv_color_white(), 2, 0);
-    DesktopLine(photo_page_, 60, 211, 270, 4);
-    DesktopObj(photo_page_, 108, 102, 68, 112, lv_color_black(), 0, 0);
-    DesktopObj(photo_page_, 176, 72, 55, 142, lv_color_black(), 0, 0);
-    DesktopObj(photo_page_, 232, 122, 58, 92, lv_color_black(), 0, 0);
-    DesktopCircle(photo_page_, 258, 102, 62);
-    DesktopCircle(photo_page_, 276, 123, 18, lv_color_white());
-    DesktopCircle(photo_page_, 278, 124, 8);
-    DesktopCircle(photo_page_, 302, 123, 18, lv_color_white());
-    DesktopCircle(photo_page_, 304, 124, 8);
-    DesktopObj(photo_page_, 252, 148, 70, 78, lv_color_black(), 2, 35);
-    DesktopObj(photo_page_, 92, 186, 85, 30, lv_color_white(), 0, 0);
-    DesktopLine(photo_page_, 14, 44, 18, 2);
-    DesktopLine(photo_page_, 14, 44, 2, 16);
-    DesktopLine(photo_page_, 368, 44, 18, 2);
-    DesktopLine(photo_page_, 384, 44, 2, 16);
-    DesktopLine(photo_page_, 14, 270, 18, 2);
-    DesktopLine(photo_page_, 14, 254, 2, 18);
-    DesktopLine(photo_page_, 368, 270, 18, 2);
-    DesktopLine(photo_page_, 384, 254, 2, 18);
-    DesktopLabel(photo_page_, "<", &alibaba_puhui_24, 150, 254, 35, LV_TEXT_ALIGN_CENTER);
-    photo_status_label_ = DesktopLabel(photo_page_, "1 / 1", &alibaba_puhui_16, 180, 260, 60, LV_TEXT_ALIGN_CENTER);
-    DesktopLabel(photo_page_, ">", &alibaba_puhui_24, 248, 254, 35, LV_TEXT_ALIGN_CENTER);
 
+    // === Pencil: AI Bar (0,0,220) + Status (224,0,175) + seps ===
+    DesktopAiBar(photo_page_, 0, 0, 220, &photo_ai_status_label_);
+    DesktopStatusRight(photo_page_, 224, 0,
+                       &photo_wifi_icon_img_, &photo_battery_icon_img_,
+                       &photo_battery_pct_label_, &photo_sensor_label_);
+    DesktopHeaderSeps(photo_page_);
+
+    // === Photo frame: x=15, y=42, w=370, h=190, border 2px ===
+    DesktopObj(photo_page_, 15, 42, 370, 190, lv_color_white(), 2, 0);
+
+    // === Photo image: inside frame, 366x186 ===
     photo_image_ = lv_image_create(photo_page_);
-    lv_obj_set_size(photo_image_, 366, 194);
-    lv_obj_align(photo_image_, LV_ALIGN_TOP_LEFT, 17, 50);
+    lv_obj_set_size(photo_image_, 366, 186);
+    lv_obj_set_pos(photo_image_, 17, 44);
 
-    // 创建“无图片”覆盖层（显示 Web 上传地址）
+    // === Empty overlay: x=15, y=38, w=370, h=220, rounded 4, border 2px ===
     photo_empty_overlay_ = lv_obj_create(photo_page_);
     lv_obj_set_size(photo_empty_overlay_, 370, 220);
-    lv_obj_set_pos(photo_empty_overlay_, 15, 42);
+    lv_obj_set_pos(photo_empty_overlay_, 15, 38);
     lv_obj_set_style_bg_color(photo_empty_overlay_, lv_color_white(), 0);
     lv_obj_set_style_bg_opa(photo_empty_overlay_, LV_OPA_COVER, 0);
     lv_obj_set_style_border_width(photo_empty_overlay_, 2, 0);
     lv_obj_set_style_border_color(photo_empty_overlay_, lv_color_black(), 0);
     lv_obj_set_style_radius(photo_empty_overlay_, 4, 0);
-    lv_obj_set_style_pad_all(photo_empty_overlay_, 10, 0);
+    lv_obj_set_style_pad_all(photo_empty_overlay_, 0, 0);
     lv_obj_remove_flag(photo_empty_overlay_, LV_OBJ_FLAG_SCROLLABLE);
 
-    DesktopLabel(photo_empty_overlay_, "相册为空", &alibaba_puhui_24, 0, 30, 350, LV_TEXT_ALIGN_CENTER);
-    DesktopLabel(photo_empty_overlay_, "请通过 Web 上传照片", &alibaba_puhui_16, 0, 80, 350, LV_TEXT_ALIGN_CENTER);
-    photo_upload_url_label_ = DesktopLabel(photo_empty_overlay_, "http://设备IP", &alibaba_puhui_16, 0, 110, 350, LV_TEXT_ALIGN_CENTER);
-    DesktopLabel(photo_empty_overlay_, "支持 JPG/PNG/BMP 格式", &alibaba_puhui_16, 0, 150, 350, LV_TEXT_ALIGN_CENTER);
+    DesktopLabel(photo_empty_overlay_, "相册为空", &alibaba_puhui_24, 0, 40, 370, LV_TEXT_ALIGN_CENTER);
+    lv_obj_t* hint1 = DesktopLabel(photo_empty_overlay_, "请通过 Web 上传照片",
+                                    &font_puhui_14_1, 0, 90, 370, LV_TEXT_ALIGN_CENTER);
+    lv_obj_set_style_text_opa(hint1, (lv_opa_t)(255 * 0.45), 0);
+    photo_upload_url_label_ = DesktopLabel(photo_empty_overlay_, "http://设备IP",
+                                           &font_puhui_14_1, 0, 115, 370, LV_TEXT_ALIGN_CENTER);
+    lv_obj_set_style_text_opa(photo_upload_url_label_, (lv_opa_t)(255 * 0.45), 0);
+    lv_obj_t* hint2 = DesktopLabel(photo_empty_overlay_, "支持 JPG/PNG/BMP 格式",
+                                    &font_puhui_14_1, 0, 145, 370, LV_TEXT_ALIGN_CENTER);
+    lv_obj_set_style_text_opa(hint2, (lv_opa_t)(255 * 0.35), 0);
 
-    // 默认隐藏覆盖层（由 UpdatePhotoDesktopStatus 控制显示）
     lv_obj_add_flag(photo_empty_overlay_, LV_OBJ_FLAG_HIDDEN);
+
+    // === Navigation: left arrow x=140,y=270; status x=175,y=273; right arrow x=225,y=270 ===
+    DesktopLabel(photo_page_, "<", &alibaba_puhui_24, 140, 270, 30, LV_TEXT_ALIGN_CENTER);
+    photo_status_label_ = DesktopLabel(photo_page_, "1/1", &alibaba_puhui_16, 175, 273, 50, LV_TEXT_ALIGN_CENTER);
+    DesktopLabel(photo_page_, ">", &alibaba_puhui_24, 225, 270, 30, LV_TEXT_ALIGN_CENTER);
 
     lv_obj_add_flag(photo_page_, LV_OBJ_FLAG_HIDDEN);
 }
@@ -1058,14 +1063,14 @@ void CustomLcdDisplay::SetupClockUI() {
     clock_page_ = lv_obj_create(lv_screen_active());
     DesktopPageBase(clock_page_);
 
-    // === Pencil 1:1 — 顶部栏: AI Bar (x=0,w=220) + Status (x=223,w=175) + 线(y=32) ===
+    // === Pencil: AI Bar (0,0,220) + Status (224,0,175) + double seps ===
     DesktopAiBar(clock_page_, 0, 0, 220, &clock_ai_status_label_);
-    DesktopStatusRight(clock_page_, 223, 4,
+    DesktopStatusRight(clock_page_, 224, 0,
                        &clock_wifi_icon_img_, &clock_battery_icon_img_,
                        &clock_battery_pct_label_, &clock_sensor_label_);
-    DesktopLine(clock_page_, 0, 32, 400, 1);
+    DesktopHeaderSeps(clock_page_);
 
-    // === Pencil 1:1 — 4 位 7 段数码管 (y=77, x=58/125/192/217/284) ===
+    // === 4x 7-segment digits at y=77 ===
     CreateSevenSegDigit(clock_page_, 58, 77,
                         &clock_digit_[0], clock_digit_segs_[0]);
     SetSevenSegDigit(clock_digit_segs_[0], 1);
@@ -1074,7 +1079,7 @@ void CustomLcdDisplay::SetupClockUI() {
                         &clock_digit_[1], clock_digit_segs_[1]);
     SetSevenSegDigit(clock_digit_segs_[1], 0);
 
-    // 冒号圆点 (Pencil bd3Wx 容器 y=77,h=85, gap=24,center → dot y=100,132)
+    // Colon: two 8x8 rounded dots at y=100 and y=132
     clock_colon_dot_top_ = DesktopObj(clock_page_, 192, 100, 8, 8,
                                       lv_color_black(), 0, 4);
     clock_colon_dot_bot_ = DesktopObj(clock_page_, 192, 132, 8, 8,
@@ -1088,25 +1093,22 @@ void CustomLcdDisplay::SetupClockUI() {
                         &clock_digit_[3], clock_digit_segs_[3]);
     SetSevenSegDigit(clock_digit_segs_[3], 8);
 
-    // 秒数 (Pencil 无, 小字置于数码管下方)
-    clock_sec_label_ = DesktopLabel(clock_page_, "36", &font_puhui_16_4,
-                                    180, 162, 44, LV_TEXT_ALIGN_CENTER);
-
-    // === 日期 (Pencil QdSSj: y=195, center, CJK 字体防乱码) ===
+    // === Date: y=195, center, font 20px (use CJK 16px for safety) ===
     clock_date_label_ = DesktopLabel(clock_page_, "06 / 12  周三",
                                      &font_puhui_16_4, 0, 195, 400,
                                      LV_TEXT_ALIGN_CENTER);
 
-    // === 分割线 (Pencil d1Yb1: y=228, w=380, x=10) ===
+    // === Info separator: x=10, y=228, w=380 ===
     DesktopLine(clock_page_, 10, 228, 380, 1);
 
-    // === 温度 (Pencil D6MfW: y=238, fontSize=32) ===
+    // === Big temp: x=10, y=238, font 32px (use 48px) ===
     clock_temp_label_ = DesktopLabel(clock_page_, "26.5°C", &alibaba_puhui_48,
-                                     10, 235, 120);
+                                     10, 238, 120);
 
-    // === 备忘录 (Pencil rFH1M: y=274, w=380, font_puhui_14_1 全 CJK) ===
+    // === Memo text: x=10, y=274, w=380, font 14px, opacity=0.55 ===
     clock_info_label_ = DesktopLabel(clock_page_, "", &font_puhui_14_1,
-                                     10, 270, 380);
+                                     10, 274, 380);
+    lv_obj_set_style_text_opa(clock_info_label_, (lv_opa_t)(255 * 0.55), 0);
     lv_label_set_long_mode(clock_info_label_, LV_LABEL_LONG_WRAP);
 
     lv_obj_add_flag(clock_page_, LV_OBJ_FLAG_HIDDEN);

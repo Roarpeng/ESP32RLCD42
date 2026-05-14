@@ -37,6 +37,7 @@ private:
         MODE_QUOTE = 2,
         MODE_PHOTO = 3,
         MODE_POMODORO = 4,
+        MODE_MUSIC = 5,
     };
     DisplayMode display_mode_ = MODE_CLOCK;
 
@@ -108,7 +109,14 @@ private:
     lv_obj_t *pomo_battery_icon_img_ = nullptr;  // 状态栏电池图标
     lv_obj_t *pomo_battery_pct_label_ = nullptr; // 状态栏电量文字
 
-    // ===== 新 5 桌面：格言/相册/翻页时钟 =====
+    // ===== Pencil 设计各页面 AI 状态栏标签 =====
+    lv_obj_t *weather_ai_status_label_ = nullptr;
+    lv_obj_t *quote_ai_status_label_ = nullptr;
+    lv_obj_t *photo_ai_status_label_ = nullptr;
+    lv_obj_t *pomo_ai_status_label_ = nullptr;
+    lv_obj_t *music_ai_status_label_ = nullptr;
+
+    // ===== 新 6 桌面：格言/相册/翻页时钟/音乐 =====
     lv_obj_t *quote_wifi_icon_img_ = nullptr;
     lv_obj_t *quote_battery_icon_img_ = nullptr;
     lv_obj_t *quote_battery_pct_label_ = nullptr;
@@ -118,6 +126,7 @@ private:
     lv_obj_t *photo_wifi_icon_img_ = nullptr;
     lv_obj_t *photo_battery_icon_img_ = nullptr;
     lv_obj_t *photo_battery_pct_label_ = nullptr;
+    lv_obj_t *photo_sensor_label_ = nullptr;
 
     // ===== 时钟页面：Pencil 设计 1:1 还原 =====
     lv_obj_t *clock_wifi_icon_img_ = nullptr;
@@ -227,7 +236,7 @@ public:
     void RefreshMemoDisplay();           // 自动获取锁（外部调用用这个）
     void RefreshMemoDisplayInternal();   // 不获取锁（已持锁时用这个，避免死锁）
     void CycleDisplayMode();
-    bool IsMusicMode() const { return false; }
+    bool IsMusicMode() const { return display_mode_ == MODE_MUSIC; }
     bool IsPomodoroMode() const { return display_mode_ == MODE_POMODORO; }
     bool IsPhotoMode() const { return display_mode_ == MODE_PHOTO; }
     bool IsClockMode() const { return display_mode_ == MODE_CLOCK; }
