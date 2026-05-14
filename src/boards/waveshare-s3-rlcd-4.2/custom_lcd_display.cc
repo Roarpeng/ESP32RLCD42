@@ -163,64 +163,8 @@ void DesktopPageBase(lv_obj_t* page) {
     lv_obj_remove_flag(page, LV_OBJ_FLAG_SCROLLABLE);
 }
 
-void DesktopStatus(lv_obj_t* page, lv_obj_t** wifi, lv_obj_t** battery,
-                   lv_obj_t** pct, lv_obj_t** sensor) {
-    *wifi = lv_image_create(page);
-    lv_image_set_src(*wifi, &ui_img_wifi_off);
-    lv_obj_set_pos(*wifi, 15, 7);
-    *battery = lv_image_create(page);
-    lv_image_set_src(*battery, &ui_img_battery_full);
-    lv_obj_set_pos(*battery, 230, 7);
-    *pct = DesktopLabel(page, "85%", &alibaba_puhui_16, 256, 7, 44);
-    if (sensor) {
-        *sensor = DesktopLabel(page, "26.5°C", &alibaba_puhui_16, 306, 7, 58);
-    }
-    DesktopLabel(page, "58%", &alibaba_puhui_16, 365, 7, 40);
-    DesktopLine(page, 0, 36, 400, 3);
-}
-
-// ===== Pencil 设计 1:1 还原：AI Status Card (旧 API，仅 wifi_qr_page 兜底使用) ====
-// 实际页面已统一改用 CustomLcdDisplay::BuildAiBar() 以支持 8 态状态可视化（P0-1）。
-void DesktopAiBar(lv_obj_t* parent, int x, int y, int w,
-                  lv_obj_t** ai_status) {
-    lv_obj_t* bar = lv_obj_create(parent);
-    lv_obj_set_pos(bar, x, y);
-    lv_obj_set_size(bar, w, 32);
-    lv_obj_set_style_bg_color(bar, lv_color_white(), 0);
-    lv_obj_set_style_bg_opa(bar, LV_OPA_COVER, 0);
-    lv_obj_set_style_border_width(bar, 0, 0);
-    lv_obj_set_style_radius(bar, 0, 0);
-    lv_obj_set_style_pad_all(bar, 0, 0);
-    lv_obj_remove_flag(bar, LV_OBJ_FLAG_SCROLLABLE);
-
-    lv_obj_t* bot = lv_label_create(bar);
-    lv_obj_set_pos(bot, 8, 6);
-    lv_obj_set_style_text_font(bot, &font_puhui_16_4, 0);
-    lv_obj_set_style_text_color(bot, lv_color_black(), 0);
-    lv_label_set_text(bot, "●");
-
-    lv_obj_t* div = lv_obj_create(bar);
-    lv_obj_set_pos(div, 36, 6);
-    lv_obj_set_size(div, 2, 20);
-    lv_obj_set_style_bg_color(div, lv_color_black(), 0);
-    lv_obj_set_style_bg_opa(div, (lv_opa_t)(255 * 0.2), 0);
-    lv_obj_set_style_border_width(div, 0, 0);
-    lv_obj_set_style_radius(div, 0, 0);
-    lv_obj_set_style_pad_all(div, 0, 0);
-    lv_obj_remove_flag(div, LV_OBJ_FLAG_SCROLLABLE);
-
-    if (ai_status) {
-        *ai_status = lv_label_create(bar);
-        lv_obj_set_pos(*ai_status, 46, 6);
-        lv_obj_set_width(*ai_status, w - 50);
-        lv_obj_set_style_text_font(*ai_status, &font_puhui_16_4, 0);
-        lv_obj_set_style_text_color(*ai_status, lv_color_black(), 0);
-        lv_obj_set_style_text_opa(*ai_status, (lv_opa_t)(255 * 0.7), 0);
-        lv_obj_set_style_text_align(*ai_status, LV_TEXT_ALIGN_LEFT, 0);
-        lv_label_set_long_mode(*ai_status, LV_LABEL_LONG_DOT);
-        lv_label_set_text(*ai_status, "AI 待命");
-    }
-}
+// 旧的 DesktopAiBar / DesktopStatus 已被 CustomLcdDisplay::BuildAiBar /
+// DesktopStatusRight 完全取代（P0-1 重构），删除以消除 -Wunused-function。
 
 // ===== Pencil 设计 1:1 还原：分隔线 ====
 // 1-bit 单色屏无法渲染半透明像素 (Pencil 中 0.15 / 0.12 opacity 的灰线
@@ -1441,14 +1385,19 @@ void CustomLcdDisplay::SetupQuoteUI() {
     lv_obj_set_style_text_opa(qmark, (lv_opa_t)(255 * 0.2), 0);
 
     // === Quote text: x=50, y=86, w=300, font 22px (use 24), opacity=0.8 ===
-    quote_text_label_ = DesktopLabel(quote_page_, "Fall seven times,\nstand up eight.",
-                                     &alibaba_puhui_24, 50, 86, 300);
-    lv_obj_set_style_text_opa(quote_text_label_, (lv_opa_t)(255 * 0.8), 0);
+    // P1-3：未设置时显示空状态引导（与相册"请通过 Web 上传照片"一致），
+    // 而非英文样例，避免被误以为是用户内容。
+    quote_text_label_ = DesktopLabel(quote_page_, "尚未设置格言\n双击 USER 刷新",
+                                     &font_puhui_16_4, 50, 86, 300);
+    lv_obj_set_style_text_opa(quote_text_label_, (lv_opa_t)(255 * 0.55), 0);
     {
         Settings quote_settings("quote", false);
         std::string cached_quote = quote_settings.GetString("text", "");
         if (!cached_quote.empty() && quote_text_label_) {
             lv_label_set_text(quote_text_label_, cached_quote.c_str());
+            // 有内容则恢复为正常字号 / 不透明
+            lv_obj_set_style_text_font(quote_text_label_, &alibaba_puhui_24, 0);
+            lv_obj_set_style_text_opa(quote_text_label_, (lv_opa_t)(255 * 0.8), 0);
         }
     }
 
@@ -1538,12 +1487,14 @@ void CustomLcdDisplay::SetupPhotoDesktopUI() {
     // === Navigation: Pencil 箭头 20px / 状态文字 14px ===
     // 单色屏可用 ASCII 字体: alibaba_puhui_16 (16px)、alibaba_puhui_24 (24px)，
     // 选择更接近 Pencil 尺寸的 16px 用于箭头与状态文字（避免过大）
-    lv_obj_t* arr_l = DesktopLabel(photo_page_, "<", &alibaba_puhui_16, 140, 273, 30, LV_TEXT_ALIGN_CENTER);
-    lv_obj_set_style_text_opa(arr_l, (lv_opa_t)(255 * 0.4), 0);
-    photo_status_label_ = DesktopLabel(photo_page_, "1 / 1", &font_puhui_14_1, 175, 274, 50, LV_TEXT_ALIGN_CENTER);
+    // P2-4：箭头需有"可点击感"，用 24px 字号 + 实色不透明；
+    // 状态文字保持 14px、不透明 0.55 表达"次要信息"
+    lv_obj_t* arr_l = DesktopLabel(photo_page_, "<", &alibaba_puhui_24, 130, 266, 40, LV_TEXT_ALIGN_CENTER);
+    lv_obj_set_style_text_opa(arr_l, LV_OPA_COVER, 0);
+    photo_status_label_ = DesktopLabel(photo_page_, "1 / 1", &font_puhui_14_1, 170, 275, 60, LV_TEXT_ALIGN_CENTER);
     lv_obj_set_style_text_opa(photo_status_label_, (lv_opa_t)(255 * 0.55), 0);
-    lv_obj_t* arr_r = DesktopLabel(photo_page_, ">", &alibaba_puhui_16, 225, 273, 30, LV_TEXT_ALIGN_CENTER);
-    lv_obj_set_style_text_opa(arr_r, (lv_opa_t)(255 * 0.4), 0);
+    lv_obj_t* arr_r = DesktopLabel(photo_page_, ">", &alibaba_puhui_24, 230, 266, 40, LV_TEXT_ALIGN_CENTER);
+    lv_obj_set_style_text_opa(arr_r, LV_OPA_COVER, 0);
 
     lv_obj_add_flag(photo_page_, LV_OBJ_FLAG_HIDDEN);
 }
@@ -1683,6 +1634,9 @@ void CustomLcdDisplay::UpdateQuoteText(const char* text) {
     DisplayLockGuard lock(this);
     if (quote_text_label_ && text && strlen(text) > 0) {
         lv_label_set_text(quote_text_label_, text);
+        // P1-3：从空状态切回正常显示样式
+        lv_obj_set_style_text_font(quote_text_label_, &alibaba_puhui_24, 0);
+        lv_obj_set_style_text_opa(quote_text_label_, (lv_opa_t)(255 * 0.8), 0);
         // 缓存到 NVS
         Settings quote_settings("quote", true);
         quote_settings.SetString("text", text);
