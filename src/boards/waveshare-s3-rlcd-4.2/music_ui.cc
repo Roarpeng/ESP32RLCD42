@@ -144,30 +144,37 @@ void CustomLcdDisplay::SetupMusicUI() {
 
     // ============================================================
     // Vinyl card: x=8, y=44, w=140, h=140, white bg, rounded 14
+    // Pencil: 卡片有 2px 白色边框（在黑色页面背景上勾勒卡片轮廓）
     // ============================================================
     lv_obj_t *vinyl_card = lv_obj_create(page);
     lv_obj_set_size(vinyl_card, 140, 140);
     lv_obj_set_pos(vinyl_card, 8, 44);
     lv_obj_set_style_bg_color(vinyl_card, lv_color_white(), 0);
     lv_obj_set_style_bg_opa(vinyl_card, LV_OPA_COVER, 0);
-    lv_obj_set_style_border_width(vinyl_card, 0, 0);
+    lv_obj_set_style_border_width(vinyl_card, 2, 0);
+    lv_obj_set_style_border_color(vinyl_card, lv_color_white(), 0);
     lv_obj_set_style_radius(vinyl_card, 14, 0);
     lv_obj_set_style_pad_all(vinyl_card, 0, 0);
     lv_obj_remove_flag(vinyl_card, LV_OBJ_FLAG_SCROLLABLE);
 
-    // Inner: 130x130 black frame with concentric circles
+    // Inner: 130x130 black frame with concentric rings
+    // Pencil 中 vinylFrame 不设 cornerRadius (方形)，但视觉上仍是黑唱片于白卡内。
+    // 为更贴近真实唱片观感，圆角化为圆形仍然合理；按 Pencil 严格还原则使用方形。
+    // 这里按 Pencil 还原为方形带 2px 白色边框。
     lv_obj_t *vinyl_disc = lv_obj_create(vinyl_card);
     lv_obj_set_size(vinyl_disc, 130, 130);
     lv_obj_center(vinyl_disc);
-    lv_obj_set_style_radius(vinyl_disc, LV_RADIUS_CIRCLE, 0);
+    lv_obj_set_style_radius(vinyl_disc, 0, 0);
     lv_obj_set_style_bg_color(vinyl_disc, lv_color_black(), 0);
     lv_obj_set_style_bg_opa(vinyl_disc, LV_OPA_COVER, 0);
-    lv_obj_set_style_border_width(vinyl_disc, 0, 0);
+    lv_obj_set_style_border_width(vinyl_disc, 2, 0);
+    lv_obj_set_style_border_color(vinyl_disc, lv_color_white(), 0);
     lv_obj_set_style_pad_all(vinyl_disc, 0, 0);
     lv_obj_remove_flag(vinyl_disc, LV_OBJ_FLAG_SCROLLABLE);
 
-    const int ring_sizes[] = {104, 84, 64, 44};
-    for (int i = 0; i < 4; i++) {
+    // Pencil: 3 个同心圆环 (104/84/64) 在黑色方框内，1px 白色描边
+    const int ring_sizes[] = {104, 84, 64};
+    for (int i = 0; i < 3; i++) {
         lv_obj_t *ring = lv_obj_create(vinyl_disc);
         lv_obj_set_size(ring, ring_sizes[i], ring_sizes[i]);
         lv_obj_center(ring);
@@ -175,18 +182,31 @@ void CustomLcdDisplay::SetupMusicUI() {
         lv_obj_set_style_bg_opa(ring, LV_OPA_TRANSP, 0);
         lv_obj_set_style_border_width(ring, 1, 0);
         lv_obj_set_style_border_color(ring, lv_color_white(), 0);
-        lv_obj_set_style_border_opa(ring, LV_OPA_30, 0);
         lv_obj_remove_flag(ring, LV_OBJ_FLAG_SCROLLABLE);
     }
 
+    // Pencil "vc": 40x40 白色圆盘 + 2px 黑色描边 (唱片中心标签)
     lv_obj_t *vinyl_center = lv_obj_create(vinyl_disc);
-    lv_obj_set_size(vinyl_center, 24, 24);
+    lv_obj_set_size(vinyl_center, 40, 40);
     lv_obj_center(vinyl_center);
     lv_obj_set_style_radius(vinyl_center, LV_RADIUS_CIRCLE, 0);
     lv_obj_set_style_bg_color(vinyl_center, lv_color_white(), 0);
     lv_obj_set_style_bg_opa(vinyl_center, LV_OPA_COVER, 0);
-    lv_obj_set_style_border_width(vinyl_center, 0, 0);
+    lv_obj_set_style_border_width(vinyl_center, 2, 0);
+    lv_obj_set_style_border_color(vinyl_center, lv_color_black(), 0);
+    lv_obj_set_style_pad_all(vinyl_center, 0, 0);
     lv_obj_remove_flag(vinyl_center, LV_OBJ_FLAG_SCROLLABLE);
+
+    // Pencil "vh": 10x10 黑色圆点 (中心轴孔)
+    lv_obj_t *vinyl_hole = lv_obj_create(vinyl_center);
+    lv_obj_set_size(vinyl_hole, 10, 10);
+    lv_obj_center(vinyl_hole);
+    lv_obj_set_style_radius(vinyl_hole, LV_RADIUS_CIRCLE, 0);
+    lv_obj_set_style_bg_color(vinyl_hole, lv_color_black(), 0);
+    lv_obj_set_style_bg_opa(vinyl_hole, LV_OPA_COVER, 0);
+    lv_obj_set_style_border_width(vinyl_hole, 0, 0);
+    lv_obj_set_style_pad_all(vinyl_hole, 0, 0);
+    lv_obj_remove_flag(vinyl_hole, LV_OBJ_FLAG_SCROLLABLE);
 
     // ============================================================
     // Song card: x=160, y=44, w=232, h=140, white bg, rounded 14

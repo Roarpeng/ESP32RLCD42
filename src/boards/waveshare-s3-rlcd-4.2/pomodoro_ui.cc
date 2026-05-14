@@ -118,16 +118,6 @@ void PomoStatusRight(lv_obj_t* parent,
     Label(bar, "58%", &alibaba_puhui_16, 120, 6, 24);
 }
 
-void Dashes(lv_obj_t* parent, int x, int y, int w, int h) {
-    for (int px = x; px < x + w; px += 14) {
-        LineRect(parent, px, y, 8, 2);
-        LineRect(parent, px, y + h - 2, 8, 2);
-    }
-    for (int py = y; py < y + h; py += 14) {
-        LineRect(parent, x, py, 2, 8);
-        LineRect(parent, x + w - 2, py, 2, 8);
-    }
-}
 }  // namespace
 
 void CustomLcdDisplay::SetupPomodoroUI() {
@@ -156,13 +146,14 @@ void CustomLcdDisplay::SetupPomodoroUI() {
     pomo_state_label_ = Label(page, "FOCUS ON THE NOW", &font_puhui_16_4, 0, 52, 400);
     lv_obj_set_style_text_opa(pomo_state_label_, (lv_opa_t)(255 * 0.75), 0);
 
-    // === Dashed box: x=80, y=88, w=240, h=160, rounded 16, border 2px ===
-    Dashes(page, 80, 88, 240, 160);
+    // === Box: x=80, y=88, w=240, h=160, rounded 16, border 2px ===
+    // Pencil 中是实线圆角矩形 (cornerRadius 16, stroke thickness 2)，非虚线
+    Obj(page, 80, 88, 240, 160, lv_color_white(), 2, 16);
 
-    // === Countdown: centered in dashed box, font 60px (use 64px bold) ===
+    // === Countdown: centered in box, font 60px (use 64px bold) ===
     pomo_countdown_label_ = Label(page, "25:00", &alibaba_black_64, 80, 120, 240);
 
-    // === Start button: centered in dashed box, w=128, h=36, rounded 18, border 3px ===
+    // === Start button: centered in box, w=128, h=36, rounded 18, border 3px ===
     lv_obj_t* start = Obj(page, 136, 200, 128, 36, lv_color_white(), 3, 18);
     Label(start, "Start Focus", &alibaba_puhui_16, 0, 8, 128);
 

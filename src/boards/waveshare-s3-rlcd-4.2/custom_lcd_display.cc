@@ -225,10 +225,27 @@ void DesktopAiBar(lv_obj_t* parent, int x, int y, int w,
     }
 }
 
-// ===== Pencil 设计 1:1 还原：双分隔线 (y=32 + y=34) ====
-void DesktopHeaderSeps(lv_obj_t* parent) {
+// ===== Pencil 设计 1:1 还原：分隔线 ====
+// 1-bit 单色屏无法渲染半透明像素 (Pencil 中 0.15 / 0.12 opacity 的灰线
+// 经阈值化后会变白色不可见)，故统一用实心黑线表达 Pencil 中的“顶部分隔”。
+//
+// Pencil 设计中：
+//   - Clock / Weather: 仅一条分隔 (clockHeaderSep / wHeaderSep, y≈32~33)
+//   - Quote / Photo / Pomodoro / Music / WiFi QR: 两条 (y=32 + y=34)
+// 我们用 1px 实心线表达单条，2 条 1px 线 (y=32 + y=34) 表达双条 ——
+// 视觉上分别得到 1px 与 2px 的“顶部边缘”。
+void DesktopHeaderSepDouble(lv_obj_t* parent) {
     DesktopLine(parent, 0, 32, 400, 1);
     DesktopLine(parent, 0, 34, 400, 1);
+}
+
+void DesktopHeaderSepSingle(lv_obj_t* parent) {
+    DesktopLine(parent, 0, 32, 400, 1);
+}
+
+// 兼容旧调用：等价于 Pencil 多页通用样式（双分隔）
+void DesktopHeaderSeps(lv_obj_t* parent) {
+    DesktopHeaderSepDouble(parent);
 }
 
 // ===== Pencil 设计 1:1 还原：Status Bar (右侧) ====
@@ -992,8 +1009,25 @@ void CustomLcdDisplay::SetupQuoteUI() {
     }
 
     // === NEW QUOTE button: x=120, y=210, w=160, h=42, rounded(21), border 2px ===
+    // Pencil 设计：圆角胶囊内含 refresh-cw 图标 + 文字 "NEW QUOTE"，icon 24x24
+    // 1-bit 单色屏没有 lucide 字体，用基本图元拼一个 16x16 的旋转刷新箭头剪影：
+    //   - 上下两段半圆环（用 4 段短线表示）
+    //   - 两个三角形箭头尖（左下/右上）
     lv_obj_t* btn = DesktopObj(quote_page_, 120, 210, 160, 42, lv_color_white(), 2, 21);
-    DesktopLabel(btn, "NEW QUOTE", &alibaba_puhui_16, 30, 11, 100, LV_TEXT_ALIGN_CENTER);
+    // refresh-cw icon at (8, 11) 内, 16x16
+    int ix = 16, iy = 13;  // icon 左上角（按钮内坐标）
+    // 上半弧 (左到右)
+    DesktopObj(btn, ix + 4, iy + 1, 8, 2, lv_color_black(), 0, 1);   // 顶横
+    DesktopObj(btn, ix + 1, iy + 4, 2, 4, lv_color_black(), 0, 1);   // 左竖
+    DesktopObj(btn, ix + 12, iy + 1, 2, 4, lv_color_black(), 0, 1);  // 右上箭头柄
+    DesktopObj(btn, ix + 11, iy + 5, 4, 2, lv_color_black(), 0, 1);  // 右上箭头横
+    // 下半弧
+    DesktopObj(btn, ix + 4, iy + 13, 8, 2, lv_color_black(), 0, 1);  // 底横
+    DesktopObj(btn, ix + 13, iy + 8, 2, 4, lv_color_black(), 0, 1);  // 右竖
+    DesktopObj(btn, ix + 2, iy + 11, 2, 4, lv_color_black(), 0, 1);  // 左下箭头柄
+    DesktopObj(btn, ix + 1, iy + 9, 4, 2, lv_color_black(), 0, 1);   // 左下箭头横
+    // 文字 "NEW QUOTE" 居中（图标后留 4px 间距，剩余宽度居中显示）
+    DesktopLabel(btn, "NEW QUOTE", &alibaba_puhui_16, 40, 11, 110, LV_TEXT_ALIGN_CENTER);
 
     // === Decorative person figure: head x=340,y=226,12x12; body; arms; legs ===
     DesktopCircle(quote_page_, 340, 226, 12);
@@ -1037,7 +1071,11 @@ void CustomLcdDisplay::SetupPhotoDesktopUI() {
     lv_obj_set_style_pad_all(photo_empty_overlay_, 0, 0);
     lv_obj_remove_flag(photo_empty_overlay_, LV_OBJ_FLAG_SCROLLABLE);
 
-    DesktopLabel(photo_empty_overlay_, "相册为空", &alibaba_puhui_24, 0, 40, 370, LV_TEXT_ALIGN_CENTER);
+    // Pencil: peTitle opacity=0.65 (1-bit 单色屏 >0.5 阈值仍渲染为黑色，
+    // 此处显式设置以保持设计一致性)
+    lv_obj_t* pe_title = DesktopLabel(photo_empty_overlay_, "相册为空", &alibaba_puhui_24,
+                                      0, 40, 370, LV_TEXT_ALIGN_CENTER);
+    lv_obj_set_style_text_opa(pe_title, (lv_opa_t)(255 * 0.65), 0);
     lv_obj_t* hint1 = DesktopLabel(photo_empty_overlay_, "请通过 Web 上传照片",
                                     &font_puhui_14_1, 0, 90, 370, LV_TEXT_ALIGN_CENTER);
     lv_obj_set_style_text_opa(hint1, (lv_opa_t)(255 * 0.45), 0);
@@ -1050,10 +1088,15 @@ void CustomLcdDisplay::SetupPhotoDesktopUI() {
 
     lv_obj_add_flag(photo_empty_overlay_, LV_OBJ_FLAG_HIDDEN);
 
-    // === Navigation: left arrow x=140,y=270; status x=175,y=273; right arrow x=225,y=270 ===
-    DesktopLabel(photo_page_, "<", &alibaba_puhui_24, 140, 270, 30, LV_TEXT_ALIGN_CENTER);
-    photo_status_label_ = DesktopLabel(photo_page_, "1/1", &alibaba_puhui_16, 175, 273, 50, LV_TEXT_ALIGN_CENTER);
-    DesktopLabel(photo_page_, ">", &alibaba_puhui_24, 225, 270, 30, LV_TEXT_ALIGN_CENTER);
+    // === Navigation: Pencil 箭头 20px / 状态文字 14px ===
+    // 单色屏可用 ASCII 字体: alibaba_puhui_16 (16px)、alibaba_puhui_24 (24px)，
+    // 选择更接近 Pencil 尺寸的 16px 用于箭头与状态文字（避免过大）
+    lv_obj_t* arr_l = DesktopLabel(photo_page_, "<", &alibaba_puhui_16, 140, 273, 30, LV_TEXT_ALIGN_CENTER);
+    lv_obj_set_style_text_opa(arr_l, (lv_opa_t)(255 * 0.4), 0);
+    photo_status_label_ = DesktopLabel(photo_page_, "1 / 1", &font_puhui_14_1, 175, 274, 50, LV_TEXT_ALIGN_CENTER);
+    lv_obj_set_style_text_opa(photo_status_label_, (lv_opa_t)(255 * 0.55), 0);
+    lv_obj_t* arr_r = DesktopLabel(photo_page_, ">", &alibaba_puhui_16, 225, 273, 30, LV_TEXT_ALIGN_CENTER);
+    lv_obj_set_style_text_opa(arr_r, (lv_opa_t)(255 * 0.4), 0);
 
     lv_obj_add_flag(photo_page_, LV_OBJ_FLAG_HIDDEN);
 }
@@ -1063,12 +1106,13 @@ void CustomLcdDisplay::SetupClockUI() {
     clock_page_ = lv_obj_create(lv_screen_active());
     DesktopPageBase(clock_page_);
 
-    // === Pencil: AI Bar (0,0,220) + Status (224,0,175) + double seps ===
+    // === Pencil: AI Bar (0,0,220) + Status (224,0,175) + single sep ===
+    // 时钟页 Pencil 设计仅一条分隔线 (clockHeaderSep, opacity=0.15)
     DesktopAiBar(clock_page_, 0, 0, 220, &clock_ai_status_label_);
     DesktopStatusRight(clock_page_, 224, 0,
                        &clock_wifi_icon_img_, &clock_battery_icon_img_,
                        &clock_battery_pct_label_, &clock_sensor_label_);
-    DesktopHeaderSeps(clock_page_);
+    DesktopHeaderSepSingle(clock_page_);
 
     // === 4x 7-segment digits at y=77 ===
     CreateSevenSegDigit(clock_page_, 58, 77,
