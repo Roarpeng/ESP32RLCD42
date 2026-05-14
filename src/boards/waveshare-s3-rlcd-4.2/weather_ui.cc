@@ -141,15 +141,26 @@ void CustomLcdDisplay::SetupWeatherUI() {
 
     lv_obj_t* page = weather_page_;
 
-    // === Top bar: AI Bar + Status + header seps ===
+    // === Top bar: AI Bar + Status + single header sep ===
+    // Pencil: wHeaderSep 仅一条 (y=33, opacity=0.15) —— 单色屏用 1px 实线还原
     WxAiBar(page, &weather_ai_status_label_);
     WxStatusRight(page, &wifi_icon_img_, &battery_icon_img_,
                   &battery_pct_label_, &sensor_label_);
     LineRect(page, 0, 32, 400, 1);
-    LineRect(page, 0, 34, 400, 1);
 
-    // === Weather icon area: x=40, y=72, 54x54 placeholder square ===
-    Obj(page, 40, 72, 54, 54, lv_color_black(), 2, 4);
+    // === Cloud-sun weather icon at (40,72), 54x54 ===
+    // Pencil 用 lucide "cloud-sun"。1-bit 单色屏用基本几何图元拼出可识别剪影：
+    //   太阳：右上 14x14 黑圆 + 4 道短射线
+    //   云朵：3 圆叠加 + 平底矩形构成黑色云剪影
+    Circle(page, 70, 76, 14);                    // sun disc
+    LineRect(page, 76, 72, 2, 4);                // ray top
+    LineRect(page, 86, 82, 4, 2);                // ray right
+    LineRect(page, 84, 75, 3, 3);                // ray top-right (small square)
+    LineRect(page, 76, 92, 2, 4);                // ray bottom
+    Circle(page, 40, 92, 22);                    // cloud left puff
+    Circle(page, 50, 84, 28);                    // cloud center top puff
+    Circle(page, 62, 94, 22);                    // cloud right puff
+    Obj(page, 45, 110, 36, 6, lv_color_black(), 0, 0);  // cloud flat bottom
 
     // === Big temp: x=100, y=88, font 48px ===
     weather_temp_big_label_ = Label(page, "26°C", &alibaba_puhui_48, 100, 88, 175);
@@ -157,28 +168,31 @@ void CustomLcdDisplay::SetupWeatherUI() {
     // === Condition: x=20, y=190, font 24px ===
     weather_label_ = Label(page, "多云", &alibaba_puhui_24, 20, 190, 150);
 
-    // === Location pin: x=22, y=250, 14x14 dot ===
-    Circle(page, 22, 250, 14);
+    // === Location pin at (22,250), 14x14 ===
+    // Pencil 用 lucide "map-pin"。1-bit 用「上圆 + 下三角尾」的剪影模拟：
+    //   头部：8x8 圆 (位于上方)
+    //   尾部：2x4 竖向尾梢
+    Circle(page, 25, 250, 8);                    // pin head
+    Obj(page, 28, 258, 2, 4, lv_color_black(), 0, 0);  // pin tail
 
     // === Location text: x=44, y=242, font 22px (use 24px) ===
     Label(page, "深圳, 南山区", &alibaba_puhui_24, 44, 242, 250);
 
     // === Right side metrics (x=290) ===
-    // 体感温度 label at y=70, font 16px, opacity=0.5
+    // 标题 16px opacity 0.5；数值 20px (无 20px CJK 字体，回退到 16px CJK)
+    // 体感温度 label at y=70
     lv_obj_t* rf_label = Label(page, "体感温度", &font_puhui_16_4, 290, 70, 100);
     lv_obj_set_style_text_opa(rf_label, (lv_opa_t)(255 * 0.5), 0);
-    // 27°C value at y=92, font 20px (use 16px)
-    weather_realfeel_label_ = Label(page, "27°C", &alibaba_puhui_24, 290, 92, 70);
+    // 27°C value at y=92
+    weather_realfeel_label_ = Label(page, "27°C", &alibaba_puhui_16, 290, 92, 70);
 
-    // 湿度 at y=124, opacity=0.5
+    // 湿度 at y=124
     lv_obj_t* hm_label = Label(page, "湿度", &font_puhui_16_4, 290, 124, 100);
     lv_obj_set_style_text_opa(hm_label, (lv_opa_t)(255 * 0.5), 0);
-    // 58% at y=146
-    weather_humidity_label_ = Label(page, "58%", &alibaba_puhui_24, 290, 146, 70);
+    weather_humidity_label_ = Label(page, "58%", &alibaba_puhui_16, 290, 146, 70);
 
-    // 空气质量 at y=178, opacity=0.5
+    // 空气质量 at y=178
     lv_obj_t* aq_label = Label(page, "空气质量", &font_puhui_16_4, 290, 178, 100);
     lv_obj_set_style_text_opa(aq_label, (lv_opa_t)(255 * 0.5), 0);
-    // 28 at y=200
-    weather_air_label_ = Label(page, "28", &alibaba_puhui_24, 290, 200, 70);
+    weather_air_label_ = Label(page, "28", &alibaba_puhui_16, 290, 200, 70);
 }
