@@ -120,9 +120,27 @@ private:
         });
 
         user_button_.OnDoubleClick([this]() {
-            if (display_) display_->NotifyUserActivity();  // 记录用户活动
-            // 双击：刷新所有数据（天气、传感器、时间）
-            RefreshAllData();
+            if (display_) display_->NotifyUserActivity();
+            if (!display_) return;
+
+            if (display_->IsPomodoroMode()) {
+                auto& pomo = PomodoroManager::getInstance();
+                if (pomo.getState() == PomodoroManager::IDLE) {
+                    if (pomo.start(25, true)) {
+                        ESP_LOGI(TAG, "USER 双击：番茄钟已启动（25分钟）");
+                    }
+                } else {
+                    pomo.togglePause();
+                    ESP_LOGI(TAG, "USER 双击：番茄钟 %s",
+                             pomo.getState() == PomodoroManager::PAUSED ? "已暂停" : "已恢复");
+                }
+            } else if (display_->IsPhotoMode()) {
+                PhotoManager::GetInstance().NextPhoto();
+                ESP_LOGI(TAG, "USER 双击：相册翻到下一张");
+            } else {
+                RefreshAllData();
+                ESP_LOGI(TAG, "USER 双击：刷新数据");
+            }
         });
 
         user_button_.OnLongPress([this]() {
@@ -365,10 +383,10 @@ private:
         // ===== 屏幕切换工具（语音可调用）=====
         mcp_server.AddTool(
             "self.disp.switch",
-            "Switch display page between weather, music, and pomodoro.\n"
-            "Use when user says: '切到音乐页', '打开天气页', '切换屏幕', '打开番茄钟页面', 'switch screen'.\n"
+            "Switch display page. 5 desktops: quote, photo, weather, pomodoro, clock.\n"
+            "Use when user says: '切换屏幕', '打开天气页', '打开相册', '打开番茄钟', '打开时钟', 'switch screen'.\n"
             "Args:\n"
-            "  `mode`: 'toggle' | 'music' | 'weather' | 'pomodoro' (default: 'toggle')",
+            "  `mode`: 'toggle' | 'quote' | 'photo' | 'weather' | 'pomodoro' | 'clock' (default: 'toggle')",
             PropertyList({
                 Property("mode", kPropertyTypeString, std::string("toggle"))
             }),
@@ -379,7 +397,6 @@ private:
 
                 auto mode = properties["mode"].value<std::string>();
 
-                // 统一小写判断
                 for (auto& ch : mode) {
                     if (ch >= 'A' && ch <= 'Z') {
                         ch = static_cast<char>(ch - 'A' + 'a');
@@ -390,19 +407,21 @@ private:
 
                 if (mode == "toggle") {
                     display_->CycleDisplayMode();
-                } else if (mode == "music") {
-                    display_->SwitchToMusicPage();
-                } else if (mode == "weather") {
+                } else if (mode == "quote") {
+                    display_->SwitchToQuotePage();
+                } else if (mode == "photo") {
+                    display_->SwitchToPhotoPage();
+                } else if (mode == "weather" || mode == "music") {
                     display_->SwitchToWeatherPage();
                 } else if (mode == "pomodoro") {
                     display_->SwitchToPomodoroPage();
+                } else if (mode == "clock") {
+                    display_->SwitchToClockPage();
                 } else {
-                    return std::string("参数 mode 无效，请使用 toggle/music/weather/pomodoro");
+                    return std::string("参数 mode 无效，请使用 toggle/quote/photo/weather/pomodoro/clock");
                 }
 
-                if (display_->IsMusicMode()) return std::string("已切换到音乐页");
-                if (display_->IsPomodoroMode()) return std::string("已切换到番茄钟页");
-                return std::string("已切换到天气页");
+                return std::string("已切换到") + mode + "页";
             }
         );
 

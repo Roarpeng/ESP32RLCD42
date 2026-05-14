@@ -28,8 +28,7 @@ namespace {
             const char* name = entry->d_name;
             const char* ext = strrchr(name, '.');
             if (!ext) continue;
-            if (strcasecmp(ext, ".jpg") == 0 || strcasecmp(ext, ".jpeg") == 0 ||
-                strcasecmp(ext, ".png") == 0 || strcasecmp(ext, ".bmp") == 0) {
+            if (strcasecmp(ext, ".jpg") == 0 || strcasecmp(ext, ".jpeg") == 0) {
                 std::string full = std::string(dir_path) + "/" + name;
                 result.push_back(full);
             }

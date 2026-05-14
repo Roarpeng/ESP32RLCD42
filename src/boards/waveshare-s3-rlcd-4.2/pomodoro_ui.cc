@@ -1,18 +1,30 @@
+// 番茄钟页 UI —— Pencil 设计 1:1 还原
+//
+// 400x300 黑白单色 RLCD
+// 布局：
+// ┌──────────────────────────────────────────┐
+// │ AI Bar (0,0,220)  │  Status (224,0,175)  │
+// ├─ sep y=32 ──────── ├ ────────────────────┤
+// │      FOCUS ON THE NOW (y=52, center)     │
+// │  ┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐        │
+// │  ┊           25:00             ┊        │
+// │  ┊       [ Start Focus ]      ┊        │
+// │  └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘        │
+// │    双击 USER 键开始专注 (y=262, center)   │
+// └──────────────────────────────────────────┘
+
 #include "custom_lcd_display.h"
 #include <esp_log.h>
 
-LV_FONT_DECLARE(alibaba_puhui_16);
-LV_FONT_DECLARE(alibaba_puhui_24);
-LV_FONT_DECLARE(alibaba_black_64);
 LV_FONT_DECLARE(font_puhui_16_4);
+LV_FONT_DECLARE(font_puhui_14_1);
+LV_FONT_DECLARE(alibaba_puhui_16);
+LV_FONT_DECLARE(alibaba_black_64);
 
 LV_IMAGE_DECLARE(ui_img_wifi_off);
 LV_IMAGE_DECLARE(ui_img_battery_full);
 
 namespace {
-static const lv_point_precise_t kVLine[] = {{84, 160}, {200, 258}, {316, 160}};
-static const lv_point_precise_t kLeftChevron[] = {{50, 145}, {40, 155}, {50, 165}};
-static const lv_point_precise_t kRightChevron[] = {{350, 145}, {360, 155}, {350, 165}};
 
 lv_obj_t* Obj(lv_obj_t* parent, int x, int y, int w, int h, lv_color_t bg,
               int border = 0, int radius = 0) {
@@ -46,13 +58,64 @@ void LineRect(lv_obj_t* parent, int x, int y, int w, int h) {
     Obj(parent, x, y, w, h, lv_color_black(), 0, 0);
 }
 
-void AddLine(lv_obj_t* parent, const lv_point_precise_t* pts, uint32_t count, int width) {
-    lv_obj_t* line = lv_line_create(parent);
-    lv_obj_set_size(line, 400, 300);
-    lv_line_set_points(line, pts, count);
-    lv_obj_set_style_line_width(line, width, 0);
-    lv_obj_set_style_line_color(line, lv_color_black(), 0);
-    lv_obj_set_style_line_rounded(line, true, 0);
+void PomoAiBar(lv_obj_t* parent, lv_obj_t** ai_status) {
+    lv_obj_t* bar = lv_obj_create(parent);
+    lv_obj_set_pos(bar, 0, 0);
+    lv_obj_set_size(bar, 220, 32);
+    lv_obj_set_style_bg_color(bar, lv_color_white(), 0);
+    lv_obj_set_style_bg_opa(bar, LV_OPA_COVER, 0);
+    lv_obj_set_style_border_width(bar, 0, 0);
+    lv_obj_set_style_radius(bar, 0, 0);
+    lv_obj_set_style_pad_all(bar, 0, 0);
+    lv_obj_remove_flag(bar, LV_OBJ_FLAG_SCROLLABLE);
+
+    lv_obj_t* bot = lv_label_create(bar);
+    lv_obj_set_pos(bot, 8, 6);
+    lv_obj_set_style_text_font(bot, &font_puhui_16_4, 0);
+    lv_obj_set_style_text_color(bot, lv_color_black(), 0);
+    lv_label_set_text(bot, "●");
+
+    lv_obj_t* div = Obj(bar, 36, 6, 2, 20, lv_color_black(), 0, 0);
+    lv_obj_set_style_bg_opa(div, (lv_opa_t)(255 * 0.2), 0);
+
+    if (ai_status) {
+        *ai_status = lv_label_create(bar);
+        lv_obj_set_pos(*ai_status, 46, 6);
+        lv_obj_set_width(*ai_status, 170);
+        lv_obj_set_style_text_font(*ai_status, &font_puhui_16_4, 0);
+        lv_obj_set_style_text_color(*ai_status, lv_color_black(), 0);
+        lv_obj_set_style_text_opa(*ai_status, (lv_opa_t)(255 * 0.7), 0);
+        lv_label_set_long_mode(*ai_status, LV_LABEL_LONG_DOT);
+        lv_label_set_text(*ai_status, "AI 待命");
+    }
+}
+
+void PomoStatusRight(lv_obj_t* parent,
+                     lv_obj_t** wifi, lv_obj_t** battery,
+                     lv_obj_t** pct, lv_obj_t** sensor) {
+    lv_obj_t* bar = lv_obj_create(parent);
+    lv_obj_set_pos(bar, 224, 0);
+    lv_obj_set_size(bar, 175, 30);
+    lv_obj_set_style_bg_color(bar, lv_color_white(), 0);
+    lv_obj_set_style_bg_opa(bar, LV_OPA_COVER, 0);
+    lv_obj_set_style_border_width(bar, 0, 0);
+    lv_obj_set_style_radius(bar, 0, 0);
+    lv_obj_set_style_pad_all(bar, 0, 0);
+    lv_obj_remove_flag(bar, LV_OBJ_FLAG_SCROLLABLE);
+
+    *wifi = lv_image_create(bar);
+    lv_image_set_src(*wifi, &ui_img_wifi_off);
+    lv_obj_set_pos(*wifi, 0, 6);
+
+    *battery = lv_image_create(bar);
+    lv_image_set_src(*battery, &ui_img_battery_full);
+    lv_obj_set_pos(*battery, 24, 6);
+
+    *pct = Label(bar, "85%", &alibaba_puhui_16, 44, 6, 28);
+    if (sensor) {
+        *sensor = Label(bar, "26.5°C", &alibaba_puhui_16, 72, 6, 44);
+    }
+    Label(bar, "58%", &alibaba_puhui_16, 120, 6, 24);
 }
 
 void Dashes(lv_obj_t* parent, int x, int y, int w, int h) {
@@ -81,49 +144,33 @@ void CustomLcdDisplay::SetupPomodoroUI() {
     lv_obj_add_flag(pomodoro_page_, LV_OBJ_FLAG_HIDDEN);
 
     lv_obj_t* page = pomodoro_page_;
-    pomo_wifi_icon_img_ = lv_image_create(page);
-    lv_image_set_src(pomo_wifi_icon_img_, &ui_img_wifi_off);
-    lv_obj_set_pos(pomo_wifi_icon_img_, 15, 7);
-    pomo_battery_icon_img_ = lv_image_create(page);
-    lv_image_set_src(pomo_battery_icon_img_, &ui_img_battery_full);
-    lv_obj_set_pos(pomo_battery_icon_img_, 215, 7);
-    pomo_battery_pct_label_ = Label(page, "85%", &alibaba_puhui_16, 242, 7, 45);
-    pomo_sensor_label_ = Label(page, "26.5°C", &alibaba_puhui_16, 302, 7, 58);
-    Label(page, "58%", &alibaba_puhui_16, 363, 7, 38);
-    LineRect(page, 0, 29, 400, 3);
 
-    Label(page, "FOCUS ON THE NOW, MEET A BETTER SELF", &alibaba_puhui_16, 0, 43, 400);
-    Dashes(page, 112, 67, 176, 190);
-    AddLine(page, kVLine, 3, 5);
-    AddLine(page, kLeftChevron, 3, 5);
-    AddLine(page, kRightChevron, 3, 5);
+    // === Top bar: AI Bar + Status + header seps ===
+    PomoAiBar(page, &pomo_ai_status_label_);
+    PomoStatusRight(page, &pomo_wifi_icon_img_, &pomo_battery_icon_img_,
+                    &pomo_battery_pct_label_, &pomo_sensor_label_);
+    LineRect(page, 0, 32, 400, 1);
+    LineRect(page, 0, 34, 400, 1);
 
-    pomo_countdown_label_ = Label(page, "25:00", &alibaba_black_64, 130, 122, 140);
-    lv_obj_t* start = Obj(page, 146, 213, 108, 36, lv_color_white(), 3, 12);
-    Label(start, "Start Focus", &alibaba_puhui_16, 4, 7, 100);
+    // === State text: y=52, center, font 18px (use 16px CJK), opacity=0.75 ===
+    pomo_state_label_ = Label(page, "FOCUS ON THE NOW", &font_puhui_16_4, 0, 52, 400);
+    lv_obj_set_style_text_opa(pomo_state_label_, (lv_opa_t)(255 * 0.75), 0);
 
-    LineRect(page, 0, 258, 400, 3);
-    for (int x = 100; x <= 300; x += 100) {
-        LineRect(page, x, 258, 3, 42);
-    }
-    Label(page, "Tasks", &alibaba_puhui_16, 0, 280, 100);
-    Label(page, "Noise", &alibaba_puhui_16, 100, 280, 100);
-    Label(page, "Forest", &alibaba_puhui_16, 200, 280, 100);
-    Label(page, "Stats", &alibaba_puhui_16, 300, 280, 100);
-    Obj(page, 47, 271, 16, 12, lv_color_white(), 2, 0);
-    LineRect(page, 52, 274, 7, 2);
-    LineRect(page, 52, 278, 7, 2);
-    LineRect(page, 154, 270, 4, 14);
-    LineRect(page, 158, 270, 10, 3);
-    Obj(page, 264, 272, 18, 14, lv_color_white(), 2, 9);
-    LineRect(page, 273, 268, 2, 18);
-    LineRect(page, 366, 278, 4, 9);
-    LineRect(page, 374, 270, 4, 17);
-    LineRect(page, 382, 274, 4, 13);
+    // === Dashed box: x=80, y=88, w=240, h=160, rounded 16, border 2px ===
+    Dashes(page, 80, 88, 240, 160);
 
-    pomo_state_label_ = nullptr;
+    // === Countdown: centered in dashed box, font 60px (use 64px bold) ===
+    pomo_countdown_label_ = Label(page, "25:00", &alibaba_black_64, 80, 120, 240);
+
+    // === Start button: centered in dashed box, w=128, h=36, rounded 18, border 3px ===
+    lv_obj_t* start = Obj(page, 136, 200, 128, 36, lv_color_white(), 3, 18);
+    Label(start, "Start Focus", &alibaba_puhui_16, 0, 8, 128);
+
+    // === Info text: y=262, center, font 14px, opacity=0.45 ===
+    pomo_info_label_ = Label(page, "双击 USER 键开始专注", &font_puhui_14_1, 0, 262, 400);
+    lv_obj_set_style_text_opa(pomo_info_label_, (lv_opa_t)(255 * 0.45), 0);
+
     pomo_progress_bar_ = nullptr;
-    pomo_info_label_ = nullptr;
     pomo_chat_status_label_ = nullptr;
     pomo_emotion_label_ = nullptr;
     pomo_emotion_img_ = nullptr;

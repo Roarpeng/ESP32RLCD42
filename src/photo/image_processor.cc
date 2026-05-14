@@ -138,9 +138,9 @@ Bitmap1Bit* ImageProcessor::DecodeAndDither(const char* filepath, int target_w, 
     // Decode JPEG header to get dimensions
     // Use a minimal JPEG parser to extract image dimensions
     int img_w = 0, img_h = 0;
-    // Scan for SOF0 (0xFF 0xC0) marker to get dimensions
+    // Scan for SOF0 (0xFFC0) or SOF2 (0xFFC2, progressive) marker to get dimensions
     for (long i = 0; i < fsize - 9; i++) {
-        if (jpeg_data[i] == 0xFF && jpeg_data[i + 1] == 0xC0) {
+        if (jpeg_data[i] == 0xFF && (jpeg_data[i + 1] == 0xC0 || jpeg_data[i + 1] == 0xC2)) {
             img_h = (jpeg_data[i + 5] << 8) | jpeg_data[i + 6];
             img_w = (jpeg_data[i + 7] << 8) | jpeg_data[i + 8];
             break;

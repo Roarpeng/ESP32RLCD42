@@ -1,5 +1,6 @@
 #include "photo_ui.h"
 #include <esp_log.h>
+#include <esp_heap_caps.h>
 #include <cstring>
 #include <cstdio>
 #include <freertos/FreeRTOS.h>
@@ -36,22 +37,37 @@ lv_obj_t* PhotoUICreator::CreatePhotoPage(lv_obj_t* parent) {
 void PhotoUICreator::DisplayBitmap(lv_obj_t* image_obj, const Bitmap1Bit* bmp) {
     if (!bmp || !bmp->data || !image_obj) return;
 
-    // Free previous descriptor if one exists
+    static const size_t PALETTE_SIZE = 8;
+    size_t pixel_size = bmp->row_bytes * bmp->height;
+    size_t total_size = PALETTE_SIZE + pixel_size;
+
+    uint8_t* buf = (uint8_t*)heap_caps_malloc(total_size, MALLOC_CAP_DEFAULT);
+    if (!buf) {
+        ESP_LOGE(TAG, "Failed to allocate I1 palette+pixel buffer");
+        return;
+    }
+
+    buf[0] = 0x00; buf[1] = 0x00; buf[2] = 0x00; buf[3] = 0xFF;
+    buf[4] = 0xFF; buf[5] = 0xFF; buf[6] = 0xFF; buf[7] = 0xFF;
+    memcpy(buf + PALETTE_SIZE, bmp->data, pixel_size);
+
     lv_image_dsc_t* old_dsc = (lv_image_dsc_t*)lv_image_get_src(image_obj);
-    if (old_dsc && old_dsc->data != bmp->data) {
+    if (old_dsc && lv_image_src_get_type(old_dsc) == LV_IMAGE_SRC_VARIABLE) {
+        if (old_dsc->data) heap_caps_free((void*)old_dsc->data);
         free(old_dsc);
     }
 
     lv_image_dsc_t* img_dsc = (lv_image_dsc_t*)malloc(sizeof(lv_image_dsc_t));
-    if (!img_dsc) return;
+    if (!img_dsc) { heap_caps_free(buf); return; }
 
-    memset(img_dsc, 0, sizeof(*img_dsc)); // ensure clean struct
+    memset(img_dsc, 0, sizeof(*img_dsc));
+    img_dsc->header.magic = LV_IMAGE_HEADER_MAGIC;
     img_dsc->header.cf = LV_COLOR_FORMAT_I1;
     img_dsc->header.w = bmp->width;
     img_dsc->header.h = bmp->height;
     img_dsc->header.stride = bmp->row_bytes;
-    img_dsc->data_size = bmp->row_bytes * bmp->height;
-    img_dsc->data = (const uint8_t*)bmp->data;
+    img_dsc->data_size = total_size;
+    img_dsc->data = buf;
 
     lv_image_set_src(image_obj, img_dsc);
 }
