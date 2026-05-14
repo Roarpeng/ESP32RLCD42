@@ -582,7 +582,23 @@ void CustomLcdDisplay::DataUpdateTask(void *arg) {
                     self->NotifyUserActivity();
                 }
 
-                // 更新左侧表情区域（显示当前状态简称）
+                // P0-1：把 DeviceState 翻译为 AiBarStatus 并推送到所有 AI 状态卡
+                AiBarStatus ai_status = AiBarStatus::OFFLINE;
+                switch (ds) {
+                    case kDeviceStateStarting:        ai_status = AiBarStatus::OFFLINE; break;
+                    case kDeviceStateWifiConfiguring: ai_status = AiBarStatus::PROVISIONING; break;
+                    case kDeviceStateActivating:      ai_status = AiBarStatus::CONNECTING; break;
+                    case kDeviceStateConnecting:      ai_status = AiBarStatus::CONNECTING; break;
+                    case kDeviceStateListening:       ai_status = AiBarStatus::LISTENING; break;
+                    case kDeviceStateSpeaking:        ai_status = AiBarStatus::SPEAKING; break;
+                    case kDeviceStateUpgrading:       ai_status = AiBarStatus::UPGRADING; break;
+                    case kDeviceStateIdle:            ai_status = AiBarStatus::ONLINE_IDLE; break;
+                    case kDeviceStateFatalError:      ai_status = AiBarStatus::ERROR; break;
+                    default: break;
+                }
+                self->SetAiBarStatusAll(ai_status);
+
+                // 更新左侧表情区域（显示当前状态简称）—— 兼容旧的 emotion_label_
                 const char* emotion_text = "待命";
                 const char* status_text = "";
                 switch (ds) {
@@ -718,6 +734,12 @@ void CustomLcdDisplay::DataUpdateTask(void *arg) {
                              self->NORMAL_REFRESH_MS / 1000, self->SAVING_REFRESH_MS / 1000);
                 }
             }
+        }
+
+        // ===== P3-1：省电模式月牙图标显隐 =====
+        {
+            DisplayLockGuard lock(self);
+            self->RefreshPowerSaveIcon();
         }
         
         // 动态刷新间隔：正常 1 秒，省电 5 秒

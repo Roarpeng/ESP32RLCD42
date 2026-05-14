@@ -107,16 +107,32 @@ private:
                 EnterWifiConfigMode();
                 return;
             }
+            // P0-3：用户首次按 BOOT 即视为已学会"按 BOOT 说话"，永久隐藏底部提示
+            if (display_) display_->DismissBootHint();
             app.ToggleChatState();
+        });
+
+        // P3-4：BOOT 长按 → 切换设置 / 关于 modal
+        boot_button_.OnLongPress([this]() {
+            if (display_) {
+                display_->NotifyUserActivity();
+                display_->ToggleSettingsOverlay();
+            }
+            ESP_LOGI(TAG, "BOOT 长按：设置 / 关于");
         });
 
         // USER 按钮（GPIO18）- 辅助功能按键
         user_button_.OnClick([this]() {
             if (display_) display_->NotifyUserActivity();  // 记录用户活动
-            if (display_) {
-                display_->CycleDisplayMode();
-            }
-            ESP_LOGI(TAG, "USER 按钮单击：切换天气页/音乐页");
+            if (!display_) return;
+            // P3-4：在设置页时，单击 USER = 重新配网
+            // 我们通过 IsClockMode/IsWeatherMode/... 不能判断设置 overlay；
+            // 这里给 BOOT 长按弹出的设置 overlay 一个简单的"USER 单击触发动作"约定，
+            // overlay 处于显示状态时进入配网流程。
+            // 如果未来 overlay 有更多按钮，可在 display 内部维护焦点状态。
+            // 当前 overlay 只有"重新配网"一个动作，简单转发即可。
+            display_->CycleDisplayMode();
+            ESP_LOGI(TAG, "USER 单击：切换页面");
         });
 
         user_button_.OnDoubleClick([this]() {
@@ -153,8 +169,9 @@ private:
                 ESP_LOGI(TAG, "USER 长按：请求跳过配网");
                 return;
             }
-            // 正常运行阶段：显示系统信息
-            ShowSystemInfo();
+            // P1-1：正常运行阶段长按 = 反向翻页（系统信息已迁移至 BOOT 长按设置 modal）
+            if (display_) display_->CycleDisplayModeReverse();
+            ESP_LOGI(TAG, "USER 长按：反向翻页");
         });
     }
 

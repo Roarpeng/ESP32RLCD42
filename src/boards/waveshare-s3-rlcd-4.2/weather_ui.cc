@@ -62,38 +62,7 @@ void Circle(lv_obj_t* parent, int x, int y, int size, lv_color_t color = lv_colo
     Obj(parent, x, y, size, size, color, 0, LV_RADIUS_CIRCLE);
 }
 
-// AI Bar (white bg, black text) — matches Pencil shared component
-void WxAiBar(lv_obj_t* parent, lv_obj_t** ai_status) {
-    lv_obj_t* bar = lv_obj_create(parent);
-    lv_obj_set_pos(bar, 0, 0);
-    lv_obj_set_size(bar, 220, 32);
-    lv_obj_set_style_bg_color(bar, lv_color_white(), 0);
-    lv_obj_set_style_bg_opa(bar, LV_OPA_COVER, 0);
-    lv_obj_set_style_border_width(bar, 0, 0);
-    lv_obj_set_style_radius(bar, 0, 0);
-    lv_obj_set_style_pad_all(bar, 0, 0);
-    lv_obj_remove_flag(bar, LV_OBJ_FLAG_SCROLLABLE);
-
-    lv_obj_t* bot = lv_label_create(bar);
-    lv_obj_set_pos(bot, 8, 6);
-    lv_obj_set_style_text_font(bot, &font_puhui_16_4, 0);
-    lv_obj_set_style_text_color(bot, lv_color_black(), 0);
-    lv_label_set_text(bot, "●");
-
-    lv_obj_t* div = Obj(bar, 36, 6, 2, 20, lv_color_black(), 0, 0);
-    lv_obj_set_style_bg_opa(div, (lv_opa_t)(255 * 0.2), 0);
-
-    if (ai_status) {
-        *ai_status = lv_label_create(bar);
-        lv_obj_set_pos(*ai_status, 46, 6);
-        lv_obj_set_width(*ai_status, 170);
-        lv_obj_set_style_text_font(*ai_status, &font_puhui_16_4, 0);
-        lv_obj_set_style_text_color(*ai_status, lv_color_black(), 0);
-        lv_obj_set_style_text_opa(*ai_status, (lv_opa_t)(255 * 0.7), 0);
-        lv_label_set_long_mode(*ai_status, LV_LABEL_LONG_DOT);
-        lv_label_set_text(*ai_status, "AI 待命");
-    }
-}
+// （旧的 WxAiBar 已迁移到 CustomLcdDisplay::BuildAiBar，统一 8 态可视化 / P0-1）
 
 // Status bar right (WiFi, battery, %, temp, humidity)
 void WxStatusRight(lv_obj_t* parent,
@@ -143,10 +112,13 @@ void CustomLcdDisplay::SetupWeatherUI() {
 
     // === Top bar: AI Bar + Status + single header sep ===
     // Pencil: wHeaderSep 仅一条 (y=33, opacity=0.15) —— 单色屏用 1px 实线还原
-    WxAiBar(page, &weather_ai_status_label_);
+    BuildAiBar(page, 0, 0, 220, /*bar_index=*/1, /*dark=*/false);  // MODE_WEATHER=1
+    weather_ai_status_label_ = ai_bars_[1].status_label;
     WxStatusRight(page, &wifi_icon_img_, &battery_icon_img_,
                   &battery_pct_label_, &sensor_label_);
     LineRect(page, 0, 32, 400, 1);
+    BuildPageDots(page, 1);
+    BuildPowerSaveIcon(page, 1);
 
     // === Cloud-sun weather icon at (40,72), 54x54 ===
     // Pencil 用 lucide "cloud-sun"。1-bit 单色屏用基本几何图元拼出可识别剪影：

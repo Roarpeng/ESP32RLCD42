@@ -2,12 +2,42 @@
 #define __CUSTOM_LCD_DISPLAY_H__
 
 #include <atomic>
+#include <string>
 #include <driver/gpio.h>
 #include "lcd_display.h"
 #include "rlcd_driver.h"
 #include "managers/sensor_manager.h"
 #include "managers/weather_manager.h"
 #include "photo/photo_ui.h"
+
+// ===== AI 状态卡的 8 态指示 (P0-1 / P0-3) =====
+// 每态对应 AI 顶部状态卡的 icon 形态和默认文案。
+// 状态由 DataUpdateTask 周期性根据 DeviceState 推断后调用 SetAiBarStatusAll() 设置。
+// SetChatMessage() 会临时覆盖文案，下次状态变化恢复。
+enum class AiBarStatus {
+    OFFLINE,        // 未联网（无 SSID 或 STA 未连）
+    PROVISIONING,   // 配网模式（kDeviceStateWifiConfiguring）
+    CONNECTING,     // 联网/激活/对话信道连接中
+    ONLINE_IDLE,    // 待命（kDeviceStateIdle）
+    LISTENING,      // 聆听用户说话（kDeviceStateListening，icon 带脉冲环）
+    SPEAKING,       // 播放 TTS（kDeviceStateSpeaking，icon 替换为 3 条音柱）
+    UPGRADING,      // 固件升级（kDeviceStateUpgrading）
+    ERROR,          // 错误（kDeviceStateFatalError 或 Alert/Network 错误）
+};
+
+// 一张 AI 状态卡的所有可视元素 handle。每个页面创建后填一份；
+// SetAiBarStatusAll/SetAiBarTextAll 遍历所有非空 handle 同步更新。
+struct AiBarHandles {
+    lv_obj_t* bar = nullptr;            // 顶层容器
+    lv_obj_t* icon_filled = nullptr;    // 实心圆（ONLINE_IDLE / LISTENING / SPEAKING）
+    lv_obj_t* icon_outline = nullptr;   // 空心圆（OFFLINE / PROVISIONING / ERROR）
+    lv_obj_t* icon_slash = nullptr;     // 斜杠（OFFLINE）
+    lv_obj_t* badge = nullptr;          // "!" / "↑" / "..." 角标
+    lv_obj_t* pulse_ring = nullptr;     // 聆听脉冲外环
+    lv_obj_t* speak_bars[3] = {nullptr};// 说话音柱
+    lv_obj_t* status_label = nullptr;   // 文案
+    bool dark = false;                  // 是否深色页（音乐页）
+};
 
 // 天气站 + AI 混合显示
 // 
@@ -110,11 +140,21 @@ private:
     lv_obj_t *pomo_battery_pct_label_ = nullptr; // 状态栏电量文字
 
     // ===== Pencil 设计各页面 AI 状态栏标签 =====
+    // 这些是 AiBarHandles::status_label 的别名，保留以兼容旧代码（SetChatMessage / ClearChatMessages）
     lv_obj_t *weather_ai_status_label_ = nullptr;
     lv_obj_t *quote_ai_status_label_ = nullptr;
     lv_obj_t *photo_ai_status_label_ = nullptr;
     lv_obj_t *pomo_ai_status_label_ = nullptr;
     lv_obj_t *music_ai_status_label_ = nullptr;
+
+    // ===== P0-1：6 桌面 + WiFi QR 页 AI 状态卡的完整 handle =====
+    // index: 0=Clock, 1=Weather, 2=Quote, 3=Photo, 4=Pomodoro, 5=Music, 6=WifiQR
+    static const int kAiBarCount = 7;
+    AiBarHandles ai_bars_[kAiBarCount];
+    AiBarStatus current_ai_status_ = AiBarStatus::OFFLINE;
+    std::string current_ai_text_ = "AI 待命";
+    lv_timer_t* speak_anim_timer_ = nullptr;
+    lv_timer_t* pulse_anim_timer_ = nullptr;
 
     // ===== 新 6 桌面：格言/相册/翻页时钟/音乐 =====
     lv_obj_t *quote_wifi_icon_img_ = nullptr;
@@ -185,10 +225,59 @@ private:
 
     // 7 段数码管：设置一位数字 (0-9)
     void SetClockDigit(int pos, int value);
+
+    // ===== P0-1 / P0-3：AI 状态卡构建 + 状态推送 + 动画 =====
+    // 在 parent (page) 内 (x,y) 处构建一张 220x32 的 AI 状态卡，
+    // dark=true 表示音乐页（黑底白字）。bar_index 用于注册到 ai_bars_[]。
+    void BuildAiBar(lv_obj_t* parent, int x, int y, int w, int bar_index, bool dark);
+
+    // 推送状态到所有 AI 状态卡（icon 形态 + 默认文案 + 动画启停）。
+    // 同时记录 current_ai_status_，便于按需查询。
+    void SetAiBarStatusAll(AiBarStatus status);
+
+    // 临时覆盖文案（SetChatMessage 等）。下次 SetAiBarStatusAll 会被覆盖回默认。
+    void SetAiBarTextAll(const char* text);
+
+    // 内部：将单张卡设置为指定状态（应用 icon 显隐 + badge）
+    void ApplyAiBarStatus(AiBarHandles& h, AiBarStatus status);
+
+    // 动画 timer：聆听脉冲、说话音柱
+    static void PulseAnimTimerCb(lv_timer_t* timer);
+    static void SpeakAnimTimerCb(lv_timer_t* timer);
+    void StartListeningAnim();
+    void StopListeningAnim();
+    void StartSpeakingAnim();
+    void StopSpeakingAnim();
     
     // 备忘录
     void LoadMemoFromNvs();   // 从 NVS 加载备忘录到 UI
-    
+
+    // ===== P0-3：底部提示「按 BOOT 说话 / 单按 USER 切换页面」=====
+    lv_obj_t* boot_hint_label_ = nullptr;
+    uint32_t boot_hint_show_until_ms_ = 0;     // 0 = 始终显示
+    bool boot_hint_dismissed_ = false;         // 用户首次按 BOOT 后置 true
+
+    // ===== P1-1：6 桌面页码指示器 =====
+    static const int kPageDotCount = 6;
+    lv_obj_t* page_dots_[kAiBarCount][kPageDotCount] = {{nullptr}};
+    void BuildPageDots(lv_obj_t* parent, int page_index);
+    void RefreshPageDots();
+
+    // ===== P3-1：省电模式月牙图标 =====
+    lv_obj_t* power_save_icon_[kAiBarCount] = {nullptr};
+    bool last_power_save_drawn_ = false;
+    void BuildPowerSaveIcon(lv_obj_t* parent, int page_index);
+    void RefreshPowerSaveIcon();
+
+    // ===== P3-4：设置 / 关于 模态层 =====
+    lv_obj_t* settings_overlay_ = nullptr;
+    lv_obj_t* settings_info_label_ = nullptr;
+    void BuildSettingsOverlay();
+    void RefreshSettingsOverlay();          // 由 settings 页打开时/USER 单击时调用
+
+    // ===== P3-5：页面切换过渡动画 =====
+    void PlayPageTransition(lv_obj_t* prev_page, lv_obj_t* next_page);
+
     // 数据更新任务（实现在 data_update_task.cc）
     static void DataUpdateTask(void *arg);
 
@@ -236,6 +325,9 @@ public:
     void RefreshMemoDisplay();           // 自动获取锁（外部调用用这个）
     void RefreshMemoDisplayInternal();   // 不获取锁（已持锁时用这个，避免死锁）
     void CycleDisplayMode();
+    void CycleDisplayModeReverse();         // P1-1：USER 长按反向翻页
+    void ToggleSettingsOverlay();           // P3-4：BOOT 长按切换设置 / 关于 modal
+    void DismissBootHint();                 // P0-3：用户已学会 BOOT 单击说话后调用，永久隐藏底部提示
     bool IsMusicMode() const { return display_mode_ == MODE_MUSIC; }
     bool IsPomodoroMode() const { return display_mode_ == MODE_POMODORO; }
     bool IsPhotoMode() const { return display_mode_ == MODE_PHOTO; }
